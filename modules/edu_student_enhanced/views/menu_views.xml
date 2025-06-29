@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu principal pour Gestion Élèves Avancée -->
+    <menuitem id="menu_student_enhanced_main" 
+              name="🎓 Élèves Avancé" 
+              sequence="5"
+              web_icon="edu_student_enhanced,static/description/icon.png"/>
+
+    <!-- Sous-menu Élèves -->
+    <menuitem id="menu_student_enhanced_students" 
+              name="👥 Élèves" 
+              parent="menu_student_enhanced_main" 
+              sequence="10"/>
+
+    <!-- Élèves Enhanced -->
+    <menuitem id="menu_student_enhanced_list" 
+              name="📋 Gestion Élèves" 
+              parent="menu_student_enhanced_students" 
+              action="openeducat_core.act_open_op_student_view"
+              sequence="1"/>
+
+    <!-- Groupes familiaux -->
+    <menuitem id="menu_student_family_groups" 
+              name="👨‍👩‍👧‍👦 Familles" 
+              parent="menu_student_enhanced_students" 
+              action="action_student_family_group"
+              sequence="2"/>
+
+    <!-- Sous-menu Médical -->
+    <menuitem id="menu_student_enhanced_medical" 
+              name="🏥 Médical" 
+              parent="menu_student_enhanced_main" 
+              sequence="20"/>
+
+    <!-- Informations médicales -->
+    <menuitem id="menu_student_medical_info" 
+              name="📋 Dossiers Médicaux" 
+              parent="menu_student_enhanced_medical" 
+              action="action_student_medical_info"
+              sequence="1"/>
+
+    <!-- Vaccinations -->
+    <menuitem id="menu_student_vaccination" 
+              name="💉 Vaccinations" 
+              parent="menu_student_enhanced_medical" 
+              action="action_student_vaccination"
+              sequence="2"/>
+
+    <!-- Sous-menu Comportement -->
+    <menuitem id="menu_student_enhanced_behavior" 
+              name="📊 Comportement" 
+              parent="menu_student_enhanced_main" 
+              sequence="30"/>
+
+    <!-- Enregistrements comportementaux -->
+    <menuitem id="menu_student_behavior_records" 
+              name="📝 Historique" 
+              parent="menu_student_enhanced_behavior" 
+              action="action_student_behavior_record"
+              sequence="1"/>
+
+    <!-- Récompenses -->
+    <menuitem id="menu_student_rewards" 
+              name="🏆 Récompenses" 
+              parent="menu_student_enhanced_behavior" 
+              action="action_student_reward"
+              sequence="2"/>
+
+    <!-- Catégories comportementales -->
+    <menuitem id="menu_student_behavior_categories" 
+              name="📂 Catégories" 
+              parent="menu_student_enhanced_behavior" 
+              action="action_student_behavior_category"
+              sequence="3"/>
+
+    <!-- Sous-menu Documents -->
+    <menuitem id="menu_student_enhanced_documents" 
+              name="📄 Documents" 
+              parent="menu_student_enhanced_main" 
+              sequence="40"/>
+
+    <!-- Documents élèves -->
+    <menuitem id="menu_student_documents" 
+              name="📁 Fichiers Élèves" 
+              parent="menu_student_enhanced_documents" 
+              action="action_student_document"
+              sequence="1"/>
+
+    <!-- Types de documents -->
+    <menuitem id="menu_student_document_types" 
+              name="⚙️ Types Documents" 
+              parent="menu_student_enhanced_documents" 
+              action="action_student_document_type"
+              sequence="2"/>
+
+    <!-- Checklists -->
+    <menuitem id="menu_student_document_checklists" 
+              name="✅ Checklists" 
+              parent="menu_student_enhanced_documents" 
+              action="action_student_document_checklist"
+              sequence="3"/>
+
+    <!-- Sous-menu Configuration -->
+    <menuitem id="menu_student_enhanced_config" 
+              name="⚙️ Configuration" 
+              parent="menu_student_enhanced_main" 
+              sequence="90"/>
+
+    <!-- Types de récompenses -->
+    <menuitem id="menu_student_reward_types" 
+              name="🏆 Types Récompenses" 
+              parent="menu_student_enhanced_config" 
+              action="action_student_reward_type"
+              sequence="1"/>
+
+    <!-- Catégories médicales -->
+    <menuitem id="menu_student_medical_categories" 
+              name="🏥 Catégories Médicales" 
+              parent="menu_student_enhanced_config" 
+              action="action_student_medical_category"
+              sequence="2"/>
+
+</odoo>

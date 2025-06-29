@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Catégories de compétences -->
+        <record id="competency_category_academic" model="edu.competency.category">
+            <field name="name">Compétences Académiques</field>
+            <field name="code">ACAD</field>
+            <field name="description">Compétences liées aux apprentissages disciplinaires</field>
+            <field name="sequence">10</field>
+            <field name="color">1</field>
+        </record>
+        
+        <record id="competency_category_transversal" model="edu.competency.category">
+            <field name="name">Compétences Transversales</field>
+            <field name="code">TRANS</field>
+            <field name="description">Compétences applicables dans plusieurs domaines</field>
+            <field name="sequence">20</field>
+            <field name="color">2</field>
+        </record>
+        
+        <record id="competency_category_social" model="edu.competency.category">
+            <field name="name">Compétences Sociales</field>
+            <field name="code">SOC</field>
+            <field name="description">Compétences relationnelles et de savoir-être</field>
+            <field name="sequence">30</field>
+            <field name="color">3</field>
+        </record>
+        
+        <record id="competency_category_civic" model="edu.competency.category">
+            <field name="name">Compétences Civiques</field>
+            <field name="code">CIV</field>
+            <field name="description">Compétences de citoyenneté et d'engagement</field>
+            <field name="sequence">40</field>
+            <field name="color">4</field>
+        </record>
+        
+        <!-- Compétences académiques -->
+        <record id="competency_french" model="edu.competency">
+            <field name="name">Maîtrise de la langue française</field>
+            <field name="code">FR</field>
+            <field name="description">Comprendre et s'exprimer en utilisant la langue française à l'oral et à l'écrit</field>
+            <field name="sequence">10</field>
+            <field name="category_id" ref="competency_category_academic"/>
+            <field name="competency_type">knowledge</field>
+            <field name="is_key_competency" eval="True"/>
+            <field name="coefficient">2.0</field>
+        </record>
+        
+        <record id="competency_math" model="edu.competency">
+            <field name="name">Utiliser les mathématiques</field>
+            <field name="code">MATH</field>
+            <field name="description">Chercher, modéliser, représenter, raisonner, calculer, communiquer</field>
+            <field name="sequence">20</field>
+            <field name="category_id" ref="competency_category_academic"/>
+            <field name="competency_type">knowledge</field>
+            <field name="is_key_competency" eval="True"/>
+            <field name="coefficient">2.0</field>
+        </record>
+        
+        <record id="competency_science" model="edu.competency">
+            <field name="name">Pratiquer des démarches scientifiques</field>
+            <field name="code">SCI</field>
+            <field name="description">Observer, questionner, expérimenter, argumenter</field>
+            <field name="sequence">30</field>
+            <field name="category_id" ref="competency_category_academic"/>
+            <field name="competency_type">skill</field>
+            <field name="coefficient">1.5</field>
+        </record>
+        
+        <record id="competency_digital" model="edu.competency">
+            <field name="name">Évoluer dans un environnement numérique</field>
+            <field name="code">NUM</field>
+            <field name="description">Utiliser les outils numériques de manière responsable</field>
+            <field name="sequence">40</field>
+            <field name="category_id" ref="competency_category_transversal"/>
+            <field name="competency_type">skill</field>
+            <field name="coefficient">1.0</field>
+        </record>
+        
+        <!-- Compétences transversales -->
+        <record id="competency_autonomy" model="edu.competency">
+            <field name="name">Développer son autonomie</field>
+            <field name="code">AUTO</field>
+            <field name="description">Prendre des initiatives, organiser son travail, persévérer</field>
+            <field name="sequence">50</field>
+            <field name="category_id" ref="competency_category_transversal"/>
+            <field name="competency_type">attitude</field>
+            <field name="coefficient">1.0</field>
+        </record>
+        
+        <record id="competency_creativity" model="edu.competency">
+            <field name="name">Faire preuve de créativité</field>
+            <field name="code">CREA</field>
+            <field name="description">Imaginer, concevoir, réaliser des productions créatives</field>
+            <field name="sequence">60</field>
+            <field name="category_id" ref="competency_category_transversal"/>
+            <field name="competency_type">skill</field>
+            <field name="coefficient">1.0</field>
+        </record>
+        
+        <!-- Compétences sociales -->
+        <record id="competency_collaboration" model="edu.competency">
+            <field name="name">Collaborer efficacement</field>
+            <field name="code">COLLAB</field>
+            <field name="description">Travailler en équipe, respecter les autres, partager</field>
+            <field name="sequence">70</field>
+            <field name="category_id" ref="competency_category_social"/>
+            <field name="competency_type">attitude</field>
+            <field name="coefficient">1.0</field>
+        </record>
+        
+        <record id="competency_communication" model="edu.competency">
+            <field name="name">Communiquer avec les autres</field>
+            <field name="code">COMM</field>
+            <field name="description">Écouter, échanger, argumenter, présenter</field>
+            <field name="sequence">80</field>
+            <field name="category_id" ref="competency_category_social"/>
+            <field name="competency_type">skill</field>
+            <field name="coefficient">1.0</field>
+        </record>
+        
+        <!-- Compétences civiques -->
+        <record id="competency_citizenship" model="edu.competency">
+            <field name="name">Agir en citoyen responsable</field>
+            <field name="code">CIT</field>
+            <field name="description">Respecter les règles, s'engager, exercer son esprit critique</field>
+            <field name="sequence">90</field>
+            <field name="category_id" ref="competency_category_civic"/>
+            <field name="competency_type">attitude</field>
+            <field name="coefficient">1.0</field>
+        </record>
+        
+        <!-- Niveaux de maîtrise pour compétence française -->
+        <record id="mastery_french_1" model="edu.competency.mastery.level">
+            <field name="name">Débutant</field>
+            <field name="competency_id" ref="competency_french"/>
+            <field name="sequence">10</field>
+            <field name="description">Comprend des textes simples, s'exprime avec des phrases courtes</field>
+            <field name="min_score">0.0</field>
+            <field name="max_score">5.0</field>
+            <field name="color_class">danger</field>
+        </record>
+        
+        <record id="mastery_french_2" model="edu.competency.mastery.level">
+            <field name="name">En développement</field>
+            <field name="competency_id" ref="competency_french"/>
+            <field name="sequence">20</field>
+            <field name="description">Comprend des textes variés, s'exprime de façon organisée</field>
+            <field name="min_score">5.1</field>
+            <field name="max_score">10.0</field>
+            <field name="color_class">warning</field>
+        </record>
+        
+        <record id="mastery_french_3" model="edu.competency.mastery.level">
+            <field name="name">Satisfaisant</field>
+            <field name="competency_id" ref="competency_french"/>
+            <field name="sequence">30</field>
+            <field name="description">Comprend des textes complexes, s'exprime avec précision</field>
+            <field name="min_score">10.1</field>
+            <field name="max_score">14.0</field>
+            <field name="color_class">primary</field>
+        </record>
+        
+        <record id="mastery_french_4" model="edu.competency.mastery.level">
+            <field name="name">Très satisfaisant</field>
+            <field name="competency_id" ref="competency_french"/>
+            <field name="sequence">40</field>
+            <field name="description">Maîtrise avancée de la langue, expression riche et nuancée</field>
+            <field name="min_score">14.1</field>
+            <field name="max_score">20.0</field>
+            <field name="color_class">success</field>
+        </record>
+        
+        <!-- Niveaux de maîtrise pour compétence mathématiques -->
+        <record id="mastery_math_1" model="edu.competency.mastery.level">
+            <field name="name">Fragile</field>
+            <field name="competency_id" ref="competency_math"/>
+            <field name="sequence">10</field>
+            <field name="description">Difficultés dans les calculs de base et le raisonnement</field>
+            <field name="min_score">0.0</field>
+            <field name="max_score">5.0</field>
+            <field name="color_class">danger</field>
+        </record>
+        
+        <record id="mastery_math_2" model="edu.competency.mastery.level">
+            <field name="name">Suffisant</field>
+            <field name="competency_id" ref="competency_math"/>
+            <field name="sequence">20</field>
+            <field name="description">Maîtrise des techniques de base avec aide</field>
+            <field name="min_score">5.1</field>
+            <field name="max_score">10.0</field>
+            <field name="color_class">warning</field>
+        </record>
+        
+        <record id="mastery_math_3" model="edu.competency.mastery.level">
+            <field name="name">Satisfaisant</field>
+            <field name="competency_id" ref="competency_math"/>
+            <field name="sequence">30</field>
+            <field name="description">Maîtrise des techniques, raisonnement correct</field>
+            <field name="min_score">10.1</field>
+            <field name="max_score">14.0</field>
+            <field name="color_class">primary</field>
+        </record>
+        
+        <record id="mastery_math_4" model="edu.competency.mastery.level">
+            <field name="name">Très satisfaisant</field>
+            <field name="competency_id" ref="competency_math"/>
+            <field name="sequence">40</field>
+            <field name="description">Excellente maîtrise, raisonnement expert</field>
+            <field name="min_score">14.1</field>
+            <field name="max_score">20.0</field>
+            <field name="color_class">success</field>
+        </record>
+        
+    </data>
+</odoo>

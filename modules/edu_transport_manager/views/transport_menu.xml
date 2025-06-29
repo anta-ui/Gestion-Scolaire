@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal Transport -->
+    <menuitem id="menu_transport_root" 
+              name="Transport Scolaire" 
+              sequence="50" 
+              web_icon="edu_transport_manager,static/description/icon.png"/>
+
+    <!-- Menu Gestion -->
+    <menuitem id="menu_transport_management" 
+              name="Gestion" 
+              parent="menu_transport_root" 
+              sequence="10"/>
+
+    <!-- Sous-menus Gestion -->
+    <menuitem id="menu_transport_vehicles" 
+              name="Véhicules" 
+              parent="menu_transport_management" 
+              action="action_transport_vehicle" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_drivers" 
+              name="Chauffeurs" 
+              parent="menu_transport_management" 
+              action="action_transport_driver" 
+              sequence="20"/>
+
+    <menuitem id="menu_transport_routes" 
+              name="Itinéraires" 
+              parent="menu_transport_management" 
+              action="action_transport_route" 
+              sequence="30"/>
+
+    <menuitem id="menu_transport_trips" 
+              name="Trajets" 
+              parent="menu_transport_management" 
+              action="action_transport_trip" 
+              sequence="40"/>
+
+    <!-- Menu Suivi -->
+    <menuitem id="menu_transport_tracking" 
+              name="Suivi" 
+              parent="menu_transport_root" 
+              sequence="20"/>
+
+    <!-- Sous-menus Suivi -->
+    <menuitem id="menu_transport_live_tracking" 
+              name="Suivi en Temps Réel" 
+              parent="menu_transport_tracking" 
+              action="action_transport_tracking" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_attendance" 
+              name="Présences" 
+              parent="menu_transport_tracking" 
+              action="action_transport_student_attendance" 
+              sequence="20"/>
+
+    <menuitem id="menu_transport_incidents" 
+              name="Incidents" 
+              parent="menu_transport_tracking" 
+              action="action_transport_incident" 
+              sequence="30"/>
+
+    <!-- Menu Étudiants -->
+    <menuitem id="menu_transport_students" 
+              name="Étudiants" 
+              parent="menu_transport_root" 
+              sequence="30"/>
+
+    <!-- Sous-menus Étudiants -->
+    <menuitem id="menu_transport_subscriptions" 
+              name="Abonnements" 
+              parent="menu_transport_students" 
+              action="action_transport_subscription" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_student_list" 
+              name="Liste des Étudiants" 
+              parent="menu_transport_students" 
+              action="action_transport_student_list" 
+              sequence="20"/>
+
+    <!-- Menu Maintenance -->
+    <menuitem id="menu_transport_maintenance" 
+              name="Maintenance" 
+              parent="menu_transport_root" 
+              sequence="40"/>
+
+    <!-- Sous-menus Maintenance -->
+    <menuitem id="menu_transport_maintenance_orders" 
+              name="Ordres de Maintenance" 
+              parent="menu_transport_maintenance" 
+              action="action_transport_maintenance" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_maintenance_schedule" 
+              name="Planning Maintenance" 
+              parent="menu_transport_maintenance" 
+              action="action_transport_maintenance_schedule" 
+              sequence="20"/>
+
+    <menuitem id="menu_transport_vehicle_documents" 
+              name="Documents Véhicules" 
+              parent="menu_transport_maintenance" 
+              action="action_transport_vehicle_document" 
+              sequence="30"/>
+
+    <!-- Menu Facturation -->
+    <menuitem id="menu_transport_billing" 
+              name="Facturation" 
+              parent="menu_transport_root" 
+              sequence="50"/>
+
+    <!-- Sous-menus Facturation -->
+    <menuitem id="menu_transport_billing_orders" 
+              name="Facturations" 
+              parent="menu_transport_billing" 
+              action="action_transport_billing" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_payments" 
+              name="Paiements" 
+              parent="menu_transport_billing" 
+              action="action_transport_payment" 
+              sequence="20"/>
+
+    <menuitem id="menu_transport_tariffs" 
+              name="Tarifs" 
+              parent="menu_transport_billing" 
+              action="action_transport_tariff" 
+              sequence="30"/>
+
+    <!-- Menu Urgences -->
+    <menuitem id="menu_transport_emergency" 
+              name="Urgences" 
+              parent="menu_transport_root" 
+              sequence="60"/>
+
+    <!-- Sous-menus Urgences -->
+    <menuitem id="menu_transport_emergency_list" 
+              name="Urgences" 
+              parent="menu_transport_emergency" 
+              action="action_transport_emergency" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_emergency_protocols" 
+              name="Protocoles" 
+              parent="menu_transport_emergency" 
+              action="action_transport_emergency_protocol" 
+              sequence="20"/>
+
+    <menuitem id="menu_transport_evacuation_plans" 
+              name="Plans d'Évacuation" 
+              parent="menu_transport_emergency" 
+              action="action_transport_evacuation_plan" 
+              sequence="30"/>
+
+    <menuitem id="menu_transport_first_aid_kits" 
+              name="Trousses de Secours" 
+              parent="menu_transport_emergency" 
+              action="action_transport_first_aid_kit" 
+              sequence="40"/>
+
+    <!-- Menu Analyses -->
+    <menuitem id="menu_transport_analytics" 
+              name="Analyses" 
+              parent="menu_transport_root" 
+              sequence="70"/>
+
+    <!-- Sous-menus Analyses -->
+    <menuitem id="menu_transport_dashboard" 
+              name="Tableau de Bord" 
+              parent="menu_transport_analytics" 
+              action="action_transport_dashboard" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_reports" 
+              name="Rapports" 
+              parent="menu_transport_analytics" 
+              action="action_transport_report" 
+              sequence="20"/>
+
+    <menuitem id="menu_transport_analytics_data" 
+              name="Données Analytiques" 
+              parent="menu_transport_analytics" 
+              action="action_transport_analytics" 
+              sequence="30"/>
+
+    <!-- Menu Configuration -->
+    <menuitem id="menu_transport_configuration" 
+              name="Configuration" 
+              parent="menu_transport_root" 
+              sequence="80"/>
+
+    <!-- Sous-menus Configuration -->
+    <menuitem id="menu_transport_geofences" 
+              name="Zones Géographiques" 
+              parent="menu_transport_configuration" 
+              action="action_transport_geofence" 
+              sequence="10"/>
+
+    <menuitem id="menu_transport_route_optimization" 
+              name="Optimisation Itinéraires" 
+              parent="menu_transport_configuration" 
+              action="action_transport_route_optimization" 
+              sequence="20"/>
+
+    <!-- Actions de base (à définir dans les autres fichiers de vues) -->
+    <record id="action_transport_driver" model="ir.actions.act_window">
+        <field name="name">Chauffeurs</field>
+        <field name="res_model">transport.driver</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_route" model="ir.actions.act_window">
+        <field name="name">Itinéraires</field>
+        <field name="res_model">transport.route</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_trip" model="ir.actions.act_window">
+        <field name="name">Trajets</field>
+        <field name="res_model">transport.trip</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+    <record id="action_transport_tracking" model="ir.actions.act_window">
+        <field name="name">Suivi GPS</field>
+        <field name="res_model">transport.tracking</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_student_attendance" model="ir.actions.act_window">
+        <field name="name">Présences Étudiants</field>
+        <field name="res_model">transport.student.attendance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_incident" model="ir.actions.act_window">
+        <field name="name">Incidents</field>
+        <field name="res_model">transport.incident</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_subscription" model="ir.actions.act_window">
+        <field name="name">Abonnements Transport</field>
+        <field name="res_model">transport.subscription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_student_list" model="ir.actions.act_window">
+        <field name="name">Étudiants Transport</field>
+        <field name="res_model">op.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('uses_transport', '=', True)]</field>
+    </record>
+
+    <record id="action_transport_maintenance" model="ir.actions.act_window">
+        <field name="name">Maintenance</field>
+        <field name="res_model">transport.maintenance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_maintenance_schedule" model="ir.actions.act_window">
+        <field name="name">Planning Maintenance</field>
+        <field name="res_model">transport.maintenance.schedule</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_vehicle_document" model="ir.actions.act_window">
+        <field name="name">Documents Véhicules</field>
+        <field name="res_model">transport.vehicle.document</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_billing" model="ir.actions.act_window">
+        <field name="name">Facturation</field>
+        <field name="res_model">transport.billing</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_payment" model="ir.actions.act_window">
+        <field name="name">Paiements</field>
+        <field name="res_model">transport.payment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_tariff" model="ir.actions.act_window">
+        <field name="name">Tarifs</field>
+        <field name="res_model">transport.tariff</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_emergency" model="ir.actions.act_window">
+        <field name="name">Urgences</field>
+        <field name="res_model">transport.emergency</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_emergency_protocol" model="ir.actions.act_window">
+        <field name="name">Protocoles d'Urgence</field>
+        <field name="res_model">transport.emergency.protocol</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_evacuation_plan" model="ir.actions.act_window">
+        <field name="name">Plans d'Évacuation</field>
+        <field name="res_model">transport.evacuation.plan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_first_aid_kit" model="ir.actions.act_window">
+        <field name="name">Trousses de Secours</field>
+        <field name="res_model">transport.first.aid.kit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord</field>
+        <field name="res_model">transport.dashboard</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_report" model="ir.actions.act_window">
+        <field name="name">Rapports</field>
+        <field name="res_model">transport.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_analytics" model="ir.actions.act_window">
+        <field name="name">Analyses</field>
+        <field name="res_model">transport.analytics</field>
+        <field name="view_mode">tree,graph,pivot</field>
+    </record>
+
+    <record id="action_transport_geofence" model="ir.actions.act_window">
+        <field name="name">Zones Géographiques</field>
+        <field name="res_model">transport.geofence</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_transport_route_optimization" model="ir.actions.act_window">
+        <field name="name">Optimisation Itinéraires</field>
+        <field name="res_model">transport.route.optimization</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo> 

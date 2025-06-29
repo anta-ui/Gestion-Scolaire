@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des QR codes -->
+        <record id="view_edu_qr_code_tree" model="ir.ui.view">
+            <field name="name">edu.qr.code.tree</field>
+            <field name="model">edu.qr.code</field>
+            <field name="arch" type="xml">
+                <tree string="QR Codes" decoration-success="active==True" 
+                      decoration-muted="active==False" decoration-danger="is_expired==True">
+                    <field name="name"/>
+                    <field name="qr_type"/>
+                    <field name="classroom_id"/>
+                    <field name="current_uses"/>
+                    <field name="max_uses"/>
+                    <field name="expiry_date"/>
+                    <field name="active" widget="boolean"/>
+                    <field name="is_expired" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des QR codes -->
+        <record id="view_edu_qr_code_form" model="ir.ui.view">
+            <field name="name">edu.qr.code.form</field>
+            <field name="model">edu.qr.code</field>
+            <field name="arch" type="xml">
+                <form string="QR Code">
+                    <header>
+                        <button name="regenerate_qr_code" type="object" string="Régénérer QR" 
+                                class="btn-primary"/>
+                        <button name="action_activate" type="object" string="Activer" 
+                                class="btn-success" invisible="active"/>
+                        <button name="action_deactivate" type="object" string="Désactiver" 
+                                class="btn-warning" invisible="not active"/>
+                        <button name="action_reset_usage" type="object" string="Reset usage" 
+                                class="btn-info"/>
+                        <field name="active" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_download_qr" icon="fa-download">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Télécharger</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_view_logs" icon="fa-list">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value"><field name="scan_count"/></span>
+                                    <span class="o_stat_text">Scans</span>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nom du QR code"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Configuration">
+                                <field name="qr_type"/>
+                                <field name="student_id" invisible="qr_type != 'student'"/>
+                                <field name="faculty_id" invisible="qr_type != 'faculty'"/>
+                                <field name="session_id" invisible="qr_type != 'session'"/>
+                                <field name="device_id" invisible="qr_type != 'device'"/>
+                                <field name="classroom_id" invisible="qr_type != 'location'"/>
+                            </group>
+                            <group string="Validité">
+                                <field name="expiry_date"/>
+                                <field name="is_expired" readonly="1"/>
+                                <field name="max_uses"/>
+                                <field name="current_uses" readonly="1"/>
+                                <field name="is_single_use"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Apparence">
+                                <field name="size"/>
+                                <field name="error_correction"/>
+                                <field name="border_size"/>
+                            </group>
+                            <group string="Sécurité">
+                                <field name="qr_token" readonly="1"/>
+                                <field name="security_hash" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="QR Code" name="qr_image">
+                                <div class="text-center">
+                                    <field name="qr_image" widget="image" options="{'size': [300, 300]}"/>
+                                </div>
+                                <group>
+                                    <field name="content" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Restrictions" name="restrictions">
+                                <group>
+                                    <group string="Horaires">
+                                        <field name="time_restrictions"/>
+                                        <field name="valid_from_time" invisible="not time_restrictions"/>
+                                        <field name="valid_to_time" invisible="not time_restrictions"/>
+                                    </group>
+                                    <group string="Accès">
+                                        <field name="ip_whitelist"/>
+                                        <field name="allowed_devices" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Statistiques" name="stats">
+                                <group>
+                                    <group string="Usage">
+                                        <field name="scan_count" readonly="1"/>
+                                        <field name="success_scan_count" readonly="1"/>
+                                        <field name="last_scan_date" readonly="1"/>
+                                        <field name="last_scan_ip" readonly="1"/>
+                                        <field name="last_scan_device" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche des QR codes -->
+        <record id="view_edu_qr_code_search" model="ir.ui.view">
+            <field name="name">edu.qr.code.search</field>
+            <field name="model">edu.qr.code</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher QR codes">
+                    <field name="name"/>
+                    <field name="qr_type"/>
+                    <field name="student_id"/>
+                    <field name="faculty_id"/>
+                    <field name="session_id"/>
+                    <field name="classroom_id"/>
+                    <separator/>
+                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                    <filter string="Expirés" name="expired" domain="[('expiry_date', '&lt;', datetime.datetime.now())]"/>
+                    <filter string="Usage unique" name="single_use" domain="[('is_single_use', '=', True)]"/>
+                    <separator/>
+                    <filter string="Élèves" name="students" domain="[('qr_type', '=', 'student')]"/>
+                    <filter string="Enseignants" name="faculty" domain="[('qr_type', '=', 'faculty')]"/>
+                    <filter string="Sessions" name="sessions" domain="[('qr_type', '=', 'session')]"/>
+                    <filter string="Lieux" name="locations" domain="[('qr_type', '=', 'location')]"/>
+                    <separator/>
+                    <filter string="Aujourd'hui" name="today" 
+                            domain="[('create_date', '>=', datetime.datetime.now().replace(hour=0, minute=0, second=0)), 
+                                     ('create_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0))]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Type" name="group_type" context="{'group_by': 'qr_type'}"/>
+                        <filter string="Statut" name="group_status" context="{'group_by': 'active'}"/>
+                        <filter string="Salle" name="group_location" context="{'group_by': 'classroom_id'}"/>
+                        <filter string="Date création" name="group_date" context="{'group_by': 'create_date:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vue kanban des QR codes -->
+        <record id="view_edu_qr_code_kanban" model="ir.ui.view">
+            <field name="name">edu.qr.code.kanban</field>
+            <field name="model">edu.qr.code</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="qr_type"/>
+                    <field name="classroom_id"/>
+                    <field name="current_uses"/>
+                    <field name="active"/>
+                    <field name="qr_image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('edu.qr.code', 'qr_image', record.id.raw_value)" alt="QR Code"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <ul>
+                                        <li>Type: <field name="qr_type"/></li>
+                                        <li t-if="record.classroom_id.raw_value">Salle: <field name="classroom_id"/></li>
+                                        <li>Utilisations: <field name="current_uses"/></li>
+                                        <li>Statut: <span t-if="record.active.raw_value" class="badge badge-success">Actif</span><span t-else="" class="badge badge-danger">Inactif</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Action pour les QR codes -->
+        <record id="action_edu_qr_code" model="ir.actions.act_window">
+            <field name="name">QR Codes</field>
+            <field name="res_model">edu.qr.code</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Générez vos premiers QR codes !
+                </p>
+                <p>
+                    Les QR codes permettent un pointage rapide et moderne.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

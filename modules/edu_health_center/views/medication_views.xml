@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues Stock de Médicaments -->
+    <record id="view_medication_stock_tree" model="ir.ui.view">
+        <field name="name">medication.stock.tree</field>
+        <field name="model">medication.stock</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="current_stock &lt;= minimum_stock"
+                  decoration-warning="expiry_date and expiry_date &lt;= (datetime.date.today() + datetime.timedelta(days=30))"
+                  decoration-muted="active == False">
+                <field name="name"/>
+                <field name="active_ingredient"/>
+                <field name="dosage"/>
+                <field name="form" widget="badge"/>
+                <field name="current_stock"/>
+                <field name="minimum_stock"/>
+                <field name="unit_of_measure"/>
+                <field name="expiry_date"/>
+                <field name="category" widget="badge"/>
+                <field name="prescription_required" widget="boolean_toggle"/>
+                <field name="active" invisible="1"/>
+                <button name="action_replenish_stock" type="object" 
+                        string="Réapprovisionner" class="btn-primary btn-sm"
+                        attrs="{'invisible': [('current_stock', '>', 'minimum_stock')]}"
+                        title="Réapprovisionner le stock"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medication_stock_form" model="ir.ui.view">
+        <field name="name">medication.stock.form</field>
+        <field name="model">medication.stock</field>
+        <field name="arch" type="xml">
+            <form string="Stock de Médicaments">
+                <header>
+                    <button name="action_replenish_stock" type="object" 
+                            string="RÉAPPROVISIONNER" class="btn-primary"
+                            attrs="{'invisible': [('current_stock', '>', 'minimum_stock')]}"/>
+                </header>
+                
+                <sheet>
+                    <div class="alert alert-danger" role="alert" 
+                         attrs="{'invisible': [('current_stock', '>', 'minimum_stock')]}">
+                        <strong>⚠️ STOCK FAIBLE</strong> - Réapprovisionnement nécessaire
+                    </div>
+                    
+                    <div class="alert alert-warning" role="alert" 
+                         attrs="{'invisible': ['|', ('expiry_date', '=', False), ('expiry_date', '>', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]}">
+                        <strong>📅 EXPIRATION PROCHE</strong> - Vérifier la date d'expiration
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Archivé" 
+                            bg_color="bg-danger" 
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h2>
+                            <field name="active_ingredient"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info">
+                            <field name="dosage"/>
+                            <field name="form"/>
+                            <field name="category"/>
+                            <field name="prescription_required"/>
+                        </group>
+                        <group name="stock_info">
+                            <field name="current_stock"/>
+                            <field name="minimum_stock"/>
+                            <field name="unit_of_measure"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Informations de Lot">
+                        <group>
+                            <field name="batch_number"/>
+                            <field name="expiry_date"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Alertes Médicales" name="alerts">
+                            <group string="Allergies et Contre-indications">
+                                <field name="allergy_warnings" widget="html" colspan="2"/>
+                                <field name="contraindications" widget="html" colspan="2"/>
+                                <field name="side_effects" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medication_stock_kanban" model="ir.ui.view">
+        <field name="name">medication.stock.kanban</field>
+        <field name="model">medication.stock</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="current_stock"/>
+                <field name="minimum_stock"/>
+                <field name="expiry_date"/>
+                <field name="category"/>
+                <field name="prescription_required"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                            <field name="category"/>
+                                        </small>
+                                    </div>
+                                    <div class="o_kanban_record_right">
+                                        <span t-if="record.prescription_required.raw_value" 
+                                              class="badge badge-info">Prescription</span>
+                                        <span t-if="record.current_stock.raw_value &lt;= record.minimum_stock.raw_value" 
+                                              class="badge badge-danger">Stock faible</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <strong>Stock: </strong>
+                                        <field name="current_stock"/> / <field name="minimum_stock"/>
+                                    </div>
+                                    <div t-if="record.expiry_date.raw_value">
+                                        <strong>Expire: </strong><field name="expiry_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vues Prescriptions -->
+    <record id="view_medication_prescription_tree" model="ir.ui.view">
+        <field name="name">medication.prescription.tree</field>
+        <field name="model">medication.prescription</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state=='active'"
+                  decoration-info="state=='completed'"
+                  decoration-muted="state=='cancelled'">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="medication_id"/>
+                <field name="prescribed_by"/>
+                <field name="prescription_date"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="quantity_prescribed"/>
+                <field name="quantity_dispensed"/>
+                <field name="state" widget="badge"/>
+                <button name="action_activate" type="object" 
+                        string="Activer" class="btn-success btn-sm"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                        title="Activer la prescription"/>
+                <button name="action_complete" type="object" 
+                        string="Terminer" class="btn-info btn-sm"
+                        attrs="{'invisible': [('state', '!=', 'active')]}"
+                        title="Marquer comme terminée"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medication_prescription_form" model="ir.ui.view">
+        <field name="name">medication.prescription.form</field>
+        <field name="model">medication.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Prescription de Médicament">
+                <header>
+                    <button name="action_activate" type="object" 
+                            string="ACTIVER" class="btn-success"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_complete" type="object" 
+                            string="TERMINER" class="btn-info"
+                            attrs="{'invisible': [('state', '!=', 'active')]}"/>
+                    <button name="action_cancel" type="object" 
+                            string="ANNULER" class="btn-secondary"
+                            attrs="{'invisible': [('state', 'in', ['completed', 'cancelled'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,completed"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="student_id"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="prescription_info">
+                            <field name="health_record_id"/>
+                            <field name="prescribed_by"/>
+                            <field name="prescription_date"/>
+                        </group>
+                        <group name="treatment_info">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Médicament et Posologie">
+                        <group>
+                            <field name="medication_id"/>
+                            <field name="dosage"/>
+                            <field name="quantity_prescribed"/>
+                            <field name="quantity_dispensed" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Instructions" name="instructions">
+                            <group>
+                                <field name="instructions" widget="html" colspan="2"/>
+                                <field name="reason" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Distributions" name="dispensing">
+                            <field name="dispensing_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="dispensing_date"/>
+                                    <field name="quantity_dispensed"/>
+                                    <field name="dispensed_by"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vues Distribution -->
+    <record id="view_medication_dispensing_tree" model="ir.ui.view">
+        <field name="name">medication.dispensing.tree</field>
+        <field name="model">medication.dispensing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="medication_id"/>
+                <field name="dispensing_date"/>
+                <field name="quantity_dispensed"/>
+                <field name="dispensed_by"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medication_dispensing_form" model="ir.ui.view">
+        <field name="name">medication.dispensing.form</field>
+        <field name="model">medication.dispensing</field>
+        <field name="arch" type="xml">
+            <form string="Distribution de Médicament">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info">
+                            <field name="prescription_id"/>
+                            <field name="student_id" readonly="1"/>
+                            <field name="medication_id" readonly="1"/>
+                        </group>
+                        <group name="dispensing_info">
+                            <field name="dispensing_date"/>
+                            <field name="quantity_dispensed"/>
+                            <field name="dispensed_by"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Notes">
+                        <field name="notes" colspan="2"/>
+                    </group>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vues de recherche -->
+    <record id="view_medication_stock_search" model="ir.ui.view">
+        <field name="name">medication.stock.search</field>
+        <field name="model">medication.stock</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Médicament"/>
+                <field name="active_ingredient" string="Principe actif"/>
+                <field name="category" string="Catégorie"/>
+                <field name="batch_number" string="Lot"/>
+                
+                <filter name="low_stock" string="Stock faible" domain="[('current_stock', '&lt;=', 'minimum_stock')]"/>
+                <filter name="prescription_required" string="Sur prescription" domain="[('prescription_required', '=', True)]"/>
+                <filter name="expiring_soon" string="Expire bientôt" 
+                        domain="[('expiry_date', '&lt;=', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category'}"/>
+                    <filter name="group_form" string="Forme" context="{'group_by': 'form'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_medication_prescription_search" model="ir.ui.view">
+        <field name="name">medication.prescription.search</field>
+        <field name="model">medication.prescription</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Prescription"/>
+                <field name="student_id" string="Étudiant"/>
+                <field name="medication_id" string="Médicament"/>
+                <field name="prescribed_by" string="Prescripteur"/>
+                
+                <filter name="active" string="Actives" domain="[('state', '=', 'active')]"/>
+                <filter name="draft" string="Brouillons" domain="[('state', '=', 'draft')]"/>
+                <filter name="today" string="Aujourd'hui" 
+                        domain="[('prescription_date', '=', datetime.date.today().strftime('%Y-%m-%d'))]"/>
+                <filter name="this_week" string="Cette semaine" 
+                        domain="[('prescription_date', '>=', (datetime.date.today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_prescriber" string="Prescripteur" context="{'group_by': 'prescribed_by'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'prescription_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_medication_stock" model="ir.actions.act_window">
+        <field name="name">Stock de Médicaments</field>
+        <field name="res_model">medication.stock</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier médicament
+            </p>
+            <p>
+                Gérez le stock de médicaments de l'infirmerie avec des alertes
+                automatiques pour les stocks faibles et les dates d'expiration.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_medication_prescription" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="res_model">medication.prescription</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer la première prescription
+            </p>
+            <p>
+                Gérez les prescriptions de médicaments avec un suivi complet
+                des distributions et des stocks.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_medication_dispensing" model="ir.actions.act_window">
+        <field name="name">Distributions</field>
+        <field name="res_model">medication.dispensing</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune distribution enregistrée
+            </p>
+            <p>
+                Suivez toutes les distributions de médicaments avec mise à jour
+                automatique des stocks et des prescriptions.
+            </p>
+        </field>
+    </record>
+
+    <!-- Actions spécialisées -->
+    <record id="action_medication_low_stock" model="ir.actions.act_window">
+        <field name="name">Médicaments - Stock Faible</field>
+        <field name="res_model">medication.stock</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('current_stock', '&lt;=', 'minimum_stock')]</field>
+        <field name="context">{'search_default_low_stock': 1}</field>
+    </record>
+
+    <record id="action_medication_expiring" model="ir.actions.act_window">
+        <field name="name">Médicaments - Expiration Proche</field>
+        <field name="res_model">medication.stock</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('expiry_date', '&lt;=', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]</field>
+    </record>
+</odoo>

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue liste des dossiers médicaux -->
+    <record id="view_health_record_tree" model="ir.ui.view">
+        <field name="name">edu.health.record.tree</field>
+        <field name="model">edu.health.record</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state=='active'" 
+                  decoration-warning="has_allergies==True"
+                  decoration-info="chronic_conditions!=False">
+                <field name="record_number"/>
+                <field name="student_id"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <field name="blood_type" widget="badge"/>
+                <field name="has_allergies" widget="boolean_toggle"/>
+                <field name="chronic_conditions" invisible="1"/>
+                <field name="bmi"/>
+                <field name="bmi_category" widget="badge"/>
+                <field name="consultation_count"/>
+                <field name="last_consultation_date"/>
+                <field name="sports_authorization" widget="boolean_toggle"/>
+                <field name="state" widget="badge"/>
+                <button name="action_emergency_alert" type="object" 
+                        string="🚨 Urgence" class="btn-danger btn-sm"
+                        title="Déclencher une alerte d'urgence"/>
+                <button name="action_new_consultation" type="object" 
+                        string="Consultation" class="btn-primary btn-sm"
+                        title="Nouvelle consultation"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Vue formulaire des dossiers médicaux -->
+    <record id="view_health_record_form" model="ir.ui.view">
+        <field name="name">edu.health.record.form</field>
+        <field name="model">edu.health.record</field>
+        <field name="arch" type="xml">
+            <form string="Dossier Médical">
+                <header>
+                    <button name="action_emergency_alert" type="object" 
+                            string="🚨 URGENCE" class="btn-danger"
+                            confirm="Déclencher une alerte d'urgence?"/>
+                    <button name="action_new_consultation" type="object" 
+                            string="Nouvelle Consultation" class="btn-primary"/>
+                    <button name="action_medical_certificate" type="object" 
+                            string="Certificat Médical" class="btn-secondary"/>
+                    <button name="action_update_measurements" type="object" 
+                            string="Mensurations" class="btn-info"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_consultations" type="object" 
+                                class="oe_stat_button" icon="fa-stethoscope">
+                            <field name="consultation_count" widget="statinfo" 
+                                   string="Consultations"/>
+                        </button>
+                        <button name="action_view_emergencies" type="object" 
+                                class="oe_stat_button" icon="fa-ambulance"
+                                attrs="{'invisible': [('emergency_count', '=', 0)]}">
+                            <field name="emergency_count" widget="statinfo" 
+                                   string="Urgences"/>
+                        </button>
+                        <button name="action_view_vaccinations" type="object" 
+                                class="oe_stat_button" icon="fa-shield">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Vaccinations</span>
+                            </div>
+                        </button>
+                        <button name="action_view_medications" type="object" 
+                                class="oe_stat_button" icon="fa-pills">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Prescriptions</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Alertes médicales -->
+                    <div class="alert alert-danger" role="alert" 
+                         attrs="{'invisible': [('has_allergies', '=', False)]}">
+                        <strong>⚠️ ALLERGIES CONNUES:</strong>
+                        <field name="allergies" readonly="1"/>
+                        <field name="drug_allergies" readonly="1"/>
+                        <field name="food_allergies" readonly="1"/>
+                    </div>
+                    
+                    <div class="alert alert-warning" role="alert" 
+                         attrs="{'invisible': [('chronic_conditions', '=', False)]}">
+                        <strong>📋 MALADIES CHRONIQUES:</strong>
+                        <field name="chronic_conditions" readonly="1"/>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Confidentiel" 
+                            bg_color="bg-danger" 
+                            attrs="{'invisible': [('confidentiality_level', '!=', 'secret')]}"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="student_id" readonly="1"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info">
+                            <field name="record_number" readonly="1"/>
+                            <field name="age" readonly="1"/>
+                            <field name="gender"/>
+                            <field name="blood_type"/>
+                            <field name="confidentiality_level"/>
+                        </group>
+                        <group name="physical_info">
+                            <field name="height"/>
+                            <field name="weight"/>
+                            <field name="bmi" readonly="1"/>
+                            <field name="bmi_category" readonly="1" widget="badge"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Informations Médicales" name="medical_info">
+                            <group string="Allergies et Intolérances">
+                                <field name="allergies" colspan="2"/>
+                                <field name="food_allergies"/>
+                                <field name="drug_allergies"/>
+                            </group>
+                            
+                            <group string="Conditions Médicales">
+                                <field name="chronic_conditions" colspan="2"/>
+                                <field name="current_medications" colspan="2"/>
+                                <field name="medical_devices" colspan="2"/>
+                            </group>
+                            
+                            <group string="Antécédents">
+                                <field name="medical_history" widget="html" colspan="2"/>
+                                <field name="family_medical_history" widget="html" colspan="2"/>
+                                <field name="surgical_history" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Contacts d'Urgence" name="emergency_contacts">
+                            <group string="Contact Principal">
+                                <field name="emergency_contact_1_name"/>
+                                <field name="emergency_contact_1_phone"/>
+                                <field name="emergency_contact_1_relation"/>
+                            </group>
+                            
+                            <group string="Contact Secondaire">
+                                <field name="emergency_contact_2_name"/>
+                                <field name="emergency_contact_2_phone"/>
+                                <field name="emergency_contact_2_relation"/>
+                            </group>
+                            
+                            <group string="Médecin Traitant">
+                                <field name="primary_doctor_name"/>
+                                <field name="primary_doctor_phone"/>
+                                <field name="primary_doctor_address" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Assurance et Sécurité Sociale" name="insurance">
+                            <group>
+                                <field name="insurance_id"/>
+                                <field name="insurance_number"/>
+                                <field name="social_security_number" password="True"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Autorisations" name="authorizations">
+                            <group string="Activités">
+                                <field name="sports_authorization"/>
+                                <field name="swimming_authorization"/>
+                                <field name="excursion_authorization"/>
+                                <field name="medication_self_admin"/>
+                            </group>
+                            
+                            <group string="Restrictions">
+                                <field name="medical_restrictions" colspan="2"/>
+                                <field name="activity_restrictions" colspan="2"/>
+                                <field name="dietary_restrictions" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Examens Médicaux" name="medical_exams">
+                            <group>
+                                <field name="last_medical_exam"/>
+                                <field name="next_medical_exam"/>
+                                <field name="medical_exam_frequency"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Documents" name="documents">
+                            <field name="medical_documents">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="mimetype"/>
+                                    <field name="create_date"/>
+                                    <field name="create_uid"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="QR Code" name="qr_code">
+                            <group>
+                                <field name="qr_code" widget="image" 
+                                       class="oe_avatar" style="max-width: 200px;"/>
+                                <p>Scannez ce QR code pour un accès rapide au dossier médical en cas d'urgence.</p>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Vue kanban des dossiers médicaux -->
+    <record id="view_health_record_kanban" model="ir.ui.view">
+        <field name="name">edu.health.record.kanban</field>
+        <field name="model">edu.health.record</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="age"/>
+                <field name="has_allergies"/>
+                <field name="consultation_count"/>
+                <field name="last_consultation_date"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="display_name"/>
+                                        </strong>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                            <field name="age"/> ans
+                                        </small>
+                                    </div>
+                                    <div class="o_kanban_record_right">
+                                        <span t-if="record.has_allergies.raw_value" 
+                                              class="badge badge-warning">⚠️ Allergies</span>
+                                        <span t-if="record.state.raw_value == 'active'" 
+                                              class="badge badge-success">Actif</span>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span>
+                                            <i class="fa fa-stethoscope"/> <field name="consultation_count"/> consultations
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <span t-if="record.last_consultation_date.raw_value">
+                                            Dernière: <field name="last_consultation_date"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+    <!-- Actions -->
+    <record id="action_health_records" model="ir.actions.act_window">
+        <field name="name">Dossiers Médicaux</field>
+        <field name="res_model">edu.health.record</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier dossier médical
+            </p>
+            <p>
+                Gérez les dossiers médicaux des étudiants avec un système
+                sécurisé et conforme aux réglementations médicales.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des enregistrements -->
+        <record id="view_edu_attendance_record_tree" model="ir.ui.view">
+            <field name="name">edu.attendance.record.tree</field>
+            <field name="model">edu.attendance.record</field>
+            <field name="arch" type="xml">
+                <tree string="Enregistrements de présence" decoration-success="attendance_status=='present'" 
+                      decoration-danger="attendance_status=='absent'" decoration-warning="attendance_status=='late'">
+                    <field name="check_in_time"/>
+                    <field name="student_id"/>
+                    <field name="session_id"/>
+                    <field name="attendance_status"/>
+                    <field name="check_in_method"/>
+                    <field name="check_out_time"/>
+                    <field name="is_late"/>
+                    <field name="late_minutes"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des enregistrements -->
+        <record id="view_edu_attendance_record_form" model="ir.ui.view">
+            <field name="name">edu.attendance.record.form</field>
+            <field name="model">edu.attendance.record</field>
+            <field name="arch" type="xml">
+                <form string="Enregistrement de présence">
+                    <header>
+                        <button name="action_mark_present" type="object" string="Marquer présent" 
+                                class="btn-success"/>
+                        <button name="action_mark_absent" type="object" string="Marquer absent" 
+                                class="btn-danger"/>
+                        <button name="action_excuse_absence" type="object" string="Excuser" 
+                                class="btn-warning"/>
+                        <field name="attendance_status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Informations principales">
+                                <field name="session_id"/>
+                                <field name="student_id"/>
+                                <field name="device_id"/>
+                            </group>
+                            <group string="Pointage">
+                                <field name="check_in_time"/>
+                                <field name="check_out_time"/>
+                                <field name="check_in_method"/>
+                                <field name="check_out_method"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Statut">
+                                <field name="is_absent"/>
+                                <field name="is_late"/>
+                                <field name="is_excused"/>
+                                <field name="late_minutes" readonly="1"/>
+                            </group>
+                            <group string="Temps">
+                                <field name="hours_present" readonly="1"/>
+                                <field name="hours_expected" readonly="1"/>
+                                <field name="presence_rate" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Géolocalisation" name="location">
+                                <group>
+                                    <group string="Entrée">
+                                        <field name="check_in_latitude"/>
+                                        <field name="check_in_longitude"/>
+                                    </group>
+                                    <group string="Sortie">
+                                        <field name="check_out_latitude"/>
+                                        <field name="check_out_longitude"/>
+                                        <field name="location_verified"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Justificatifs" name="excuse">
+                                <group>
+                                    <field name="excuse_id"/>
+                                    <field name="excuse_reason"/>
+                                    <field name="excuse_document" filename="excuse_document_name"/>
+                                    <field name="excuse_document_name" invisible="1"/>
+                                </group>
+                            </page>
+                            <page string="Commentaires" name="comments">
+                                <field name="comment" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche des enregistrements -->
+        <record id="view_edu_attendance_record_search" model="ir.ui.view">
+            <field name="name">edu.attendance.record.search</field>
+            <field name="model">edu.attendance.record</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher enregistrements">
+                    <field name="student_id"/>
+                    <field name="session_id"/>
+                    <field name="device_id"/>
+                    <separator/>
+                    <filter string="Présents" name="present" domain="[('attendance_status', '=', 'present')]"/>
+                    <filter string="Absents" name="absent" domain="[('attendance_status', '=', 'absent')]"/>
+                    <filter string="En retard" name="late" domain="[('attendance_status', '=', 'late')]"/>
+                    <filter string="Excusés" name="excused" domain="[('attendance_status', '=', 'excused')]"/>
+                    <separator/>
+                    <filter string="Avec pointage entrée" name="has_check_in" domain="[('check_in_time', '!=', False)]"/>
+                    <filter string="Avec pointage sortie" name="has_check_out" domain="[('check_out_time', '!=', False)]"/>
+                    <separator/>
+                    <filter string="Aujourd'hui" name="today" 
+                            domain="[('check_in_time', '>=', datetime.datetime.now().replace(hour=0, minute=0, second=0)), 
+                                     ('check_in_time', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0))]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Élève" name="group_student" context="{'group_by': 'student_id'}"/>
+                        <filter string="Session" name="group_session" context="{'group_by': 'session_id'}"/>
+                        <filter string="Statut" name="group_status" context="{'group_by': 'attendance_status'}"/>
+                        <filter string="Méthode" name="group_method" context="{'group_by': 'check_in_method'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'check_in_time:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vue calendrier des enregistrements -->
+        <record id="view_edu_attendance_record_calendar" model="ir.ui.view">
+            <field name="name">edu.attendance.record.calendar</field>
+            <field name="model">edu.attendance.record</field>
+            <field name="arch" type="xml">
+                <calendar date_start="check_in_time" date_stop="check_out_time" string="Présences"
+                          mode="month" color="attendance_status">
+                    <field name="student_id"/>
+                    <field name="session_id"/>
+                    <field name="attendance_status"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Action pour les enregistrements de présence -->
+        <record id="action_edu_attendance_record" model="ir.actions.act_window">
+            <field name="name">Enregistrements de présence</field>
+            <field name="res_model">edu.attendance.record</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucun enregistrement de présence trouvé !
+                </p>
+                <p>
+                    Les enregistrements sont créés automatiquement lors des sessions.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

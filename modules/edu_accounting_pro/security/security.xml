@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Catégories de groupes -->
+    <record id="module_category_edu_accounting" model="ir.module.category">
+        <field name="name">Comptabilité Éducative</field>
+        <field name="description">Gestion de la comptabilité pour institutions éducatives</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- Groupes d'utilisateurs -->
+    <record id="group_accounting_user" model="res.groups">
+        <field name="name">Utilisateur Comptabilité Éducative</field>
+        <field name="category_id" ref="module_category_edu_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Accès en lecture/écriture aux fonctionnalités comptables éducatives</field>
+    </record>
+
+    <record id="group_accounting_manager" model="res.groups">
+        <field name="name">Gestionnaire Comptabilité Éducative</field>
+        <field name="category_id" ref="module_category_edu_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('group_accounting_user')), (4, ref('account.group_account_manager'))]"/>
+        <field name="comment">Accès complet aux fonctionnalités comptables éducatives et configuration</field>
+    </record>
+
+    <record id="group_accounting_readonly" model="res.groups">
+        <field name="name">Consultation Comptabilité Éducative</field>
+        <field name="category_id" ref="module_category_edu_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Accès en lecture seule aux rapports comptables éducatifs</field>
+    </record>
+</odoo> 

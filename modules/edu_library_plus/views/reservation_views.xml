@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue Liste Réservations -->
+        <record id="view_library_reservation_tree" model="ir.ui.view">
+            <field name="name">library.reservation.tree</field>
+            <field name="model">library.reservation</field>
+            <field name="arch" type="xml">
+                <tree string="Réservations" decoration-success="state=='collected'" 
+                      decoration-warning="state=='available'" decoration-danger="state=='expired'">
+                    <field name="name"/>
+                    <field name="member_id"/>
+                    <field name="book_id"/>
+                    <field name="reservation_date"/>
+                    <field name="expiry_date"/>
+                    <field name="state"/>
+                    <field name="priority"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire Réservation -->
+        <record id="view_library_reservation_form" model="ir.ui.view">
+            <field name="name">library.reservation.form</field>
+            <field name="model">library.reservation</field>
+            <field name="arch" type="xml">
+                <form string="Réservation">
+                    <header>
+                        <button name="action_make_available" type="object" 
+                                string="Rendre Disponible" class="oe_highlight"
+                                states="pending"/>
+                        <button name="action_collect" type="object" 
+                                string="Récupérer" class="oe_highlight"
+                                states="available"/>
+                        <button name="action_cancel" type="object" 
+                                string="Annuler" states="pending,available"/>
+                        <field name="state" widget="statusbar" 
+                               statusbar_visible="pending,available,collected"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="member_id"/>
+                                <field name="book_id"/>
+                                <field name="priority"/>
+                            </group>
+                            <group>
+                                <field name="reservation_date"/>
+                                <field name="expiry_date"/>
+                                <field name="collected_date" states="collected"/>
+                                <field name="notification_sent"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action Réservations -->
+        <record id="action_library_reservation" model="ir.actions.act_window">
+            <field name="name">Réservations</field>
+            <field name="res_model">library.reservation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune réservation trouvée !
+                </p>
+                <p>
+                    Les membres peuvent réserver des livres non disponibles.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

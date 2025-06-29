@@ -1,0 +1,145 @@
+/* 
+ * Styles principaux pour le Portail Parents
+ * =====================================
+ */
+
+/* Variables CSS pour la cohérence des couleurs */
+:root {
+    --portal-primary-color: #2c5282;
+    --portal-secondary-color: #3182ce;
+    --portal-accent-color: #48bb78;
+    --portal-background-color: #f7fafc;
+    --portal-text-color: #2d3748;
+    --portal-border-color: #e2e8f0;
+    --portal-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --portal-border-radius: 8px;
+}
+
+/* Styles généraux du portail */
+.portal-parent-container {
+    background-color: var(--portal-background-color);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.portal-header {
+    background: linear-gradient(135deg, var(--portal-primary-color), var(--portal-secondary-color));
+    color: white;
+    padding: 20px;
+    border-radius: var(--portal-border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--portal-shadow);
+}
+
+.portal-card {
+    background: white;
+    border-radius: var(--portal-border-radius);
+    box-shadow: var(--portal-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--portal-border-color);
+}
+
+.portal-card-header {
+    border-bottom: 2px solid var(--portal-border-color);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--portal-primary-color);
+}
+
+/* Styles pour les boutons */
+.portal-btn {
+    background-color: var(--portal-primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--portal-border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.portal-btn:hover {
+    background-color: var(--portal-secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--portal-shadow);
+}
+
+.portal-btn-success {
+    background-color: var(--portal-accent-color);
+}
+
+.portal-btn-success:hover {
+    background-color: #38a169;
+}
+
+/* Styles pour les notifications */
+.portal-notification {
+    padding: 15px;
+    border-radius: var(--portal-border-radius);
+    margin-bottom: 15px;
+    border-left: 4px solid var(--portal-primary-color);
+}
+
+.portal-notification.success {
+    background-color: #f0fff4;
+    border-left-color: var(--portal-accent-color);
+}
+
+.portal-notification.warning {
+    background-color: #fffaf0;
+    border-left-color: #ed8936;
+}
+
+.portal-notification.error {
+    background-color: #fed7d7;
+    border-left-color: #e53e3e;
+}
+
+/* Styles responsifs */
+@media (max-width: 768px) {
+    .portal-parent-container {
+        padding: 10px;
+    }
+    
+    .portal-header {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .portal-card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Styles pour les indicateurs de statut */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-present { background-color: var(--portal-accent-color); }
+.status-absent { background-color: #e53e3e; }
+.status-late { background-color: #ed8936; }
+
+/* Animation de chargement */
+.portal-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--portal-primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

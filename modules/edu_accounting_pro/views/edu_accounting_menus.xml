@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Menu principal Comptabilité Éducative -->
+    <menuitem id="menu_edu_accounting_root" 
+              name="Comptabilité Éducative" 
+              sequence="50"
+              groups="group_accounting_user"
+              web_icon="edu_accounting_pro,static/description/icon.png"/>
+    
+    <!-- Configuration -->
+    <menuitem id="menu_edu_accounting_config" 
+              name="Configuration" 
+              parent="menu_edu_accounting_root" 
+              sequence="10"
+              groups="group_accounting_manager"/>
+    
+    <menuitem id="menu_edu_accounting_config_main" 
+              name="Configuration Générale" 
+              parent="menu_edu_accounting_config" 
+              action="action_edu_accounting_config" 
+              sequence="10"
+              groups="group_accounting_manager"/>
+    
+    <menuitem id="menu_edu_fee_type" 
+              name="Types de Frais" 
+              parent="menu_edu_accounting_config" 
+              action="action_edu_fee_type" 
+              sequence="20"
+              groups="group_accounting_manager"/>
+    
+    <!-- Structures de Frais -->
+    <menuitem id="menu_edu_fee_structure" 
+              name="Structures de Frais" 
+              parent="menu_edu_accounting_root" 
+              action="action_edu_fee_structure" 
+              sequence="20"
+              groups="group_accounting_user"/>
+    
+    <!-- Facturation -->
+    <menuitem id="menu_edu_student_invoice" 
+              name="Factures Étudiants" 
+              parent="menu_edu_accounting_root" 
+              action="action_edu_student_invoice" 
+              sequence="30"
+              groups="group_accounting_user"/>
+
+</odoo>

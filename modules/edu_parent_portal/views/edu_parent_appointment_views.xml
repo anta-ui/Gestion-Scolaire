@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vues pour les rendez-vous parent - À développer -->
+        
+        <!-- Vue liste des rendez-vous -->
+        <record id="view_edu_parent_appointment_tree" model="ir.ui.view">
+            <field name="name">edu.parent.appointment.tree</field>
+            <field name="model">edu.parent.appointment</field>
+            <field name="arch" type="xml">
+                <tree string="Rendez-vous" decoration-info="state=='requested'" decoration-success="state=='confirmed'" decoration-muted="state=='cancelled'">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="teacher_id"/>
+                    <field name="student_id"/>
+                    <field name="appointment_date"/>
+                    <field name="subject"/>
+                    <field name="meeting_type"/>
+                    <field name="state"/>
+                    <field name="priority" widget="priority"/>
+                    <button name="action_confirm" type="object" string="Confirmer" icon="fa-check" invisible="state != 'requested'"/>
+                    <button name="action_cancel" type="object" string="Annuler" icon="fa-times" invisible="state in ['cancelled', 'completed']"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des rendez-vous -->
+        <record id="view_edu_parent_appointment_form" model="ir.ui.view">
+            <field name="name">edu.parent.appointment.form</field>
+            <field name="model">edu.parent.appointment</field>
+            <field name="arch" type="xml">
+                <form string="Rendez-vous parent">
+                    <header>
+                        <button name="action_request" type="object" string="Demander" class="btn-primary" invisible="state != 'draft'"/>
+                        <button name="action_confirm" type="object" string="Confirmer" class="btn-primary" invisible="state != 'requested'"/>
+                        <button name="action_complete" type="object" string="Terminer" class="btn-secondary" invisible="state != 'confirmed'"/>
+                        <button name="action_cancel" type="object" string="Annuler" class="btn-secondary" invisible="state in ['cancelled', 'completed']"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,requested,confirmed,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Participants">
+                                <field name="parent_id"/>
+                                <field name="teacher_id"/>
+                                <field name="student_id"/>
+                            </group>
+                            <group string="Détails du rendez-vous">
+                                <field name="appointment_date"/>
+                                <field name="duration"/>
+                                <field name="meeting_type"/>
+                                <field name="priority" widget="priority"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Sujet et description">
+                                <field name="subject"/>
+                                <field name="description" nolabel="1"/>
+                            </group>
+                            <group string="Lieu et modalités">
+                                <field name="location" invisible="meeting_type != 'physical'"/>
+                                <field name="meeting_url" invisible="meeting_type != 'online'"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Notes du rendez-vous">
+                                <group>
+                                    <field name="parent_notes" string="Notes du parent"/>
+                                    <field name="teacher_notes" string="Notes de l'enseignant"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Rappels">
+                                <group>
+                                    <field name="reminder_sent" readonly="1"/>
+                                    <field name="reminder_date" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vue calendrier des rendez-vous -->
+        <record id="view_edu_parent_appointment_calendar" model="ir.ui.view">
+            <field name="name">edu.parent.appointment.calendar</field>
+            <field name="model">edu.parent.appointment</field>
+            <field name="arch" type="xml">
+                <calendar string="Rendez-vous" date_start="appointment_date" color="teacher_id" mode="month">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="teacher_id"/>
+                    <field name="student_id"/>
+                    <field name="subject"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+        
+        <!-- Vue kanban des rendez-vous -->
+        <record id="view_edu_parent_appointment_kanban" model="ir.ui.view">
+            <field name="name">edu.parent.appointment.kanban</field>
+            <field name="model">edu.parent.appointment</field>
+            <field name="arch" type="xml">
+                <kanban string="Rendez-vous" default_group_by="state">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="teacher_id"/>
+                    <field name="student_id"/>
+                    <field name="appointment_date"/>
+                    <field name="subject"/>
+                    <field name="state"/>
+                    <field name="priority"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <strong><field name="subject"/></strong>
+                                        </div>
+                                        <div class="col-2">
+                                            <t t-if="record.priority.raw_value == '2'">
+                                                <span class="badge badge-danger">Urgent</span>
+                                            </t>
+                                            <t t-elif="record.priority.raw_value == '1'">
+                                                <span class="badge badge-warning">Important</span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-user"/> <field name="parent_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-graduation-cap"/> <field name="teacher_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-calendar"/> <field name="appointment_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Action pour les rendez-vous -->
+        <record id="action_edu_parent_appointment" model="ir.actions.act_window">
+            <field name="name">Rendez-vous parents</field>
+            <field name="res_model">edu.parent.appointment</field>
+            <field name="view_mode">kanban,tree,form,calendar</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Planifiez votre premier rendez-vous !
+                </p>
+                <p>
+                    Les rendez-vous permettent aux parents de rencontrer les enseignants
+                    pour discuter du suivi scolaire de leurs enfants.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

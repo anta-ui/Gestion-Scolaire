@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Critère d'Évaluation -->
+    <record id="view_edu_evaluation_criteria_form" model="ir.ui.view">
+        <field name="name">edu.evaluation.criteria.form</field>
+        <field name="model">edu.evaluation.criteria</field>
+        <field name="arch" type="xml">
+            <form string="Critère d'Évaluation">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_evaluations" type="object" 
+                                class="oe_stat_button" icon="fa-list">
+                            <field name="usage_count" widget="statinfo" 
+                                   string="Utilisations"/>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Archivé" bg_color="bg-danger" 
+                            invisible="active"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du critère"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Informations générales">
+                            <field name="code"/>
+                            <field name="criteria_type"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Configuration">
+                            <field name="weight"/>
+                            <field name="max_points"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description détaillée du critère"/>
+                        </page>
+                        <page string="Rubrique d'évaluation" name="rubric">
+                            <field name="rubric_level_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="points"/>
+                                    <field name="color_class"/>
+                                    <field name="description"/>
+                                    <field name="indicators"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Liens" name="links">
+                            <group>
+                                <field name="competency_ids" widget="many2many_tags"/>
+                                <field name="course_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Critère d'Évaluation -->
+    <record id="view_edu_evaluation_criteria_tree" model="ir.ui.view">
+        <field name="name">edu.evaluation.criteria.tree</field>
+        <field name="model">edu.evaluation.criteria</field>
+        <field name="arch" type="xml">
+            <tree string="Critères d'Évaluation">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="criteria_type"/>
+                <field name="weight"/>
+                <field name="max_points"/>
+                <field name="usage_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Critère d'Évaluation -->
+    <record id="view_edu_evaluation_criteria_search" model="ir.ui.view">
+        <field name="name">edu.evaluation.criteria.search</field>
+        <field name="model">edu.evaluation.criteria</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Critères">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="description"/>
+                <field name="competency_ids"/>
+                <field name="course_ids"/>
+                
+                <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Connaissance" name="knowledge" domain="[('criteria_type', '=', 'knowledge')]"/>
+                <filter string="Compréhension" name="comprehension" domain="[('criteria_type', '=', 'comprehension')]"/>
+                <filter string="Application" name="application" domain="[('criteria_type', '=', 'application')]"/>
+                <filter string="Analyse" name="analysis" domain="[('criteria_type', '=', 'analysis')]"/>
+                <filter string="Synthèse" name="synthesis" domain="[('criteria_type', '=', 'synthesis')]"/>
+                <filter string="Évaluation" name="evaluation" domain="[('criteria_type', '=', 'evaluation')]"/>
+                <separator/>
+                <filter string="Présentation" name="presentation" domain="[('criteria_type', '=', 'presentation')]"/>
+                <filter string="Participation" name="participation" domain="[('criteria_type', '=', 'participation')]"/>
+                <filter string="Comportement" name="behavior" domain="[('criteria_type', '=', 'behavior')]"/>
+                <filter string="Effort" name="effort" domain="[('criteria_type', '=', 'effort')]"/>
+                <filter string="Créativité" name="creativity" domain="[('criteria_type', '=', 'creativity')]"/>
+                <filter string="Collaboration" name="collaboration" domain="[('criteria_type', '=', 'collaboration')]"/>
+                <filter string="Autonomie" name="autonomy" domain="[('criteria_type', '=', 'autonomy')]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Type" name="group_type" context="{'group_by': 'criteria_type'}"/>
+                    <filter string="Matière" name="group_course" context="{'group_by': 'course_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Critère d'Évaluation -->
+    <record id="action_edu_evaluation_criteria" model="ir.actions.act_window">
+        <field name="name">Critères d'Évaluation</field>
+        <field name="res_model">edu.evaluation.criteria</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau critère d'évaluation
+            </p>
+            <p>
+                Définissez les critères détaillés pour vos évaluations
+                avec leurs rubriques et pondérations.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire Niveau de Rubrique -->
+    <record id="view_edu_criteria_rubric_level_form" model="ir.ui.view">
+        <field name="name">edu.criteria.rubric.level.form</field>
+        <field name="model">edu.criteria.rubric.level</field>
+        <field name="arch" type="xml">
+            <form string="Niveau de Rubrique">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du niveau"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="criteria_id"/>
+                            <field name="points"/>
+                            <field name="color_class"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description des attendus pour ce niveau"/>
+                        </page>
+                        <page string="Indicateurs" name="indicators">
+                            <field name="indicators" placeholder="Indicateurs observables pour ce niveau"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Niveau de Rubrique -->
+    <record id="view_edu_criteria_rubric_level_tree" model="ir.ui.view">
+        <field name="name">edu.criteria.rubric.level.tree</field>
+        <field name="model">edu.criteria.rubric.level</field>
+        <field name="arch" type="xml">
+            <tree string="Niveaux de Rubrique" editable="bottom">
+                <field name="criteria_id"/>
+                <field name="name"/>
+                <field name="points"/>
+                <field name="color_class"/>
+                <field name="description"/>
+                <field name="indicators"/>
+            </tree>
+        </field>
+    </record>
+</odoo> 

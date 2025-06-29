@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Groupe Familial -->
+    <record id="view_student_family_group_form" model="ir.ui.view">
+        <field name="name">student.family.group.form</field>
+        <field name="model">student.family.group</field>
+        <field name="arch" type="xml">
+            <form string="Groupe Familial">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="family_name" placeholder="Nom de la famille"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="family_code"/>
+                            <field name="home_address"/>
+                            <field name="home_phone"/>
+                        </group>
+                        <group>
+                            <field name="family_income"/>
+                            <field name="emergency_contact_name"/>
+                            <field name="emergency_contact_phone"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Élèves">
+                            <field name="student_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="birth_date"/>
+                                    <field name="course_detail_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="Informations Familiales">
+                            <group>
+                                <group string="Logement">
+                                    <field name="housing_type"/>
+                                    <field name="transportation_mode"/>
+                                </group>
+                                <group string="Préférences">
+                                    <field name="preferred_language"/>
+                                    <field name="communication_preference"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="special_circumstances" placeholder="Circonstances particulières..."/>
+                                <field name="notes" placeholder="Notes familiales..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Groupe Familial -->
+    <record id="view_student_family_group_tree" model="ir.ui.view">
+        <field name="name">student.family.group.tree</field>
+        <field name="model">student.family.group</field>
+        <field name="arch" type="xml">
+            <tree string="Groupes Familiaux">
+                <field name="family_name"/>
+                <field name="family_code"/>
+                <field name="home_phone"/>
+                <field name="family_income"/>
+                <field name="children_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Groupe Familial -->
+    <record id="view_student_family_group_search" model="ir.ui.view">
+        <field name="name">student.family.group.search</field>
+        <field name="model">student.family.group</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Groupes Familiaux">
+                <field name="family_name"/>
+                <field name="family_code"/>
+                <field name="home_phone"/>
+                <field name="emergency_contact_name"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Nom de Famille" name="group_by_family_name" context="{'group_by': 'family_name'}"/>
+                    <filter string="Revenus" name="group_by_income" context="{'group_by': 'family_income'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action pour Groupe Familial -->
+    <record id="action_student_family_group" model="ir.actions.act_window">
+        <field name="name">Groupes Familiaux</field>
+        <field name="res_model">student.family.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_student_family_group_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau groupe familial
+            </p>
+            <p>
+                Gérez les informations des familles et leurs relations avec les élèves.
+            </p>
+        </field>
+    </record>
+</odoo> 

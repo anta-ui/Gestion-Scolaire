@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Barème sur 20 -->
+        <record id="grade_scale_20" model="edu.grade.scale">
+            <field name="name">Sur 20</field>
+            <field name="code">20</field>
+            <field name="description">Barème de notation français traditionnel sur 20 points</field>
+            <field name="sequence">10</field>
+            <field name="scale_type">numeric</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">20.0</field>
+            <field name="pass_mark">10.0</field>
+            <field name="decimal_places">2</field>
+        </record>
+        
+        <!-- Niveaux pour barème sur 20 -->
+        <record id="grade_level_20_excellent" model="edu.grade.level">
+            <field name="name">Excellent</field>
+            <field name="grade_scale_id" ref="grade_scale_20"/>
+            <field name="min_value">16.0</field>
+            <field name="max_value">20.0</field>
+            <field name="letter_grade">A</field>
+            <field name="color_class">success</field>
+            <field name="description">Travail exceptionnel dépassant les attentes</field>
+        </record>
+        
+        <record id="grade_level_20_very_good" model="edu.grade.level">
+            <field name="name">Très Bien</field>
+            <field name="grade_scale_id" ref="grade_scale_20"/>
+            <field name="min_value">14.0</field>
+            <field name="max_value">15.99</field>
+            <field name="letter_grade">B</field>
+            <field name="color_class">info</field>
+            <field name="description">Très bon travail répondant aux attentes</field>
+        </record>
+        
+        <record id="grade_level_20_good" model="edu.grade.level">
+            <field name="name">Bien</field>
+            <field name="grade_scale_id" ref="grade_scale_20"/>
+            <field name="min_value">12.0</field>
+            <field name="max_value">13.99</field>
+            <field name="letter_grade">C</field>
+            <field name="color_class">primary</field>
+            <field name="description">Bon travail avec quelques améliorations possibles</field>
+        </record>
+        
+        <record id="grade_level_20_satisfactory" model="edu.grade.level">
+            <field name="name">Passable</field>
+            <field name="grade_scale_id" ref="grade_scale_20"/>
+            <field name="min_value">10.0</field>
+            <field name="max_value">11.99</field>
+            <field name="letter_grade">D</field>
+            <field name="color_class">warning</field>
+            <field name="description">Travail satisfaisant mais juste suffisant</field>
+        </record>
+        
+        <record id="grade_level_20_insufficient" model="edu.grade.level">
+            <field name="name">Insuffisant</field>
+            <field name="grade_scale_id" ref="grade_scale_20"/>
+            <field name="min_value">0.0</field>
+            <field name="max_value">9.99</field>
+            <field name="letter_grade">F</field>
+            <field name="color_class">danger</field>
+            <field name="description">Travail insuffisant nécessitant des améliorations</field>
+        </record>
+        
+        <!-- Barème pourcentage -->
+        <record id="grade_scale_percentage" model="edu.grade.scale">
+            <field name="name">Pourcentage</field>
+            <field name="code">PCT</field>
+            <field name="description">Barème en pourcentage de 0 à 100%</field>
+            <field name="sequence">20</field>
+            <field name="scale_type">percentage</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">100.0</field>
+            <field name="pass_mark">50.0</field>
+            <field name="decimal_places">1</field>
+        </record>
+        
+        <!-- Niveaux pour barème pourcentage -->
+        <record id="grade_level_pct_a" model="edu.grade.level">
+            <field name="name">A - Excellent</field>
+            <field name="grade_scale_id" ref="grade_scale_percentage"/>
+            <field name="min_value">90.0</field>
+            <field name="max_value">100.0</field>
+            <field name="letter_grade">A</field>
+            <field name="color_class">success</field>
+            <field name="description">90-100% - Performance exceptionnelle</field>
+        </record>
+        
+        <record id="grade_level_pct_b" model="edu.grade.level">
+            <field name="name">B - Très Bien</field>
+            <field name="grade_scale_id" ref="grade_scale_percentage"/>
+            <field name="min_value">80.0</field>
+            <field name="max_value">89.9</field>
+            <field name="letter_grade">B</field>
+            <field name="color_class">info</field>
+            <field name="description">80-89% - Très bonne performance</field>
+        </record>
+        
+        <record id="grade_level_pct_c" model="edu.grade.level">
+            <field name="name">C - Bien</field>
+            <field name="grade_scale_id" ref="grade_scale_percentage"/>
+            <field name="min_value">70.0</field>
+            <field name="max_value">79.9</field>
+            <field name="letter_grade">C</field>
+            <field name="color_class">primary</field>
+            <field name="description">70-79% - Bonne performance</field>
+        </record>
+        
+        <record id="grade_level_pct_d" model="edu.grade.level">
+            <field name="name">D - Passable</field>
+            <field name="grade_scale_id" ref="grade_scale_percentage"/>
+            <field name="min_value">50.0</field>
+            <field name="max_value">69.9</field>
+            <field name="letter_grade">D</field>
+            <field name="color_class">warning</field>
+            <field name="description">50-69% - Performance passable</field>
+        </record>
+        
+        <record id="grade_level_pct_f" model="edu.grade.level">
+            <field name="name">F - Insuffisant</field>
+            <field name="grade_scale_id" ref="grade_scale_percentage"/>
+            <field name="min_value">0.0</field>
+            <field name="max_value">49.9</field>
+            <field name="letter_grade">F</field>
+            <field name="color_class">danger</field>
+            <field name="description">0-49% - Performance insuffisante</field>
+        </record>
+        
+        <!-- Barème Réussi/Échoué -->
+        <record id="grade_scale_pass_fail" model="edu.grade.scale">
+            <field name="name">Réussi/Échoué</field>
+            <field name="code">PASS</field>
+            <field name="description">Barème binaire réussi ou échoué</field>
+            <field name="sequence">30</field>
+            <field name="scale_type">pass_fail</field>
+            <field name="min_value">0.0</field>
+            <field name="max_value">1.0</field>
+            <field name="pass_mark">1.0</field>
+            <field name="decimal_places">0</field>
+        </record>
+        
+        <!-- Niveaux pour barème réussi/échoué -->
+        <record id="grade_level_pass" model="edu.grade.level">
+            <field name="name">Réussi</field>
+            <field name="grade_scale_id" ref="grade_scale_pass_fail"/>
+            <field name="min_value">1.0</field>
+            <field name="max_value">1.0</field>
+            <field name="letter_grade">P</field>
+            <field name="color_class">success</field>
+            <field name="description">Objectifs atteints avec succès</field>
+        </record>
+        
+        <record id="grade_level_fail" model="edu.grade.level">
+            <field name="name">Échoué</field>
+            <field name="grade_scale_id" ref="grade_scale_pass_fail"/>
+            <field name="min_value">0.0</field>
+            <field name="max_value">0.0</field>
+            <field name="letter_grade">F</field>
+            <field name="color_class">danger</field>
+            <field name="description">Objectifs non atteints</field>
+        </record>
+        
+    </data>
+</odoo>

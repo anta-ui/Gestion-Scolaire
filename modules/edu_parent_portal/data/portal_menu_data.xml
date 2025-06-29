@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Menu principal du tableau de bord -->
+        <record id="portal_menu_dashboard" model="edu.portal.menu">
+            <field name="name">Tableau de bord</field>
+            <field name="code">dashboard</field>
+            <field name="url">/my/dashboard</field>
+            <field name="icon">fa-dashboard</field>
+            <field name="sequence">10</field>
+            <field name="description">Vue d'ensemble des informations scolaires</field>
+        </record>
+        
+        <!-- Menu des notes -->
+        <record id="portal_menu_grades" model="edu.portal.menu">
+            <field name="name">Notes et évaluations</field>
+            <field name="code">grades</field>
+            <field name="url">/my/grades</field>
+            <field name="icon">fa-graduation-cap</field>
+            <field name="sequence">20</field>
+            <field name="description">Consulter les notes et évaluations</field>
+        </record>
+        
+        <!-- Menu des présences -->
+        <record id="portal_menu_attendance" model="edu.portal.menu">
+            <field name="name">Présences</field>
+            <field name="code">attendance</field>
+            <field name="url">/my/attendance</field>
+            <field name="icon">fa-calendar-check-o</field>
+            <field name="sequence">30</field>
+            <field name="description">Suivi des présences et absences</field>
+        </record>
+        
+        <!-- Menu des devoirs -->
+        <record id="portal_menu_homework" model="edu.portal.menu">
+            <field name="name">Devoirs</field>
+            <field name="code">homework</field>
+            <field name="url">/my/homework</field>
+            <field name="icon">fa-book</field>
+            <field name="sequence">40</field>
+            <field name="description">Consulter les devoirs et travaux</field>
+        </record>
+        
+        <!-- Menu des messages -->
+        <record id="portal_menu_messages" model="edu.portal.menu">
+            <field name="name">Messages</field>
+            <field name="code">messages</field>
+            <field name="url">/my/messages</field>
+            <field name="icon">fa-envelope</field>
+            <field name="sequence">50</field>
+            <field name="description">Messagerie avec les enseignants</field>
+        </record>
+        
+        <!-- Menu des rendez-vous -->
+        <record id="portal_menu_appointments" model="edu.portal.menu">
+            <field name="name">Rendez-vous</field>
+            <field name="code">appointments</field>
+            <field name="url">/my/appointments</field>
+            <field name="icon">fa-calendar</field>
+            <field name="sequence">60</field>
+            <field name="description">Planifier des rendez-vous</field>
+        </record>
+        
+        <!-- Menu des documents -->
+        <record id="portal_menu_documents" model="edu.portal.menu">
+            <field name="name">Documents</field>
+            <field name="code">documents</field>
+            <field name="url">/my/documents</field>
+            <field name="icon">fa-file-text</field>
+            <field name="sequence">70</field>
+            <field name="description">Accéder aux documents scolaires</field>
+        </record>
+        
+        <!-- Menu des paiements -->
+        <record id="portal_menu_payments" model="edu.portal.menu">
+            <field name="name">Paiements</field>
+            <field name="code">payments</field>
+            <field name="url">/my/payments</field>
+            <field name="icon">fa-credit-card</field>
+            <field name="sequence">80</field>
+            <field name="description">Gérer les paiements scolaires</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue Formulaire Moyenne -->
+        <record id="view_edu_grade_average_form" model="ir.ui.view">
+            <field name="name">edu.grade.average.form</field>
+            <field name="model">edu.grade.average</field>
+            <field name="arch" type="xml">
+                <form string="Moyenne des Notes">
+                    <header>
+                        <button name="action_recalculate" string="Recalculer" 
+                                type="object" class="btn-primary"/>
+                        <button name="action_set_final" string="Finaliser" 
+                                type="object" class="btn-secondary" 
+                                attrs="{'invisible': [('is_final', '=', True)]}"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="display_name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Informations Générales">
+                                <field name="student_id" options="{'no_create': True}"/>
+                                <field name="standard_id" options="{'no_create': True}"/>
+                                <field name="period_id" options="{'no_create': True}"/>
+                                <field name="average_type"/>
+                                <field name="course_id" options="{'no_create': True}" 
+                                       attrs="{'invisible': [('average_type', '!=', 'course')], 
+                                               'required': [('average_type', '=', 'course')]}"/>
+                                <field name="competency_id" options="{'no_create': True}" 
+                                       attrs="{'invisible': [('average_type', '!=', 'competency')], 
+                                               'required': [('average_type', '=', 'competency')]}"/>
+                            </group>
+                            <group string="Résultats">
+                                <field name="weighted_average" readonly="1" widget="float"/>
+                                <field name="simple_average" readonly="1" widget="float"/>
+                                <field name="percentage" readonly="1" widget="progressbar"/>
+                                <field name="grade_letter" readonly="1"/>
+                                <field name="is_final" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Détails des Calculs">
+                                <field name="total_points" readonly="1" widget="float"/>
+                                <field name="total_max_points" readonly="1" widget="float"/>
+                                <field name="total_coefficient" readonly="1" widget="float"/>
+                                <field name="evaluation_count" readonly="1"/>
+                            </group>
+                            <group string="Statistiques">
+                                <field name="min_grade" readonly="1" widget="float"/>
+                                <field name="max_grade" readonly="1" widget="float"/>
+                                <field name="last_update" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Commentaire">
+                            <field name="comment" nolabel="1" 
+                                   placeholder="Commentaire sur cette moyenne..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue Liste Moyennes -->
+        <record id="view_edu_grade_average_tree" model="ir.ui.view">
+            <field name="name">edu.grade.average.tree</field>
+            <field name="model">edu.grade.average</field>
+            <field name="arch" type="xml">
+                <tree string="Moyennes des Notes" decoration-success="is_final==True">
+                    <field name="student_id"/>
+                    <field name="course_id"/>
+                    <field name="competency_id"/>
+                    <field name="period_id"/>
+                    <field name="average_type"/>
+                    <field name="weighted_average" widget="float"/>
+                    <field name="percentage" widget="progressbar"/>
+                    <field name="grade_letter"/>
+                    <field name="evaluation_count"/>
+                    <field name="is_final" widget="boolean_toggle"/>
+                    <field name="last_update"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Pivot Moyennes -->
+        <record id="view_edu_grade_average_pivot" model="ir.ui.view">
+            <field name="name">edu.grade.average.pivot</field>
+            <field name="model">edu.grade.average</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse des Moyennes">
+                    <field name="student_id" type="row"/>
+                    <field name="course_id" type="row"/>
+                    <field name="period_id" type="col"/>
+                    <field name="weighted_average" type="measure"/>
+                    <field name="percentage" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Vue Graphique Moyennes -->
+        <record id="view_edu_grade_average_graph" model="ir.ui.view">
+            <field name="name">edu.grade.average.graph</field>
+            <field name="model">edu.grade.average</field>
+            <field name="arch" type="xml">
+                <graph string="Évolution des Moyennes" type="line">
+                    <field name="period_id" type="row"/>
+                    <field name="weighted_average" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Vue Recherche Moyennes -->
+        <record id="view_edu_grade_average_search" model="ir.ui.view">
+            <field name="name">edu.grade.average.search</field>
+            <field name="model">edu.grade.average</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Moyennes">
+                    <field name="student_id"/>
+                    <field name="course_id"/>
+                    <field name="competency_id"/>
+                    <field name="period_id"/>
+                    
+                    <filter name="general" string="Moyennes générales" 
+                            domain="[('average_type', '=', 'general')]"/>
+                    <filter name="course" string="Par matière" 
+                            domain="[('average_type', '=', 'course')]"/>
+                    <filter name="competency" string="Par compétence" 
+                            domain="[('average_type', '=', 'competency')]"/>
+                    
+                    <separator/>
+                    <filter name="final" string="Finalisées" domain="[('is_final', '=', True)]"/>
+                    <filter name="not_final" string="Non finalisées" domain="[('is_final', '=', False)]"/>
+                    
+                    <separator/>
+                    <filter name="high_average" string="Moyenne élevée" 
+                            domain="[('percentage', '>=', 75)]"/>
+                    <filter name="medium_average" string="Moyenne moyenne" 
+                            domain="[('percentage', '>=', 50), ('percentage', '&lt;', 75)]"/>
+                    <filter name="low_average" string="Moyenne faible" 
+                            domain="[('percentage', '&lt;', 50)]"/>
+                    
+                    <group expand="0" string="Grouper par">
+                        <filter name="group_student" string="Élève" context="{'group_by': 'student_id'}"/>
+                        <filter name="group_course" string="Matière" context="{'group_by': 'course_id'}"/>
+                        <filter name="group_competency" string="Compétence" context="{'group_by': 'competency_id'}"/>
+                        <filter name="group_period" string="Période" context="{'group_by': 'period_id'}"/>
+                        <filter name="group_type" string="Type" context="{'group_by': 'average_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action Moyennes -->
+        <record id="action_edu_grade_average" model="ir.actions.act_window">
+            <field name="name">Moyennes des Notes</field>
+            <field name="res_model">edu.grade.average</field>
+            <field name="view_mode">tree,pivot,graph,form</field>
+            <field name="search_view_id" ref="view_edu_grade_average_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune moyenne calculée
+                </p>
+                <p>
+                    Les moyennes sont calculées automatiquement à partir 
+                    des évaluations des élèves.
+                </p>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire Assistant Création Moyennes -->
+        <record id="view_edu_grade_average_wizard_form" model="ir.ui.view">
+            <field name="name">edu.grade.average.wizard.form</field>
+            <field name="model">edu.grade.average.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Créer des Moyennes en Masse">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>Assistant de Création de Moyennes</h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Configuration">
+                                <field name="period_id" required="1" options="{'no_create': True}"/>
+                                <field name="average_type" required="1"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Filtres">
+                                <field name="standard_ids" widget="many2many_tags"/>
+                                <field name="course_ids" widget="many2many_tags" 
+                                       attrs="{'invisible': [('average_type', '!=', 'course')]}"/>
+                            </group>
+                        </group>
+                        
+                        <footer>
+                            <button name="action_create_averages" string="Créer les Moyennes" 
+                                    type="object" class="btn-primary"/>
+                            <button string="Annuler" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action Assistant Création Moyennes -->
+        <record id="action_edu_grade_average_wizard" model="ir.actions.act_window">
+            <field name="name">Créer des Moyennes</field>
+            <field name="res_model">edu.grade.average.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Action Serveur Calcul Global -->
+        <record id="action_calculate_all_averages" model="ir.actions.server">
+            <field name="name">Calculer Toutes les Moyennes</field>
+            <field name="model_id" ref="model_edu_grade_average"/>
+            <field name="binding_model_id" ref="model_edu_grade_average"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.calculate_all_averages()
+            </field>
+        </record>
+
+    </data>
+</odoo> 

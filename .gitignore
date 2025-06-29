@@ -1,0 +1,64 @@
+# Fichiers volumineux et temporaires à ignorer
+
+# Fichiers de cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Fichiers de logs
+*.log
+
+# Fichiers de base de données
+*.db
+*.sqlite
+*.sqlite3
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*~
+
+# Fichiers temporaires
+*.tmp
+*.temp
+
+# Images volumineuses (garder seulement les icônes essentielles)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+!static/description/icon.png
+!static/img/icons/*.png
+
+# Fichiers CSS et JS compilés (garder les sources)
+*.min.css
+*.min.js
+*.map
+
+# Fichiers de documentation volumineux
+*.pdf
+*.doc
+*.docx
+
+# Fichiers de données de test
+*/demo/
+*/data/demo_*.xml
+
+# Fichiers de traduction compilés
+*.mo
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de configuration locale
+*.local
+*.dev
+
+# Dossiers de build
+build/
+dist/
+*.egg-info/ 

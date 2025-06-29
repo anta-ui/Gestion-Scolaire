@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des appareils -->
+        <record id="view_edu_attendance_device_tree" model="ir.ui.view">
+            <field name="name">edu.attendance.device.tree</field>
+            <field name="model">edu.attendance.device</field>
+            <field name="arch" type="xml">
+                <tree string="Appareils de pointage" decoration-success="online==True" 
+                      decoration-danger="online==False" decoration-muted="not active">
+                    <field name="name"/>
+                    <field name="device_type"/>
+                    <field name="location_id"/>
+                    <field name="ip_address"/>
+                    <field name="online" widget="boolean"/>
+                    <field name="last_ping"/>
+                    <field name="active" widget="boolean"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des appareils -->
+        <record id="view_edu_attendance_device_form" model="ir.ui.view">
+            <field name="name">edu.attendance.device.form</field>
+            <field name="model">edu.attendance.device</field>
+            <field name="arch" type="xml">
+                <form string="Appareil de pointage">
+                    <header>
+                        <button name="action_ping_device" type="object" string="Tester connexion" 
+                                class="btn-primary"/>
+                        <button name="action_reset_device" type="object" string="Réinitialiser"
+                                class="btn-info"/>
+                        <field name="online" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_attendance_records" type="object"
+                                    class="oe_stat_button" icon="fa-list">
+                                <field name="total_scans_today" widget="statinfo" string="Pointages aujourd'hui"/>
+                            </button>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="device_type"/>
+                                <field name="location_id"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="ip_address"/>
+                                <field name="mac_address"/>
+                                <field name="serial_number"/>
+                                <field name="api_key"/>
+                                <field name="firmware_version"/>
+                            </group>
+                        </group>
+
+                        <group string="Configuration">
+                            <field name="allow_check_in"/>
+                            <field name="allow_check_out"/>
+                            <field name="require_photo"/>
+                            <field name="require_geolocation"/>
+                        </group>
+
+                        <group string="Statistiques">
+                            <div class="row">
+                                <div class="col-4">
+                                    <field name="total_scans_today"/>
+                                    <span class="o_form_label">Pointages aujourd'hui</span>
+                                </div>
+                                <div class="col-4">
+                                    <field name="total_scans_month"/>
+                                    <span class="o_form_label">Pointages ce mois</span>
+                                </div>
+                                <div class="col-4">
+                                    <field name="battery_level"/>
+                                    <span class="o_form_label">Niveau batterie (%)</span>
+                                </div>
+                            </div>
+                            <field name="last_ping"/>
+                            <field name="last_scan_time"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Paramètres avancés">
+                                <group>
+                                    <field name="working_hours_start"/>
+                                    <field name="working_hours_end"/>
+                                    <field name="timezone"/>
+                                    <field name="allowed_distance"/>
+                                </group>
+                                <group>
+                                    <field name="latitude"/>
+                                    <field name="longitude"/>
+                                </group>
+                            </page>
+                            <page string="Maintenance">
+                                <group>
+                                    <field name="installation_date"/>
+                                    <field name="last_maintenance"/>
+                                    <field name="next_maintenance"/>
+                                    <field name="warranty_end"/>
+                                    <field name="vendor"/>
+                                    <field name="model"/>
+                                </group>
+                            </page>
+                            <page string="Description">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche des appareils -->
+        <record id="view_edu_attendance_device_search" model="ir.ui.view">
+            <field name="name">edu.attendance.device.search</field>
+            <field name="model">edu.attendance.device</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher appareils">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="device_type"/>
+                    <field name="location_id"/>
+                    <field name="ip_address"/>
+                    <separator/>
+                    <filter string="En ligne" name="online" domain="[('online', '=', True)]"/>
+                    <filter string="Hors ligne" name="offline" domain="[('online', '=', False)]"/>
+                    <separator/>
+                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Type" name="group_type" context="{'group_by': 'device_type'}"/>
+                        <filter string="Emplacement" name="group_location" context="{'group_by': 'location_id'}"/>
+                        <filter string="Statut" name="group_online" context="{'group_by': 'online'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action pour les appareils de pointage -->
+        <record id="action_edu_attendance_device" model="ir.actions.act_window">
+            <field name="name">Appareils de pointage</field>
+            <field name="res_model">edu.attendance.device</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurez vos premiers appareils de pointage !
+                </p>
+                <p>
+                    Les appareils permettent de gérer les différents modes de pointage.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

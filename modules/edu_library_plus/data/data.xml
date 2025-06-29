@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Séquences -->
+    <record id="seq_library_book" model="ir.sequence">
+        <field name="name">Livre Bibliothèque</field>
+        <field name="code">edu.library.book</field>
+        <field name="prefix">BK</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <record id="seq_library_member" model="ir.sequence">
+        <field name="name">Membre Bibliothèque</field>
+        <field name="code">edu.library.member</field>
+        <field name="prefix">MEM</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <record id="seq_library_loan" model="ir.sequence">
+        <field name="name">Emprunt Bibliothèque</field>
+        <field name="code">edu.library.loan</field>
+        <field name="prefix">LOAN</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <record id="seq_library_fine" model="ir.sequence">
+        <field name="name">Amende Bibliothèque</field>
+        <field name="code">edu.library.fine</field>
+        <field name="prefix">FINE</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <!-- Catégories de base -->
+    <record id="category_fiction" model="edu.library.category">
+        <field name="name">Fiction</field>
+        <field name="description">Romans et nouvelles</field>
+        <field name="color">1</field>
+    </record>
+    
+    <record id="category_science" model="edu.library.category">
+        <field name="name">Sciences</field>
+        <field name="description">Livres scientifiques</field>
+        <field name="color">2</field>
+    </record>
+    
+    <record id="category_history" model="edu.library.category">
+        <field name="name">Histoire</field>
+        <field name="description">Livres d'histoire</field>
+        <field name="color">3</field>
+    </record>
+    
+    <record id="category_technology" model="edu.library.category">
+        <field name="name">Technologie</field>
+        <field name="description">Informatique et technologie</field>
+        <field name="color">4</field>
+    </record>
+    
+    <record id="category_philosophy" model="edu.library.category">
+        <field name="name">Philosophie</field>
+        <field name="description">Philosophie et pensée</field>
+        <field name="color">5</field>
+    </record>
+    
+    <!-- Éditeurs de base -->
+    <record id="publisher_gallimard" model="edu.library.publisher">
+        <field name="name">Gallimard</field>
+        <field name="website">https://www.gallimard.fr</field>
+        <field name="country_id" ref="base.fr"/>
+    </record>
+    
+    <record id="publisher_seuil" model="edu.library.publisher">
+        <field name="name">Seuil</field>
+        <field name="website">https://www.seuil.com</field>
+        <field name="country_id" ref="base.fr"/>
+    </record>
+    
+    <!-- Paramètres de configuration -->
+    <record id="config_daily_fine_rate" model="ir.config_parameter">
+        <field name="key">library.daily_fine_rate</field>
+        <field name="value">0.50</field>
+    </record>
+    
+    <record id="config_max_renewal_count" model="ir.config_parameter">
+        <field name="key">library.max_renewal_count</field>
+        <field name="value">2</field>
+    </record>
+    
+    <record id="config_default_loan_days" model="ir.config_parameter">
+        <field name="key">library.default_loan_days</field>
+        <field name="value">14</field>
+    </record>
+</odoo>

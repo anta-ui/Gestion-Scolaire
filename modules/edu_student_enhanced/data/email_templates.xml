@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Template email pour alertes parents -->
+        <record id="parent_alert_email_template" model="mail.template">
+            <field name="name">Alerte Parents - Comportement Élève</field>
+            <field name="model_id" ref="model_student_behavior_record"/>
+            <field name="subject">🚨 Alerte comportementale - ${object.student_name}</field>
+            <field name="email_from">${(object.recorded_by.email or user.email)|safe}</field>
+            <field name="email_to">${object.student_id.parent_ids.mapped('email')|join(',')}</field>
+            <field name="body_html"><![CDATA[
+<div style="margin: 0px; padding: 0px; font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; background-color: #f9f9f9;">
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; background-color: #f9f9f9;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: white; border: 1px solid #e5e5e5; margin: 20px auto;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #875a7b; padding: 20px; text-align: center;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">🏫 ${user.company_id.name}</h1>
+                            <p style="color: white; margin: 5px 0 0 0; font-size: 16px;">Notification Comportementale</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <h2 style="color: #875a7b; margin-top: 0;">Bonjour,</h2>
+                            
+                            <p style="margin-bottom: 20px;">
+                                Nous vous informons qu'un événement comportemental concernant votre enfant 
+                                <strong>${object.student_name}</strong> a été enregistré.
+                            </p>
+                            
+                            <!-- Détails de l'incident -->
+                            <table border="0" cellpadding="10" cellspacing="0" style="width: 100%; background-color: #f8f9fa; border: 1px solid #dee2e6; margin: 20px 0;">
+                                <tr>
+                                    <td style="background-color: #e9ecef; font-weight: bold; width: 30%;">Type :</td>
+                                    <td>${dict(object._fields['type'].selection)[object.type]}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #e9ecef; font-weight: bold;">Titre :</td>
+                                    <td>${object.title}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #e9ecef; font-weight: bold;">Date :</td>
+                                    <td>${object.date.strftime('%d/%m/%Y') if object.date else ''}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #e9ecef; font-weight: bold;">Lieu :</td>
+                                    <td>${dict(object._fields['location'].selection)[object.location] if object.location else 'Non spécifié'}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #e9ecef; font-weight: bold;">Gravité :</td>
+                                    <td>${dict(object._fields['severity'].selection)[object.severity]}</td>
+                                </tr>
+                                % if object.teacher_id:
+                                <tr>
+                                    <td style="background-color: #e9ecef; font-weight: bold;">Enseignant :</td>
+                                    <td>${object.teacher_id.name}</td>
+                                </tr>
+                                % endif
+                            </table>
+                            
+                            <!-- Description -->
+                            % if object.description:
+                            <div style="margin: 20px 0;">
+                                <h3 style="color: #875a7b;">Description :</h3>
+                                <p style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #875a7b;">
+                                    ${object.description}
+                                </p>
+                            </div>
+                            % endif
+                            
+                            <!-- Actions prises -->
+                            % if object.action_taken:
+                            <div style="margin: 20px 0;">
+                                <h3 style="color: #875a7b;">Actions prises :</h3>
+                                <p style="background-color: #e8f5e8; padding: 15px; border-left: 4px solid #28a745;">
+                                    ${object.action_taken}
+                                </p>
+                            </div>
+                            % endif
+                            
+                            <!-- Demande de suivi -->
+                            % if object.follow_up_required:
+                            <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                                <h3 style="color: #856404; margin-top: 0;">⚠️ Suivi requis</h3>
+                                <p style="margin-bottom: 0; color: #856404;">
+                                    Un suivi de cette situation est nécessaire. 
+                                    % if object.follow_up_date:
+                                    Date prévue : ${object.follow_up_date.strftime('%d/%m/%Y')}
+                                    % endif
+                                </p>
+                            </div>
+                            % endif
+                            
+                            <!-- Footer -->
+                            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                                <p style="margin-bottom: 10px;">
+                                    <strong>Nous vous remercions de votre compréhension et de votre collaboration.</strong>
+                                </p>
+                                <p style="margin-bottom: 10px;">
+                                    Pour toute question, n'hésitez pas à nous contacter.
+                                </p>
+                                <p style="margin-bottom: 0; font-style: italic; color: #6c757d;">
+                                    Cordialement,<br/>
+                                    L'équipe pédagogique
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #6c757d;">
+                            <p style="margin: 0;">
+                                ${user.company_id.name}<br/>
+                                % if user.company_id.street:
+                                ${user.company_id.street}<br/>
+                                % endif
+                                % if user.company_id.phone:
+                                Tél: ${user.company_id.phone}<br/>
+                                % endif
+                                % if user.company_id.email:
+                                Email: ${user.company_id.email}
+                                % endif
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            ]]></field>
+        </record>
+
+        <!-- Template email pour félicitations -->
+        <record id="student_achievement_email_template" model="mail.template">
+            <field name="name">Félicitations Élève - Récompense</field>
+            <field name="model_id" ref="model_student_reward"/>
+            <field name="subject">🏆 Félicitations ! ${object.student_id.name} a reçu une récompense</field>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.student_id.parent_ids.mapped('email')|join(',')}</field>
+            <field name="body_html"><![CDATA[
+<div style="margin: 0px; padding: 0px; font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 13px; background-color: #f0f8ff;">
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; background-color: #f0f8ff;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: white; border: 1px solid #e5e5e5; margin: 20px auto;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+                            <h1 style="color: white; margin: 0; font-size: 28px;">🎉 FÉLICITATIONS ! 🎉</h1>
+                            <p style="color: white; margin: 10px 0 0 0; font-size: 18px;">${user.company_id.name}</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <div style="text-align: center; margin-bottom: 30px;">
+                                <h2 style="color: #667eea; margin: 0; font-size: 24px;">Votre enfant a été récompensé !</h2>
+                            </div>
+                            
+                            <p style="font-size: 16px; margin-bottom: 25px;">
+                                Chers parents,
+                            </p>
+                            
+                            <p style="font-size: 16px; margin-bottom: 25px;">
+                                Nous avons le plaisir de vous informer que <strong style="color: #667eea;">${object.student_id.name}</strong> 
+                                a reçu une récompense pour son excellent comportement et ses efforts remarquables.
+                            </p>
+                            
+                            <!-- Détails de la récompense -->
+                            <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 10px; margin: 25px 0; text-align: center;">
+                                <div style="background-color: white; padding: 20px; border-radius: 8px;">
+                                    <h3 style="color: #f5576c; margin-top: 0; font-size: 20px;">🏆 ${object.title}</h3>
+                                    <p style="color: #333; font-size: 16px; margin: 10px 0;">
+                                        ${object.description}
+                                    </p>
+                                    <div style="margin: 15px 0;">
+                                        <span style="background-color: #f5576c; color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold;">
+                                            +${object.points_earned} points
+                                        </span>
+                                    </div>
+                                    <p style="color: #666; font-size: 14px; margin-bottom: 0;">
+                                        Récompense obtenue le ${object.date_earned.strftime('%d/%m/%Y')}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Message d'encouragement -->
+                            <div style="background-color: #e8f5e8; border-left: 5px solid #28a745; padding: 20px; margin: 25px 0;">
+                                <h3 style="color: #155724; margin-top: 0;">💚 Continuez ainsi !</h3>
+                                <p style="color: #155724; margin-bottom: 0;">
+                                    Cette récompense témoigne des efforts et du comportement exemplaire de votre enfant. 
+                                    Nous l'encourageons à continuer sur cette voie et sommes fiers de ses progrès.
+                                </p>
+                            </div>
+                            
+                            <!-- Footer message -->
+                            <div style="margin-top: 30px; text-align: center;">
+                                <p style="font-size: 16px; color: #333;">
+                                    <strong>Bravo à ${object.student_id.name} et merci pour votre soutien !</strong>
+                                </p>
+                                <p style="font-style: italic; color: #666;">
+                                    L'équipe pédagogique
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 12px; color: #6c757d;">
+                            <p style="margin: 0;">
+                                ${user.company_id.name}<br/>
+                                % if user.company_id.street:
+                                ${user.company_id.street}<br/>
+                                % endif
+                                % if user.company_id.phone:
+                                Tél: ${user.company_id.phone}<br/>
+                                % endif
+                                % if user.company_id.email:
+                                Email: ${user.company_id.email}
+                                % endif
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            ]]></field>
+        </record>
+
+        <!-- Template email pour alertes médicales -->
+        <record id="medical_alert_email_template" model="mail.template">
+            <field name="name">Alerte Médicale - Élève</field>
+            <field name="model_id" ref="model_student_medical_info"/>
+            <field name="subject">🚨 Alerte Médicale - ${object.student_name}</field>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.student_id.parent_ids.mapped('email')|join(',')}</field>
+            <field name="body_html"><![CDATA[
+<div style="margin: 0px; padding: 0px; font-family: Arial, sans-serif; font-size: 14px; background-color: #f4f4f4;">
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; background-color: #f4f4f4;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: white; border: 1px solid #ddd; margin: 20px auto;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #dc3545; padding: 20px; text-align: center;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">🏥 ALERTE MÉDICALE</h1>
+                            <p style="color: white; margin: 5px 0 0 0;">${user.company_id.name}</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <h2 style="color: #dc3545;">Information Médicale Importante</h2>
+                            
+                            <p>Chers parents de <strong>${object.student_name}</strong>,</p>
+                            
+                            <p>Nous vous informons qu'une information médicale importante concernant votre enfant a été enregistrée.</p>
+                            
+                            <!-- Détails médicaux -->
+                            <table border="0" cellpadding="10" cellspacing="0" style="width: 100%; background-color: #fff3cd; border: 1px solid #ffeaa7; margin: 20px 0;">
+                                <tr>
+                                    <td style="background-color: #ffeaa7; font-weight: bold; width: 30%;">Type :</td>
+                                    <td>${dict(object._fields['medical_type'].selection)[object.medical_type]}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #ffeaa7; font-weight: bold;">Titre :</td>
+                                    <td>${object.title}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #ffeaa7; font-weight: bold;">Date :</td>
+                                    <td>${object.date.strftime('%d/%m/%Y') if object.date else ''}</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #ffeaa7; font-weight: bold;">Gravité :</td>
+                                    <td>${dict(object._fields['severity'].selection)[object.severity]}</td>
+                                </tr>
+                                % if object.doctor_name:
+                                <tr>
+                                    <td style="background-color: #ffeaa7; font-weight: bold;">Médecin :</td>
+                                    <td>${object.doctor_name}</td>
+                                </tr>
+                                % endif
+                            </table>
+                            
+                            % if object.description:
+                            <div style="margin: 20px 0;">
+                                <h3 style="color: #dc3545;">Description :</h3>
+                                <p style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #dc3545;">
+                                    ${object.description}
+                                </p>
+                            </div>
+                            % endif
+                            
+                            % if object.treatment:
+                            <div style="margin: 20px 0;">
+                                <h3 style="color: #28a745;">Traitement :</h3>
+                                <p style="background-color: #e8f5e8; padding: 15px; border-left: 4px solid #28a745;">
+                                    ${object.treatment}
+                                </p>
+                            </div>
+                            % endif
+                            
+                            <!-- Recommandations -->
+                            % if object.is_critical:
+                            <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                                <h3 style="color: #721c24; margin-top: 0;">⚠️ Information Critique</h3>
+                                <p style="margin-bottom: 0; color: #721c24;">
+                                    Cette information médicale est marquée comme critique. 
+                                    Veuillez contacter l'infirmerie de l'école pour plus de détails.
+                                </p>
+                            </div>
+                            % endif
+                            
+                            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                                <p><strong>Nous restons à votre disposition pour toute question.</strong></p>
+                                <p style="font-style: italic; color: #6c757d;">
+                                    Cordialement,<br/>
+                                    L'équipe médicale
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #6c757d;">
+                            <p style="margin: 0;">
+                                ${user.company_id.name} - Service Médical<br/>
+                                % if user.company_id.phone:
+                                Tél: ${user.company_id.phone}<br/>
+                                % endif
+                                En cas d'urgence, contactez immédiatement les services médicaux.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            ]]></field>
+        </record>
+
+        <!-- Template email pour documents manquants -->
+        <record id="missing_documents_email_template" model="mail.template">
+            <field name="name">Rappel Documents Manquants</field>
+            <field name="model_id" ref="openeducat_core.model_op_student"/>
+            <field name="subject">📋 Documents manquants - ${object.name}</field>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.parent_ids.mapped('email')|join(',')}</field>
+            <field name="body_html"><![CDATA[
+<div style="margin: 0px; padding: 0px; font-family: Arial, sans-serif; font-size: 14px; background-color: #f8f9fa;">
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; background-color: #f8f9fa;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: white; border: 1px solid #dee2e6; margin: 20px auto;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #ffc107; padding: 20px; text-align: center;">
+                            <h1 style="color: #212529; margin: 0; font-size: 24px;">📋 RAPPEL DOCUMENTS</h1>
+                            <p style="color: #212529; margin: 5px 0 0 0;">${user.company_id.name}</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <h2 style="color: #856404;">Documents manquants pour ${object.name}</h2>
+                            
+                            <p>Chers parents,</p>
+                            
+                            <p>
+                                Nous vous rappelons que certains documents sont encore manquants dans le dossier de 
+                                <strong>${object.name}</strong>.
+                            </p>
+                            
+                            % if object.missing_documents:
+                            <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; margin: 20px 0; border-radius: 4px;">
+                                <h3 style="color: #856404; margin-top: 0;">Documents à fournir :</h3>
+                                <ul style="color: #856404; margin-bottom: 0;">
+                                    % for doc in object.missing_documents.split(','):
+                                    <li style="margin-bottom: 5px;">${doc.strip()}</li>
+                                    % endfor
+                                </ul>
+                            </div>
+                            % endif
+                            
+                            <div style="background-color: #d1ecf1; border: 1px solid #bee5eb; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                                <h3 style="color: #0c5460; margin-top: 0;">ℹ️ Comment procéder :</h3>
+                                <ol style="color: #0c5460; margin-bottom: 0;">
+                                    <li>Rassemblez les documents manquants</li>
+                                    <li>Rendez-vous au secrétariat de l'école</li>
+                                    <li>Ou envoyez-les par email en version numérisée</li>
+                                </ol>
+                            </div>
+                            
+                            <p style="margin-top: 25px;">
+                                <strong>Date limite :</strong> Veuillez fournir ces documents dans les plus brefs délais 
+                                pour finaliser le dossier de votre enfant.
+                            </p>
+                            
+                            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                                <p><strong>Merci de votre collaboration.</strong></p>
+                                <p style="font-style: italic; color: #6c757d;">
+                                    Cordialement,<br/>
+                                    Le secrétariat
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #6c757d;">
+                            <p style="margin: 0;">
+                                ${user.company_id.name} - Secrétariat<br/>
+                                % if user.company_id.phone:
+                                Tél: ${user.company_id.phone}<br/>
+                                % endif
+                                % if user.company_id.email:
+                                Email: ${user.company_id.email}
+                                % endif
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

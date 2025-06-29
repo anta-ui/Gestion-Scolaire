@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Configuration par défaut -->
+        <record id="default_accounting_config" model="edu.accounting.config">
+            <field name="name">Configuration Standard</field>
+            <field name="country_id" ref="base.fr"/>
+            <field name="currency_id" ref="base.EUR"/>
+            <field name="manual_currency_override" eval="False"/>
+            <field name="fiscal_year_start">september</field>
+            <field name="auto_generate_invoices">True</field>
+            <field name="invoice_due_days">30</field>
+            <field name="invoice_prefix">EDU</field>
+            <field name="enable_late_fees">True</field>
+            <field name="late_payment_fee_rate">5.0</field>
+            <field name="grace_period_days">7</field>
+            <field name="enable_online_payments">True</field>
+            <field name="enable_scholarships">True</field>
+            <field name="max_scholarship_percentage">100.0</field>
+            <field name="auto_apply_scholarships">False</field>
+            <field name="enable_payment_reminders">True</field>
+            <field name="reminder_days_before">7</field>
+            <field name="reminder_days_after">3</field>
+            <field name="generate_monthly_reports">True</field>
+            <field name="auto_reconcile_payments">True</field>
+            <field name="require_payment_validation">True</field>
+            <field name="enable_payment_plans">True</field>
+            <field name="enable_bank_synchronization">False</field>
+            <field name="multi_currency_support">False</field>
+            <field name="enable_mobile_money">False</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Configuration pour le Sénégal -->
+        <record id="senegal_accounting_config" model="edu.accounting.config">
+            <field name="name">Configuration Sénégal</field>
+            <field name="country_id" ref="base.sn"/>
+            <field name="currency_id" ref="base.XOF"/>
+            <field name="manual_currency_override" eval="False"/>
+            <field name="fiscal_year_start">january</field>
+            <field name="auto_generate_invoices">True</field>
+            <field name="invoice_due_days">30</field>
+            <field name="invoice_prefix">EDU-SN</field>
+            <field name="enable_late_fees">True</field>
+            <field name="late_payment_fee_rate">3.0</field>
+            <field name="grace_period_days">10</field>
+            <field name="enable_online_payments">True</field>
+            <field name="enable_mobile_money">True</field>
+            <field name="enable_scholarships">True</field>
+            <field name="max_scholarship_percentage">80.0</field>
+            <field name="auto_apply_scholarships">True</field>
+            <field name="enable_payment_reminders">True</field>
+            <field name="reminder_days_before">5</field>
+            <field name="reminder_days_after">7</field>
+            <field name="generate_monthly_reports">True</field>
+            <field name="auto_reconcile_payments">False</field>
+            <field name="require_payment_validation">True</field>
+            <field name="enable_payment_plans">True</field>
+            <field name="enable_bank_synchronization">False</field>
+            <field name="multi_currency_support">False</field>
+            <field name="active">False</field>
+        </record>
+
+        <!-- Configuration pour la Côte d'Ivoire -->
+        <record id="ivory_coast_accounting_config" model="edu.accounting.config">
+            <field name="name">Configuration Côte d'Ivoire</field>
+            <field name="country_id" ref="base.ci"/>
+            <field name="currency_id" ref="base.XOF"/>
+            <field name="manual_currency_override" eval="False"/>
+            <field name="fiscal_year_start">january</field>
+            <field name="auto_generate_invoices">True</field>
+            <field name="invoice_due_days">45</field>
+            <field name="invoice_prefix">EDU-CI</field>
+            <field name="enable_late_fees">True</field>
+            <field name="late_payment_fee_rate">2.5</field>
+            <field name="grace_period_days">15</field>
+            <field name="enable_online_payments">True</field>
+            <field name="enable_mobile_money">True</field>
+            <field name="enable_scholarships">True</field>
+            <field name="max_scholarship_percentage">100.0</field>
+            <field name="auto_apply_scholarships">False</field>
+            <field name="enable_payment_reminders">True</field>
+            <field name="reminder_days_before">7</field>
+            <field name="reminder_days_after">5</field>
+            <field name="generate_monthly_reports">True</field>
+            <field name="auto_reconcile_payments">True</field>
+            <field name="require_payment_validation">False</field>
+            <field name="enable_payment_plans">True</field>
+            <field name="enable_bank_synchronization">False</field>
+            <field name="multi_currency_support">False</field>
+            <field name="active">False</field>
+        </record>
+
+        <!-- Configuration pour le Cameroun -->
+        <record id="cameroon_accounting_config" model="edu.accounting.config">
+            <field name="name">Configuration Cameroun</field>
+            <field name="country_id" ref="base.cm"/>
+            <field name="currency_id" ref="base.XAF"/>
+            <field name="manual_currency_override" eval="False"/>
+            <field name="fiscal_year_start">september</field>
+            <field name="auto_generate_invoices">True</field>
+            <field name="invoice_due_days">30</field>
+            <field name="invoice_prefix">EDU-CM</field>
+            <field name="enable_late_fees">True</field>
+            <field name="late_payment_fee_rate">4.0</field>
+            <field name="grace_period_days">7</field>
+            <field name="enable_online_payments">True</field>
+            <field name="enable_mobile_money">True</field>
+            <field name="enable_scholarships">True</field>
+            <field name="max_scholarship_percentage">90.0</field>
+            <field name="auto_apply_scholarships">True</field>
+            <field name="enable_payment_reminders">True</field>
+            <field name="reminder_days_before">10</field>
+            <field name="reminder_days_after">5</field>
+            <field name="generate_monthly_reports">True</field>
+            <field name="auto_reconcile_payments">True</field>
+            <field name="require_payment_validation">True</field>
+            <field name="enable_payment_plans">True</field>
+            <field name="enable_bank_synchronization">False</field>
+            <field name="multi_currency_support">False</field>
+            <field name="active">False</field>
+        </record>
+
+        <!-- Configuration pour les États-Unis -->
+        <record id="usa_accounting_config" model="edu.accounting.config">
+            <field name="name">Configuration États-Unis</field>
+            <field name="country_id" ref="base.us"/>
+            <field name="currency_id" ref="base.USD"/>
+            <field name="manual_currency_override" eval="False"/>
+            <field name="fiscal_year_start">july</field>
+            <field name="auto_generate_invoices">True</field>
+            <field name="invoice_due_days">30</field>
+            <field name="invoice_prefix">EDU-US</field>
+            <field name="enable_late_fees">True</field>
+            <field name="late_payment_fee_rate">1.5</field>
+            <field name="grace_period_days">5</field>
+            <field name="enable_online_payments">True</field>
+            <field name="enable_mobile_money">False</field>
+            <field name="enable_scholarships">True</field>
+            <field name="max_scholarship_percentage">100.0</field>
+            <field name="auto_apply_scholarships">False</field>
+            <field name="enable_payment_reminders">True</field>
+            <field name="reminder_days_before">14</field>
+            <field name="reminder_days_after">7</field>
+            <field name="generate_monthly_reports">True</field>
+            <field name="auto_reconcile_payments">True</field>
+            <field name="require_payment_validation">False</field>
+            <field name="enable_payment_plans">True</field>
+            <field name="enable_bank_synchronization">True</field>
+            <field name="multi_currency_support">True</field>
+            <field name="active">False</field>
+        </record>
+
+    </data>
+</odoo> 

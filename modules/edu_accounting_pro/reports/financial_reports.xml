@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Rapport de Collecte de Frais -->
+    <record id="action_report_fee_collection" model="ir.actions.report">
+        <field name="name">Rapport de Collecte</field>
+        <field name="model">edu.fee.collection</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_accounting_pro.report_fee_collection_document</field>
+        <field name="report_file">edu_accounting_pro.report_fee_collection_document</field>
+        <field name="binding_model_id" ref="model_edu_fee_collection"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template Rapport de Collecte -->
+    <template id="report_fee_collection_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="collection">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <div class="text-center">
+                            <h2>Rapport de Collecte de Frais</h2>
+                            <h4><span t-field="collection.name"/></h4>
+                        </div>
+                        
+                        <!-- Informations générales -->
+                        <div class="row mt32">
+                            <div class="col-6">
+                                <strong>Période :</strong>
+                                <div>Du <span t-field="collection.start_date"/> au <span t-field="collection.end_date"/></div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Statut :</strong>
+                                <div><span t-field="collection.state"/></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Résumé financier -->
+                        <div class="row mt32">
+                            <div class="col-12">
+                                <h4>Résumé Financier</h4>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><strong>Montant Total Facturé</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="collection.total_invoiced" 
+                                                  t-options="{'widget': 'monetary', 'display_currency': collection.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Montant Total Collecté</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="collection.total_collected" 
+                                                  t-options="{'widget': 'monetary', 'display_currency': collection.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Montant Impayé</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="collection.total_outstanding" 
+                                                  t-options="{'widget': 'monetary', 'display_currency': collection.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td><strong>Taux de Collecte</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="collection.collection_rate"/>%
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Action pour générer le rapport de collecte -->
+    <record id="action_generate_collection_report" model="ir.actions.server">
+        <field name="name">Générer Rapport de Collecte</field>
+        <field name="model_id" ref="model_edu_fee_collection"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_generate_report()
+        </field>
+    </record>
+
+</odoo> 

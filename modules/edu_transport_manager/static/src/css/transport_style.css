@@ -1,0 +1,321 @@
+.transport-dashboard {
+    padding: 20px;
+}
+
+.fleet-stats-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.vehicle-card {
+    border-left: 4px solid #2196F3;
+    transition: all 0.3s ease;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.vehicle-card.maintenance {
+    border-left-color: #FF9800;
+    background: #fff8e1;
+}
+
+.vehicle-card.emergency {
+    border-left-color: #f44336;
+    background: #ffebee;
+    animation: pulse-emergency 2s infinite;
+}
+
+@keyframes pulse-emergency {
+    0% { background: #ffebee; }
+    50% { background: #ffcdd2; }
+    100% { background: #ffebee; }
+}
+
+.live-tracking-card {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.route-efficiency-meter {
+    width: 100%;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.efficiency-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff4444 0%, #ffaa44 50%, #44ff44 100%);
+    transition: width 0.3s ease;
+}
+
+.gps-status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.gps-status-indicator.online {
+    background: #4CAF50;
+    animation: pulse-online 2s infinite;
+}
+
+.gps-status-indicator.offline {
+    background: #f44336;
+}
+
+@keyframes pulse-online {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.emergency-button {
+    background: linear-gradient(45deg, #ff416c 0%, #ff4b2b 100%);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+}
+
+.emergency-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+}
+
+.route-map-container {
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.driver-status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.driver-status-badge.available {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.driver-status-badge.busy {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.driver-status-badge.off-duty {
+    background: #fafafa;
+    color: #616161;
+}
+
+.fuel-gauge {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #4CAF50 0% var(--fuel-percentage),
+        #e0e0e0 var(--fuel-percentage) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.fuel-gauge::before {
+    content: '';
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.fuel-gauge .fuel-text {
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+    color: #333;
+}
+
+.maintenance-alert {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 12px;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.maintenance-alert.critical {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.student-tracking-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    border-left: 4px solid #2196F3;
+}
+
+.student-tracking-card.absent {
+    border-left-color: #ff9800;
+    background: #fff8e1;
+}
+
+.trip-timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.trip-timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e0e0e0;
+}
+
+.trip-timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.trip-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -23px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #2196F3;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px #2196F3;
+}
+
+.trip-timeline-item.completed::before {
+    background: #4CAF50;
+    box-shadow: 0 0 0 2px #4CAF50;
+}
+
+.trip-timeline-item.delayed::before {
+    background: #ff9800;
+    box-shadow: 0 0 0 2px #ff9800;
+}
+
+.cost-optimization-chart {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .transport-dashboard {
+        padding: 10px;
+    }
+    
+    .fleet-stats-card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .route-map-container {
+        height: 250px;
+    }
+    
+    .fuel-gauge {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .fuel-gauge::before {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* Animations pour les véhicules en mouvement */
+.vehicle-moving {
+    animation: vehicle-pulse 3s infinite ease-in-out;
+}
+
+@keyframes vehicle-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Styles pour les alertes de retard */
+.delay-alert {
+    background: linear-gradient(90deg, #ff9800, #f57c00);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin: 5px 0;
+    animation: slide-in 0.3s ease-out;
+}
+
+@keyframes slide-in {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Interface mobile spécifique */
+.mobile-driver-interface {
+    background: #1a1a1a;
+    color: white;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.mobile-trip-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.mobile-emergency-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background: #ff4444;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
+    z-index: 1000;
+}

@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues Personnel Médical -->
+    <record id="view_medical_staff_tree" model="ir.ui.view">
+        <field name="name">medical.staff.tree</field>
+        <field name="model">medical.staff</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="active == True"
+                  decoration-muted="active == False"
+                  decoration-warning="license_expiry_date and license_expiry_date &lt;= (datetime.date.today() + datetime.timedelta(days=30))">
+                <field name="name"/>
+                <field name="staff_type" widget="badge"/>
+                <field name="specialization"/>
+                <field name="license_number"/>
+                <field name="license_expiry_date"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="active" widget="boolean_toggle"/>
+                <button name="action_renew_license" type="object" 
+                        string="Renouveler" class="btn-warning btn-sm"
+                        attrs="{'invisible': ['|', ('license_expiry_date', '=', False), ('license_expiry_date', '>', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]}"
+                        title="Renouveler la licence"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_form" model="ir.ui.view">
+        <field name="name">medical.staff.form</field>
+        <field name="model">medical.staff</field>
+        <field name="arch" type="xml">
+            <form string="Personnel Médical">
+                <header>
+                    <button name="action_renew_license" type="object" 
+                            string="RENOUVELER LICENCE" class="btn-warning"
+                            attrs="{'invisible': ['|', ('license_expiry_date', '=', False), ('license_expiry_date', '>', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]}"/>
+                </header>
+                
+                <sheet>
+                    <div class="alert alert-warning" role="alert" 
+                         attrs="{'invisible': ['|', ('license_expiry_date', '=', False), ('license_expiry_date', '>', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]}">
+                        <strong>⚠️ LICENCE EXPIRE BIENTÔT</strong> - Expire le <field name="license_expiry_date" readonly="1"/>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Inactif" 
+                            bg_color="bg-danger" 
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h2>
+                            <field name="staff_type" widget="badge"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info">
+                            <field name="employee_id"/>
+                            <field name="specialization"/>
+                            <field name="active"/>
+                        </group>
+                        <group name="contact_info">
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="emergency_contact"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Qualifications et Licence">
+                        <group>
+                            <field name="qualifications" widget="html" colspan="2"/>
+                        </group>
+                        <group>
+                            <field name="license_number"/>
+                            <field name="license_expiry_date"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Disponibilité" name="availability">
+                            <group>
+                                <field name="available_hours" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Planning" name="schedule">
+                            <field name="schedule_ids">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="start_time" widget="float_time"/>
+                                    <field name="end_time" widget="float_time"/>
+                                    <field name="shift_type" widget="badge"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="Formations" name="training">
+                            <field name="training_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="training_date"/>
+                                    <field name="certificate_issued" widget="boolean_toggle"/>
+                                    <field name="expiry_date"/>
+                                    <field name="status" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_kanban" model="ir.ui.view">
+        <field name="name">medical.staff.kanban</field>
+        <field name="model">medical.staff</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="staff_type"/>
+                <field name="specialization"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="license_expiry_date"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                            <field name="specialization"/>
+                                        </small>
+                                    </div>
+                                    <div class="o_kanban_record_right">
+                                        <span t-att-class="'badge ' + (record.staff_type.raw_value == 'doctor' ? 'badge-success' : 
+                                                          record.staff_type.raw_value == 'nurse' ? 'badge-info' : 'badge-secondary')">
+                                            <field name="staff_type"/>
+                                        </span>
+                                        <span t-if="!record.active.raw_value" class="badge badge-danger">Inactif</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_body">
+                                    <div t-if="record.phone.raw_value">
+                                        <i class="fa fa-phone"/> <field name="phone"/>
+                                    </div>
+                                    <div t-if="record.email.raw_value">
+                                        <i class="fa fa-envelope"/> <field name="email"/>
+                                    </div>
+                                    <div t-if="record.license_expiry_date.raw_value">
+                                        <i class="fa fa-certificate"/> Licence expire: <field name="license_expiry_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vues Planning du Personnel -->
+    <record id="view_medical_staff_schedule_tree" model="ir.ui.view">
+        <field name="name">medical.staff.schedule.tree</field>
+        <field name="model">medical.staff.schedule</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="shift_type=='day'"
+                  decoration-warning="shift_type=='night'"
+                  decoration-success="shift_type=='emergency'">
+                <field name="staff_id"/>
+                <field name="date"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
+                <field name="shift_type" widget="badge"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_schedule_form" model="ir.ui.view">
+        <field name="name">medical.staff.schedule.form</field>
+        <field name="model">medical.staff.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Planning Personnel Médical">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="staff_id"/>
+                        </h1>
+                        <h2>
+                            <field name="date"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="schedule_info">
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                            <field name="shift_type"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Notes">
+                        <field name="notes" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_schedule_calendar" model="ir.ui.view">
+        <field name="name">medical.staff.schedule.calendar</field>
+        <field name="model">medical.staff.schedule</field>
+        <field name="arch" type="xml">
+            <calendar string="Planning Personnel" 
+                      date_start="date" 
+                      color="staff_id"
+                      quick_add="False">
+                <field name="staff_id"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="shift_type"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Vues Formations -->
+    <record id="view_medical_staff_training_tree" model="ir.ui.view">
+        <field name="name">medical.staff.training.tree</field>
+        <field name="model">medical.staff.training</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status=='completed'"
+                  decoration-info="status=='in_progress'"
+                  decoration-warning="status=='scheduled'"
+                  decoration-danger="status=='expired'">
+                <field name="name"/>
+                <field name="staff_id"/>
+                <field name="training_date"/>
+                <field name="certificate_issued" widget="boolean_toggle"/>
+                <field name="expiry_date"/>
+                <field name="status" widget="badge"/>
+                <button name="action_complete" type="object" 
+                        string="Terminer" class="btn-success btn-sm"
+                        attrs="{'invisible': [('status', '!=', 'in_progress')]}"
+                        title="Marquer comme terminée"/>
+                <button name="action_issue_certificate" type="object" 
+                        string="Certificat" class="btn-info btn-sm"
+                        attrs="{'invisible': ['|', ('status', '!=', 'completed'), ('certificate_issued', '=', True)]}"
+                        title="Émettre le certificat"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_training_form" model="ir.ui.view">
+        <field name="name">medical.staff.training.form</field>
+        <field name="model">medical.staff.training</field>
+        <field name="arch" type="xml">
+            <form string="Formation Personnel Médical">
+                <header>
+                    <button name="action_complete" type="object" 
+                            string="TERMINER" class="btn-success"
+                            attrs="{'invisible': [('status', '!=', 'in_progress')]}"/>
+                    <button name="action_issue_certificate" type="object" 
+                            string="ÉMETTRE CERTIFICAT" class="btn-info"
+                            attrs="{'invisible': ['|', ('status', '!=', 'completed'), ('certificate_issued', '=', True)]}"/>
+                    <field name="status" widget="statusbar" statusbar_visible="scheduled,in_progress,completed"/>
+                </header>
+                
+                <sheet>
+                    <div class="alert alert-success" role="alert" 
+                         attrs="{'invisible': [('certificate_issued', '=', False)]}">
+                        <strong>✅ CERTIFICAT ÉMIS</strong> - Formation certifiée
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h2>
+                            <field name="staff_id"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="training_info">
+                            <field name="training_date"/>
+                            <field name="duration_hours"/>
+                            <field name="trainer"/>
+                        </group>
+                        <group name="certificate_info">
+                            <field name="certificate_issued"/>
+                            <field name="certificate_number" attrs="{'invisible': [('certificate_issued', '=', False)]}"/>
+                            <field name="expiry_date" attrs="{'invisible': [('certificate_issued', '=', False)]}"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <group>
+                                <field name="description" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Évaluation" name="evaluation">
+                            <group>
+                                <field name="evaluation_score"/>
+                                <field name="evaluation_notes" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vues de recherche -->
+    <record id="view_medical_staff_search" model="ir.ui.view">
+        <field name="name">medical.staff.search</field>
+        <field name="model">medical.staff</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Nom"/>
+                <field name="staff_type" string="Type"/>
+                <field name="specialization" string="Spécialisation"/>
+                <field name="license_number" string="Licence"/>
+                
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="doctors" string="Médecins" domain="[('staff_type', '=', 'doctor')]"/>
+                <filter name="nurses" string="Infirmiers" domain="[('staff_type', '=', 'nurse')]"/>
+                <filter name="license_expiring" string="Licence expire bientôt" 
+                        domain="[('license_expiry_date', '&lt;=', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_type" string="Type" context="{'group_by': 'staff_type'}"/>
+                    <filter name="group_specialization" string="Spécialisation" context="{'group_by': 'specialization'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_schedule_search" model="ir.ui.view">
+        <field name="name">medical.staff.schedule.search</field>
+        <field name="model">medical.staff.schedule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="staff_id" string="Personnel"/>
+                <field name="date" string="Date"/>
+                <field name="shift_type" string="Type de service"/>
+                
+                <filter name="today" string="Aujourd'hui" 
+                        domain="[('date', '=', datetime.date.today().strftime('%Y-%m-%d'))]"/>
+                <filter name="this_week" string="Cette semaine" 
+                        domain="[('date', '>=', (datetime.date.today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter name="day_shift" string="Service jour" domain="[('shift_type', '=', 'day')]"/>
+                <filter name="night_shift" string="Service nuit" domain="[('shift_type', '=', 'night')]"/>
+                <filter name="emergency_shift" string="Service urgence" domain="[('shift_type', '=', 'emergency')]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_staff" string="Personnel" context="{'group_by': 'staff_id'}"/>
+                    <filter name="group_shift" string="Type de service" context="{'group_by': 'shift_type'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_medical_staff_training_search" model="ir.ui.view">
+        <field name="name">medical.staff.training.search</field>
+        <field name="model">medical.staff.training</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Formation"/>
+                <field name="staff_id" string="Personnel"/>
+                <field name="trainer" string="Formateur"/>
+                
+                <filter name="completed" string="Terminées" domain="[('status', '=', 'completed')]"/>
+                <filter name="in_progress" string="En cours" domain="[('status', '=', 'in_progress')]"/>
+                <filter name="scheduled" string="Programmées" domain="[('status', '=', 'scheduled')]"/>
+                <filter name="certified" string="Certifiées" domain="[('certificate_issued', '=', True)]"/>
+                <filter name="expiring_soon" string="Expire bientôt" 
+                        domain="[('expiry_date', '&lt;=', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_staff" string="Personnel" context="{'group_by': 'staff_id'}"/>
+                    <filter name="group_status" string="Statut" context="{'group_by': 'status'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'training_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_medical_staff" model="ir.actions.act_window">
+        <field name="name">Personnel Médical</field>
+        <field name="res_model">medical.staff</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ajouter le premier membre du personnel
+            </p>
+            <p>
+                Gérez le personnel médical avec leurs qualifications,
+                licences et formations continues.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_medical_staff_schedule" model="ir.actions.act_window">
+        <field name="name">Planning Personnel</field>
+        <field name="res_model">medical.staff.schedule</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="context">{'search_default_this_week': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier planning
+            </p>
+            <p>
+                Planifiez les horaires du personnel médical avec
+                gestion des services jour/nuit et urgences.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_medical_staff_training" model="ir.actions.act_window">
+        <field name="name">Formations Personnel</field>
+        <field name="res_model">medical.staff.training</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_in_progress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer la première formation
+            </p>
+            <p>
+                Gérez les formations continues du personnel avec
+                certifications et suivi des expirations.
+            </p>
+        </field>
+    </record>
+
+    <!-- Actions spécialisées -->
+    <record id="action_staff_license_expiring" model="ir.actions.act_window">
+        <field name="name">Licences Expirant Bientôt</field>
+        <field name="res_model">medical.staff</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('license_expiry_date', '&lt;=', (datetime.date.today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]</field>
+        <field name="context">{'search_default_license_expiring': 1}</field>
+    </record>
+
+    <record id="action_training_due" model="ir.actions.act_window">
+        <field name="name">Formations Échues</field>
+        <field name="res_model">medical.staff.training</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('expiry_date', '&lt;=', datetime.date.today().strftime('%Y-%m-%d'))]</field>
+        <field name="context">{'search_default_expiring_soon': 1}</field>
+    </record>
+
+    <record id="action_staff_on_duty" model="ir.actions.act_window">
+        <field name="name">Personnel de Service Aujourd'hui</field>
+        <field name="res_model">medical.staff.schedule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('date', '=', datetime.date.today().strftime('%Y-%m-%d'))]</field>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+</odoo>

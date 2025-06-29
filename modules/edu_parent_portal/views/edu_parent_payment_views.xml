@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vues pour les paiements parent - À développer -->
+        
+        <!-- Vue liste des paiements -->
+        <record id="view_edu_parent_payment_tree" model="ir.ui.view">
+            <field name="name">edu.parent.payment.tree</field>
+            <field name="model">edu.parent.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Paiements" decoration-success="state=='paid'" decoration-warning="state=='partial'" decoration-danger="state=='overdue'" decoration-info="state=='pending'">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="student_id"/>
+                    <field name="payment_type"/>
+                    <field name="amount" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="due_date"/>
+                    <field name="paid_amount" widget="monetary"/>
+                    <field name="remaining_amount" widget="monetary"/>
+                    <field name="state"/>
+                    <button name="action_send_reminder" type="object" string="Rappel" icon="fa-bell" invisible="state in ['paid', 'cancelled']"/>
+                    <button name="action_pay_online" type="object" string="Payer en ligne" icon="fa-credit-card" invisible="state in ['paid', 'cancelled']"/>
+                    <button name="action_mark_paid" type="object" string="Marquer payé" icon="fa-check" invisible="state in ['paid', 'cancelled']"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des paiements -->
+        <record id="view_edu_parent_payment_form" model="ir.ui.view">
+            <field name="name">edu.parent.payment.form</field>
+            <field name="model">edu.parent.payment</field>
+            <field name="arch" type="xml">
+                <form string="Paiement parent">
+                    <header>
+                        <button name="action_send_reminder" type="object" string="Envoyer rappel" class="btn-warning" invisible="state in ['paid', 'cancelled']"/>
+                        <button name="action_pay_online" type="object" string="Payer en ligne" class="btn-primary" invisible="state in ['paid', 'cancelled']"/>
+                        <button name="action_mark_paid" type="object" string="Marquer comme payé" class="btn-success" invisible="state in ['paid', 'cancelled']"/>
+                        <button name="action_cancel" type="object" string="Annuler" class="btn-secondary" invisible="state in ['paid', 'cancelled']"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,paid"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="parent_id"/>
+                                <field name="student_id"/>
+                                <field name="payment_type"/>
+                            </group>
+                            <group>
+                                <field name="amount" widget="monetary"/>
+                                <field name="currency_id"/>
+                                <field name="due_date"/>
+                                <field name="invoice_date"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        
+                        <group>
+                            <group string="Montants">
+                                <field name="paid_amount" widget="monetary" readonly="1"/>
+                                <field name="remaining_amount" widget="monetary" readonly="1"/>
+                            </group>
+                            <group string="Rappels">
+                                <field name="reminder_count" readonly="1"/>
+                                <field name="last_reminder_date" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Transactions">
+                                <field name="payment_ids">
+                                    <tree>
+                                        <field name="reference"/>
+                                        <field name="amount" widget="monetary"/>
+                                        <field name="payment_method"/>
+                                        <field name="transaction_date"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Paiement en ligne">
+                                <group>
+                                    <field name="allow_online_payment"/>
+                                    <field name="payment_methods" widget="many2many_tags"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Facture">
+                                <group>
+                                    <field name="invoice_id"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vue kanban des paiements -->
+        <record id="view_edu_parent_payment_kanban" model="ir.ui.view">
+            <field name="name">edu.parent.payment.kanban</field>
+            <field name="model">edu.parent.payment</field>
+            <field name="arch" type="xml">
+                <kanban string="Paiements" default_group_by="state">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="student_id"/>
+                    <field name="payment_type"/>
+                    <field name="amount"/>
+                    <field name="currency_id"/>
+                    <field name="due_date"/>
+                    <field name="state"/>
+                    <field name="remaining_amount"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <strong><field name="payment_type"/></strong>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <strong><field name="amount" widget="monetary"/></strong>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-user"/> <field name="parent_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-graduation-cap"/> <field name="student_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="fa fa-calendar"/> <field name="due_date"/>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <t t-if="record.remaining_amount.raw_value > 0">
+                                                <span class="text-danger">
+                                                    Reste: <field name="remaining_amount" widget="monetary"/>
+                                                </span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-success">
+                                                    <i class="fa fa-check"/> Payé
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Vue pivot des paiements -->
+        <record id="view_edu_parent_payment_pivot" model="ir.ui.view">
+            <field name="name">edu.parent.payment.pivot</field>
+            <field name="model">edu.parent.payment</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse des paiements">
+                    <field name="payment_type" type="row"/>
+                    <field name="state" type="col"/>
+                    <field name="amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        <!-- Action pour les paiements -->
+        <record id="action_edu_parent_payment" model="ir.actions.act_window">
+            <field name="name">Paiements parents</field>
+            <field name="res_model">edu.parent.payment</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier paiement !
+                </p>
+                <p>
+                    Les paiements permettent de gérer la facturation et les
+                    paiements des parents pour les frais scolaires.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Vue liste des transactions -->
+        <record id="view_edu_payment_transaction_tree" model="ir.ui.view">
+            <field name="name">edu.payment.transaction.tree</field>
+            <field name="model">edu.payment.transaction</field>
+            <field name="arch" type="xml">
+                <tree string="Transactions" decoration-success="state=='done'" decoration-danger="state=='failed'" decoration-warning="state=='processing'">
+                    <field name="reference"/>
+                    <field name="parent_payment_id"/>
+                    <field name="amount" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="payment_method"/>
+                    <field name="transaction_date"/>
+                    <field name="state"/>
+                    <field name="provider_reference"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des transactions -->
+        <record id="view_edu_payment_transaction_form" model="ir.ui.view">
+            <field name="name">edu.payment.transaction.form</field>
+            <field name="model">edu.payment.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Transaction de paiement">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,processing,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="reference" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="parent_payment_id"/>
+                                <field name="amount" widget="monetary"/>
+                                <field name="currency_id"/>
+                            </group>
+                            <group>
+                                <field name="payment_method"/>
+                                <field name="transaction_date"/>
+                                <field name="provider_reference"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Notes">
+                            <field name="notes" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les transactions -->
+        <record id="action_edu_payment_transaction" model="ir.actions.act_window">
+            <field name="name">Transactions de paiement</field>
+            <field name="res_model">edu.payment.transaction</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune transaction pour le moment !
+                </p>
+                <p>
+                    Les transactions enregistrent les détails de chaque
+                    paiement effectué par les parents.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues Analytics de Santé -->
+    <record id="view_health_analytics_tree" model="ir.ui.view">
+        <field name="name">health.analytics.tree</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="epidemic_risk_level == 'high'"
+                  decoration-warning="epidemic_risk_level == 'medium'"
+                  decoration-success="epidemic_risk_level == 'low'">
+                <field name="name"/>
+                <field name="analysis_date"/>
+                <field name="analysis_type" widget="badge"/>
+                <field name="total_cases"/>
+                <field name="epidemic_risk_level" widget="badge"/>
+                <field name="recommendations_count"/>
+                <button name="action_generate_report" type="object" 
+                        string="Rapport" class="btn-primary btn-sm"
+                        title="Générer le rapport d'analyse"/>
+                <button name="action_send_alerts" type="object" 
+                        string="Alertes" class="btn-warning btn-sm"
+                        attrs="{'invisible': [('epidemic_risk_level', '=', 'low')]}"
+                        title="Envoyer les alertes épidémiologiques"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_health_analytics_form" model="ir.ui.view">
+        <field name="name">health.analytics.form</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <form string="Analyse de Santé">
+                <header>
+                    <button name="action_generate_report" type="object" 
+                            string="GÉNÉRER RAPPORT" class="btn-primary"/>
+                    <button name="action_send_alerts" type="object" 
+                            string="ENVOYER ALERTES" class="btn-warning"
+                            attrs="{'invisible': [('epidemic_risk_level', '=', 'low')]}"/>
+                </header>
+                
+                <sheet>
+                    <div class="alert alert-danger" role="alert" 
+                         attrs="{'invisible': [('epidemic_risk_level', '!=', 'high')]}">
+                        <strong>🚨 RISQUE ÉPIDÉMIQUE ÉLEVÉ</strong> - Actions immédiates requises
+                    </div>
+                    
+                    <div class="alert alert-warning" role="alert" 
+                         attrs="{'invisible': [('epidemic_risk_level', '!=', 'medium')]}">
+                        <strong>⚠️ RISQUE ÉPIDÉMIQUE MODÉRÉ</strong> - Surveillance renforcée
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="analysis_info">
+                            <field name="analysis_date"/>
+                            <field name="analysis_type"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                        </group>
+                        <group name="results">
+                            <field name="total_cases"/>
+                            <field name="new_cases"/>
+                            <field name="epidemic_risk_level" widget="badge"/>
+                            <field name="recommendations_count"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Données d'Analyse" name="data">
+                            <group>
+                                <field name="analysis_data" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Recommandations" name="recommendations">
+                            <group>
+                                <field name="recommendations" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Graphiques" name="charts">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Évolution des Cas</h4>
+                                    <field name="chart_cases_evolution" widget="html"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Répartition par Pathologie</h4>
+                                    <field name="chart_disease_distribution" widget="html"/>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_health_analytics_graph" model="ir.ui.view">
+        <field name="name">health.analytics.graph</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <graph string="Analytics de Santé" type="line">
+                <field name="analysis_date" type="row"/>
+                <field name="total_cases" type="measure"/>
+                <field name="new_cases" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_health_analytics_pivot" model="ir.ui.view">
+        <field name="name">health.analytics.pivot</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <pivot string="Analytics de Santé">
+                <field name="analysis_type" type="row"/>
+                <field name="epidemic_risk_level" type="col"/>
+                <field name="total_cases" type="measure"/>
+                <field name="new_cases" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vues Tableau de Bord -->
+    <record id="view_health_dashboard_tree" model="ir.ui.view">
+        <field name="name">health.dashboard.tree</field>
+        <field name="model">health.dashboard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="dashboard_date"/>
+                <field name="total_students"/>
+                <field name="active_cases"/>
+                <field name="vaccinations_today"/>
+                <field name="staff_on_duty"/>
+                <field name="alert_level" widget="badge"/>
+                <button name="action_refresh_data" type="object" 
+                        string="Actualiser" class="btn-info btn-sm"
+                        title="Actualiser les données"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_health_dashboard_form" model="ir.ui.view">
+        <field name="name">health.dashboard.form</field>
+        <field name="model">health.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Tableau de Bord Santé">
+                <header>
+                    <button name="action_refresh_data" type="object" 
+                            string="ACTUALISER" class="btn-info"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="dashboard_date" readonly="1"/>
+                        </h2>
+                    </div>
+                    
+                    <!-- Indicateurs Clés -->
+                    <div class="row mt16">
+                        <div class="col-lg-3 col-6">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4><field name="total_students" readonly="1"/></h4>
+                                            <p class="mb-0">Étudiants Total</p>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-users fa-2x"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-6">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4><field name="active_cases" readonly="1"/></h4>
+                                            <p class="mb-0">Cas Actifs</p>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-exclamation-triangle fa-2x"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-6">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4><field name="vaccinations_today" readonly="1"/></h4>
+                                            <p class="mb-0">Vaccinations Aujourd'hui</p>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-shield fa-2x"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-6">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4><field name="staff_on_duty" readonly="1"/></h4>
+                                            <p class="mb-0">Personnel de Service</p>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="fa fa-user-md fa-2x"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <group>
+                        <group name="health_metrics">
+                            <field name="consultations_today"/>
+                            <field name="emergencies_today"/>
+                            <field name="medications_dispensed"/>
+                        </group>
+                        <group name="trends">
+                            <field name="weekly_trend"/>
+                            <field name="monthly_trend"/>
+                            <field name="alert_level" widget="badge"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Graphiques Temps Réel" name="charts">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Consultations par Jour</h4>
+                                    <field name="chart_consultations" widget="html"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Top 5 Pathologies</h4>
+                                    <field name="chart_top_diseases" widget="html"/>
+                                </div>
+                            </div>
+                            <div class="row mt16">
+                                <div class="col-md-6">
+                                    <h4>Taux de Vaccination</h4>
+                                    <field name="chart_vaccination_rate" widget="html"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Occupation Infirmerie</h4>
+                                    <field name="chart_infirmary_occupancy" widget="html"/>
+                                </div>
+                            </div>
+                        </page>
+                        
+                        <page string="Alertes et Notifications" name="alerts">
+                            <group>
+                                <field name="active_alerts" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Recommandations" name="recommendations">
+                            <group>
+                                <field name="ai_recommendations" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Kanban Dashboard -->
+    <record id="view_health_dashboard_kanban" model="ir.ui.view">
+        <field name="name">health.dashboard.kanban</field>
+        <field name="model">health.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="dashboard_date"/>
+                <field name="total_students"/>
+                <field name="active_cases"/>
+                <field name="vaccinations_today"/>
+                <field name="staff_on_duty"/>
+                <field name="alert_level"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_dashboard_kanban">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                    <div class="text-muted">
+                                        <field name="dashboard_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" type="object" name="action_view_students">
+                                            <span class="o_value"><field name="total_students"/></span>
+                                            <span class="o_label">Étudiants</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-6 o_kanban_primary_right">
+                                        <button class="btn btn-warning" type="object" name="action_view_active_cases">
+                                            <span class="o_value"><field name="active_cases"/></span>
+                                            <span class="o_label">Cas Actifs</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-6 o_kanban_primary_left">
+                                        <button class="btn btn-success" type="object" name="action_view_vaccinations">
+                                            <span class="o_value"><field name="vaccinations_today"/></span>
+                                            <span class="o_label">Vaccinations</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-6 o_kanban_primary_right">
+                                        <button class="btn btn-info" type="object" name="action_view_staff">
+                                            <span class="o_value"><field name="staff_on_duty"/></span>
+                                            <span class="o_label">Personnel</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                <a role="menuitem" type="object" name="action_refresh_data" class="dropdown-item">
+                                    Actualiser les données
+                                </a>
+                                <a role="menuitem" type="object" name="action_generate_report" class="dropdown-item">
+                                    Générer rapport
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vues de recherche -->
+    <record id="view_health_analytics_search" model="ir.ui.view">
+        <field name="name">health.analytics.search</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Analyse"/>
+                <field name="analysis_type" string="Type"/>
+                
+                <filter name="epidemiological" string="Épidémiologique" domain="[('analysis_type', '=', 'epidemiological')]"/>
+                <filter name="statistical" string="Statistique" domain="[('analysis_type', '=', 'statistical')]"/>
+                <filter name="predictive" string="Prédictive" domain="[('analysis_type', '=', 'predictive')]"/>
+                <filter name="high_risk" string="Risque élevé" domain="[('epidemic_risk_level', '=', 'high')]"/>
+                <filter name="medium_risk" string="Risque modéré" domain="[('epidemic_risk_level', '=', 'medium')]"/>
+                <filter name="this_month" string="Ce mois" 
+                        domain="[('analysis_date', '>=', datetime.date.today().replace(day=1).strftime('%Y-%m-%d'))]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_type" string="Type" context="{'group_by': 'analysis_type'}"/>
+                    <filter name="group_risk" string="Niveau de risque" context="{'group_by': 'epidemic_risk_level'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'analysis_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_health_analytics" model="ir.actions.act_window">
+        <field name="name">Analytics de Santé</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer la première analyse
+            </p>
+            <p>
+                Analysez les données de santé pour détecter les tendances,
+                épidémies potentielles et générer des recommandations.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_health_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord Santé</field>
+        <field name="res_model">health.dashboard</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier tableau de bord
+            </p>
+            <p>
+                Surveillez en temps réel les indicateurs clés de santé
+                avec des graphiques et alertes automatiques.
+            </p>
+        </field>
+    </record>
+
+    <!-- Actions spécialisées -->
+    <record id="action_epidemic_alerts" model="ir.actions.act_window">
+        <field name="name">Alertes Épidémiologiques</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('epidemic_risk_level', 'in', ['high', 'medium'])]</field>
+        <field name="context">{'search_default_high_risk': 1}</field>
+    </record>
+
+    <record id="action_health_trends" model="ir.actions.act_window">
+        <field name="name">Tendances Santé</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">graph,pivot,tree</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+
+    <!-- Action principale du tableau de bord -->
+    <record id="action_health_center_dashboard" model="ir.actions.act_window">
+        <field name="name">Centre de Santé - Tableau de Bord</field>
+        <field name="res_model">health.dashboard</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_health_dashboard_kanban"/>
+        <field name="target">current</field>
+    </record>
+</odoo>

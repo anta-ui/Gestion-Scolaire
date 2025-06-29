@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_library_user" model="res.groups">
+        <field name="name">Bibliothèque - Utilisateur</field>
+        <field name="category_id" ref="base.module_category_education"/>
+    </record>
+    
+    <record id="group_library_librarian" model="res.groups">
+        <field name="name">Bibliothèque - Bibliothécaire</field>
+        <field name="category_id" ref="base.module_category_education"/>
+        <field name="implied_ids" eval="[(4, ref('group_library_user'))]"/>
+    </record>
+    
+    <record id="group_library_manager" model="res.groups">
+        <field name="name">Bibliothèque - Gestionnaire</field>
+        <field name="category_id" ref="base.module_category_education"/>
+        <field name="implied_ids" eval="[(4, ref('group_library_librarian'))]"/>
+    </record>
+    
+    <record id="group_library_admin" model="res.groups">
+        <field name="name">Bibliothèque - Administrateur</field>
+        <field name="category_id" ref="base.module_category_education"/>
+        <field name="implied_ids" eval="[(4, ref('group_library_manager'))]"/>
+    </record>
+</odoo>

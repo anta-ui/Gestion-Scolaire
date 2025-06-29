@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_timetable_ai_root"
+              name="Emploi du Temps IA"
+              sequence="30"/>
+    
+    <!-- Sous-menus -->
+    <menuitem id="menu_timetable_main"
+              name="Emplois du temps"
+              parent="menu_timetable_ai_root"
+              sequence="10"/>
+    
+    <menuitem id="menu_timetable_enhanced"
+              name="Emplois du temps"
+              parent="menu_timetable_main"
+              action="action_timetable_enhanced"
+              sequence="10"/>
+    
+    <menuitem id="menu_schedule_slots"
+              name="Créneaux horaires"
+              parent="menu_timetable_main"
+              action="action_schedule_slots"
+              sequence="20"/>
+    
+    <menuitem id="menu_conflicts"
+              name="Conflits"
+              parent="menu_timetable_main"
+              action="action_timetable_conflicts"
+              sequence="30"/>
+    
+    <!-- Menu Configuration -->
+    <menuitem id="menu_timetable_config"
+              name="Configuration"
+              parent="menu_timetable_ai_root"
+              sequence="50"/>
+    
+    <menuitem id="menu_rooms"
+              name="Salles"
+              parent="menu_timetable_config"
+              action="action_rooms_enhanced"
+              sequence="10"/>
+    
+    <menuitem id="menu_buildings"
+              name="Bâtiments"
+              parent="menu_timetable_config"
+              action="action_buildings"
+              sequence="20"/>
+    
+    <menuitem id="menu_constraints"
+              name="Contraintes"
+              parent="menu_timetable_config"
+              action="action_timetable_constraints"
+              sequence="30"/>
+    
+    <menuitem id="menu_room_equipment"
+              name="Équipements"
+              parent="menu_timetable_config"
+              action="action_room_equipment"
+              sequence="40"/>
+    
+    <!-- Menu IA -->
+    <menuitem id="menu_ai_tools"
+              name="Outils IA"
+              parent="menu_timetable_ai_root"
+              sequence="60"/>
+    
+    <menuitem id="menu_ai_optimizer"
+              name="Optimiseur IA"
+              parent="menu_ai_tools"
+              action="action_ai_optimizer"
+              sequence="10"/>
+    
+    <!-- Menu Rapports -->
+    <menuitem id="menu_timetable_reports"
+              name="Rapports"
+              parent="menu_timetable_ai_root"
+              sequence="70"/>
+</odoo>

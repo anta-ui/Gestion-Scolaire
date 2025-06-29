@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Enregistrement Comportemental -->
+    <record id="view_student_behavior_record_form" model="ir.ui.view">
+        <field name="name">student.behavior.record.form</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <form string="Enregistrement Comportemental">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="type"/>
+                            <field name="category_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="points"/>
+                            <field name="teacher_id"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Décrivez l'incident ou le comportement observé..."/>
+                        </page>
+                        <page string="Actions" name="actions">
+                            <field name="actions_taken" placeholder="Actions prises suite à cet enregistrement..."/>
+                        </page>
+                        <page string="Suivi" name="follow_up">
+                            <field name="followup_notes" placeholder="Notes de suivi..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Enregistrement Comportemental -->
+    <record id="view_student_behavior_record_tree" model="ir.ui.view">
+        <field name="name">student.behavior.record.tree</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <tree string="Enregistrements Comportementaux" decoration-success="type=='reward'" decoration-warning="type=='warning'" decoration-danger="type=='sanction'">
+                <field name="date"/>
+                <field name="student_id"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="category_id"/>
+                <field name="points"/>
+                <field name="teacher_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Calendrier Enregistrement Comportemental -->
+    <record id="view_student_behavior_record_calendar" model="ir.ui.view">
+        <field name="name">student.behavior.record.calendar</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date" string="Enregistrements Comportementaux" color="type">
+                <field name="student_id"/>
+                <field name="name"/>
+                <field name="type"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Vue Graphique Enregistrement Comportemental -->
+    <record id="view_student_behavior_record_graph" model="ir.ui.view">
+        <field name="name">student.behavior.record.graph</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <graph string="Statistiques Comportementales" type="bar">
+                <field name="type"/>
+                <field name="points" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Enregistrement Comportemental -->
+    <record id="view_student_behavior_record_search" model="ir.ui.view">
+        <field name="name">student.behavior.record.search</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Enregistrements">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="teacher_id"/>
+                <field name="type"/>
+                <field name="category_id"/>
+                
+                <filter string="Récompenses" name="rewards" domain="[('type', '=', 'reward')]"/>
+                <filter string="Avertissements" name="warnings" domain="[('type', '=', 'warning')]"/>
+                <filter string="Sanctions" name="sanctions" domain="[('type', '=', 'sanction')]"/>
+                
+                <separator/>
+                <filter string="Cette semaine" name="this_week" domain="[('date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Ce mois" name="this_month" domain="[('date', '>=', context_today().strftime('%Y-%m-01'))]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Élève" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'type'}"/>
+                    <filter string="Catégorie" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Enseignant" name="group_teacher" context="{'group_by': 'teacher_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Enregistrement Comportemental -->
+    <record id="action_student_behavior_record" model="ir.actions.act_window">
+        <field name="name">Enregistrements Comportementaux</field>
+        <field name="res_model">student.behavior.record</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouvel enregistrement comportemental
+            </p>
+            <p>
+                Suivez le comportement des élèves avec des récompenses, avertissements et sanctions.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action Tableau de Bord Comportemental -->
+    <record id="action_behavior_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord Comportemental</field>
+        <field name="res_model">student.behavior.record</field>
+        <field name="view_mode">graph,tree</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune donnée comportementale ce mois
+            </p>
+            <p>
+                Les statistiques comportementales apparaîtront ici une fois que vous aurez créé des enregistrements.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue formulaire pour l'historique comportemental -->
+    <record id="view_behavior_history_form" model="ir.ui.view">
+        <field name="name">student.behavior.record.form</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <form string="Historique Comportemental">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="points"/>
+                            <field name="teacher_id"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="location"/>
+                            <field name="witnesses"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" nolabel="1"/>
+                        </page>
+                        <page string="Actions Prises">
+                            <field name="actions_taken" nolabel="1"/>
+                        </page>
+                        <page string="Suivi">
+                            <field name="followup_notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste pour l'historique comportemental -->
+    <record id="view_behavior_history_tree" model="ir.ui.view">
+        <field name="name">student.behavior.record.tree</field>
+        <field name="model">student.behavior.record</field>
+        <field name="arch" type="xml">
+            <tree string="Historique Comportemental" decoration-danger="type=='sanction'" decoration-success="type=='reward'">
+                <field name="date"/>
+                <field name="student_id"/>
+                <field name="type"/>
+                <field name="category_id"/>
+                <field name="points"/>
+                <field name="teacher_id"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action pour l'historique comportemental -->
+    <record id="action_behavior_history" model="ir.actions.act_window">
+        <field name="name">Historique Comportemental</field>
+        <field name="res_model">student.behavior.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucun enregistrement comportemental trouvé
+            </p>
+            <p>
+                Créez votre premier enregistrement comportemental !
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu pour l'historique comportemental -->
+    <menuitem id="menu_behavior_history"
+              name="Historique Comportemental"
+              parent="openeducat_core.menu_op_student_root"
+              action="action_behavior_history"
+              sequence="30"/>
+</odoo> 

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_health_center_root" 
+              name="Centre de Santé" 
+              sequence="20" 
+              web_icon="edu_health_center,static/description/icon.png"/>
+
+    <!-- Tableau de Bord -->
+    <menuitem id="menu_health_dashboard" 
+              name="Tableau de Bord" 
+              parent="menu_health_center_root" 
+              action="action_health_center_dashboard" 
+              sequence="1"/>
+
+    <!-- Gestion des Patients -->
+    <menuitem id="menu_health_patients" 
+              name="Patients" 
+              parent="menu_health_center_root" 
+              sequence="10"/>
+
+    <menuitem id="menu_health_records" 
+              name="Dossiers Médicaux" 
+              parent="menu_health_patients" 
+              action="action_health_record" 
+              sequence="1"/>
+
+    <menuitem id="menu_medical_consultations" 
+              name="Consultations" 
+              parent="menu_health_patients" 
+              action="action_medical_consultation" 
+              sequence="2"/>
+
+    <!-- Urgences -->
+    <menuitem id="menu_health_emergency" 
+              name="Urgences" 
+              parent="menu_health_center_root" 
+              sequence="20"/>
+
+    <menuitem id="menu_health_emergency_list" 
+              name="Urgences Actives" 
+              parent="menu_health_emergency" 
+              action="action_health_emergency" 
+              sequence="1"/>
+
+    <menuitem id="menu_health_emergency_protocols" 
+              name="Protocoles d'Urgence" 
+              parent="menu_health_emergency" 
+              action="action_health_emergency_protocol" 
+              sequence="2"/>
+
+    <!-- Pharmacie -->
+    <menuitem id="menu_health_pharmacy" 
+              name="Pharmacie" 
+              parent="menu_health_center_root" 
+              sequence="30"/>
+
+    <menuitem id="menu_medication_stock" 
+              name="Stock Médicaments" 
+              parent="menu_health_pharmacy" 
+              action="action_medication_stock" 
+              sequence="1"/>
+
+    <menuitem id="menu_medication_prescriptions" 
+              name="Prescriptions" 
+              parent="menu_health_pharmacy" 
+              action="action_medication_prescription" 
+              sequence="2"/>
+
+    <menuitem id="menu_medication_dispensing" 
+              name="Distribution" 
+              parent="menu_health_pharmacy" 
+              action="action_medication_dispensing" 
+              sequence="3"/>
+
+    <menuitem id="menu_medication_alerts" 
+              name="Alertes Stock" 
+              parent="menu_health_pharmacy" 
+              action="action_medication_low_stock" 
+              sequence="4"/>
+
+    <!-- Vaccinations -->
+    <menuitem id="menu_health_vaccination" 
+              name="Vaccinations" 
+              parent="menu_health_center_root" 
+              sequence="40"/>
+
+    <menuitem id="menu_vaccination_records" 
+              name="Carnets de Vaccination" 
+              parent="menu_health_vaccination" 
+              action="action_vaccination_record" 
+              sequence="1"/>
+
+    <menuitem id="menu_vaccination_schedule" 
+              name="Planning Vaccinations" 
+              parent="menu_health_vaccination" 
+              action="action_vaccination_schedule" 
+              sequence="2"/>
+
+    <menuitem id="menu_vaccination_types" 
+              name="Types de Vaccins" 
+              parent="menu_health_vaccination" 
+              action="action_vaccination_type" 
+              sequence="3"/>
+
+    <menuitem id="menu_vaccination_due" 
+              name="Vaccinations Dues" 
+              parent="menu_health_vaccination" 
+              action="action_vaccination_due" 
+              sequence="4"/>
+
+    <menuitem id="menu_vaccination_today" 
+              name="Vaccinations Aujourd'hui" 
+              parent="menu_health_vaccination" 
+              action="action_vaccination_today" 
+              sequence="5"/>
+
+    <!-- Assurances -->
+    <menuitem id="menu_health_insurance" 
+              name="Assurances" 
+              parent="menu_health_center_root" 
+              sequence="50"/>
+
+    <menuitem id="menu_insurance_policies" 
+              name="Polices d'Assurance" 
+              parent="menu_health_insurance" 
+              action="action_health_insurance_policy" 
+              sequence="1"/>
+
+    <menuitem id="menu_insurance_claims" 
+              name="Réclamations" 
+              parent="menu_health_insurance" 
+              action="action_health_insurance_claim" 
+              sequence="2"/>
+
+    <menuitem id="menu_insurance_companies" 
+              name="Compagnies d'Assurance" 
+              parent="menu_health_insurance" 
+              action="action_health_insurance_company" 
+              sequence="3"/>
+
+    <menuitem id="menu_insurance_expiring" 
+              name="Polices Expirant" 
+              parent="menu_health_insurance" 
+              action="action_insurance_expiring" 
+              sequence="4"/>
+
+    <menuitem id="menu_claims_pending" 
+              name="Réclamations en Attente" 
+              parent="menu_health_insurance" 
+              action="action_claims_pending" 
+              sequence="5"/>
+
+    <!-- Personnel -->
+    <menuitem id="menu_health_staff" 
+              name="Personnel" 
+              parent="menu_health_center_root" 
+              sequence="60"/>
+
+    <menuitem id="menu_medical_staff" 
+              name="Personnel Médical" 
+              parent="menu_health_staff" 
+              action="action_medical_staff" 
+              sequence="1"/>
+
+    <menuitem id="menu_staff_schedule" 
+              name="Planning Personnel" 
+              parent="menu_health_staff" 
+              action="action_medical_staff_schedule" 
+              sequence="2"/>
+
+    <menuitem id="menu_staff_training" 
+              name="Formations" 
+              parent="menu_health_staff" 
+              action="action_medical_staff_training" 
+              sequence="3"/>
+
+    <menuitem id="menu_staff_license_expiring" 
+              name="Licences Expirant" 
+              parent="menu_health_staff" 
+              action="action_staff_license_expiring" 
+              sequence="4"/>
+
+    <menuitem id="menu_training_due" 
+              name="Formations Échues" 
+              parent="menu_health_staff" 
+              action="action_training_due" 
+              sequence="5"/>
+
+    <menuitem id="menu_staff_on_duty" 
+              name="Personnel de Service" 
+              parent="menu_health_staff" 
+              action="action_staff_on_duty" 
+              sequence="6"/>
+
+    <!-- Analytics et Rapports -->
+    <menuitem id="menu_health_analytics" 
+              name="Analytics" 
+              parent="menu_health_center_root" 
+              sequence="70"/>
+
+    <menuitem id="menu_health_analytics_main" 
+              name="Analyses de Santé" 
+              parent="menu_health_analytics" 
+              action="action_health_analytics" 
+              sequence="1"/>
+
+    <menuitem id="menu_health_trends" 
+              name="Tendances" 
+              parent="menu_health_analytics" 
+              action="action_health_trends" 
+              sequence="2"/>
+
+    <menuitem id="menu_epidemic_alerts" 
+              name="Alertes Épidémiologiques" 
+              parent="menu_health_analytics" 
+              action="action_epidemic_alerts" 
+              sequence="3"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_health_config" 
+              name="Configuration" 
+              parent="menu_health_center_root" 
+              sequence="80"/>
+
+    <menuitem id="menu_health_settings" 
+              name="Paramètres" 
+              parent="menu_health_config" 
+              sequence="1"/>
+
+    <!-- Raccourcis du tableau de bord dans le menu principal -->
+    <menuitem id="menu_health_quick_access" 
+              name="Accès Rapide" 
+              parent="menu_health_center_root" 
+              sequence="5"/>
+
+    <menuitem id="menu_health_today_consultations" 
+              name="Consultations Aujourd'hui" 
+              parent="menu_health_quick_access" 
+              action="action_consultations_today" 
+              sequence="1"/>
+
+    <menuitem id="menu_health_today_emergencies" 
+              name="Urgences Actives" 
+              parent="menu_health_quick_access" 
+              action="action_emergencies_active" 
+              sequence="2"/>
+
+    <menuitem id="menu_health_low_stock" 
+              name="Stock Faible" 
+              parent="menu_health_quick_access" 
+              action="action_medication_low_stock" 
+              sequence="3"/>
+
+    <menuitem id="menu_health_expiring_items" 
+              name="Éléments Expirant" 
+              parent="menu_health_quick_access" 
+              sequence="4"/>
+
+    <!-- Actions supplémentaires pour les raccourcis -->
+    <record id="action_consultations_today" model="ir.actions.act_window">
+        <field name="name">Consultations Aujourd'hui</field>
+        <field name="res_model">medical.consultation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('consultation_date', '=', datetime.date.today().strftime('%Y-%m-%d'))]</field>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+
+    <record id="action_emergencies_active" model="ir.actions.act_window">
+        <field name="name">Urgences Actives</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'in', ['reported', 'in_progress'])]</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <!-- Menus contextuels pour les notifications -->
+    <record id="action_health_notifications" model="ir.actions.act_window">
+        <field name="name">Notifications Santé</field>
+        <field name="res_model">health.dashboard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('alert_level', '!=', 'none')]</field>
+    </record>
+
+    <!-- Actions pour les éléments expirant -->
+    <record id="action_expiring_items_dashboard" model="ir.actions.act_window">
+        <field name="name">Éléments Expirant Bientôt</field>
+        <field name="res_model">health.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_show_expiring': True}</field>
+    </record>
+
+    <menuitem id="menu_health_expiring_dashboard" 
+              name="Tableau de Bord Expirations" 
+              parent="menu_health_expiring_items" 
+              action="action_expiring_items_dashboard" 
+              sequence="1"/>
+
+    <!-- Séparateurs pour organiser les menus -->
+    <menuitem id="menu_health_separator_1" 
+              name="────────────────────" 
+              parent="menu_health_center_root" 
+              sequence="15"/>
+
+    <menuitem id="menu_health_separator_2" 
+              name="────────────────────" 
+              parent="menu_health_center_root" 
+              sequence="65"/>
+
+    <!-- Menu d'aide et documentation -->
+    <menuitem id="menu_health_help" 
+              name="Aide" 
+              parent="menu_health_center_root" 
+              sequence="90"/>
+
+    <menuitem id="menu_health_documentation" 
+              name="Documentation" 
+              parent="menu_health_help" 
+              sequence="1"/>
+
+    <menuitem id="menu_health_support" 
+              name="Support Technique" 
+              parent="menu_health_help" 
+              sequence="2"/>
+
+    <!-- Actions pour les vues existantes du module de base -->
+    <record id="action_health_record" model="ir.actions.act_window">
+        <field name="name">Dossiers Médicaux</field>
+        <field name="res_model">health.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier dossier médical
+            </p>
+            <p>
+                Gérez les dossiers médicaux des étudiants avec historique
+                complet des consultations et traitements.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_medical_consultation" model="ir.actions.act_window">
+        <field name="name">Consultations Médicales</field>
+        <field name="res_model">medical.consultation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer la première consultation
+            </p>
+            <p>
+                Enregistrez les consultations médicales avec diagnostic,
+                traitement et suivi des patients.
+            </p>
+        </field>
+    </record>
+</odoo> 

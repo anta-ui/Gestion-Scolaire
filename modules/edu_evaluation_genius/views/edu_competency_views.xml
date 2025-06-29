@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Compétence -->
+    <record id="view_edu_competency_form" model="ir.ui.view">
+        <field name="name">edu.competency.form</field>
+        <field name="model">edu.competency</field>
+        <field name="arch" type="xml">
+            <form string="Compétence">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_evaluations" type="object" 
+                                class="oe_stat_button" icon="fa-list">
+                            <field name="evaluation_count" widget="statinfo" 
+                                   string="Évaluations"/>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Archivé" bg_color="bg-danger" 
+                            invisible="active"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom de la compétence"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="competency_type"/>
+                            <field name="category_id"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="coefficient"/>
+                            <field name="is_key_competency"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description détaillée de la compétence"/>
+                        </page>
+                        <page string="Liens académiques" name="academic">
+                            <group>
+                                <field name="course_ids" widget="many2many_tags"/>
+                                <field name="batch_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        <page string="Niveaux de maîtrise" name="mastery_levels">
+                            <field name="mastery_level_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="min_score"/>
+                                    <field name="max_score"/>
+                                    <field name="color_class"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Sous-compétences" name="children" invisible="not child_ids">
+                            <field name="child_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="competency_type"/>
+                                    <field name="coefficient"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Compétence -->
+    <record id="view_edu_competency_tree" model="ir.ui.view">
+        <field name="name">edu.competency.tree</field>
+        <field name="model">edu.competency</field>
+        <field name="arch" type="xml">
+            <tree string="Compétences">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="competency_type"/>
+                <field name="category_id"/>
+                <field name="coefficient"/>
+                <field name="is_key_competency"/>
+                <field name="evaluation_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Compétence -->
+    <record id="view_edu_competency_search" model="ir.ui.view">
+        <field name="name">edu.competency.search</field>
+        <field name="model">edu.competency</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Compétences">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="description"/>
+                <field name="category_id"/>
+                
+                <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Compétences clés" name="key_competency" domain="[('is_key_competency', '=', True)]"/>
+                <filter string="Compétences racines" name="root" domain="[('parent_id', '=', False)]"/>
+                <separator/>
+                <filter string="Savoir" name="knowledge" domain="[('competency_type', '=', 'knowledge')]"/>
+                <filter string="Savoir-faire" name="skill" domain="[('competency_type', '=', 'skill')]"/>
+                <filter string="Savoir-être" name="attitude" domain="[('competency_type', '=', 'attitude')]"/>
+                <filter string="Transversale" name="transversal" domain="[('competency_type', '=', 'transversal')]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Type" name="group_type" context="{'group_by': 'competency_type'}"/>
+                    <filter string="Catégorie" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Parent" name="group_parent" context="{'group_by': 'parent_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Compétence -->
+    <record id="action_edu_competency" model="ir.actions.act_window">
+        <field name="name">Compétences</field>
+        <field name="res_model">edu.competency</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle compétence
+            </p>
+            <p>
+                Définissez les compétences à évaluer dans votre établissement
+                avec leurs niveaux de maîtrise.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire Catégorie de Compétence -->
+    <record id="view_edu_competency_category_form" model="ir.ui.view">
+        <field name="name">edu.competency.category.form</field>
+        <field name="model">edu.competency.category</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie de Compétence">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_competencies" type="object" 
+                                class="oe_stat_button" icon="fa-list">
+                            <field name="competency_count" widget="statinfo" 
+                                   string="Compétences"/>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Archivé" bg_color="bg-danger" 
+                            invisible="active"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom de la catégorie"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description de la catégorie"/>
+                        </page>
+                        <page string="Compétences" name="competencies">
+                            <field name="competency_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="competency_type"/>
+                                    <field name="coefficient"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Catégorie de Compétence -->
+    <record id="view_edu_competency_category_tree" model="ir.ui.view">
+        <field name="name">edu.competency.category.tree</field>
+        <field name="model">edu.competency.category</field>
+        <field name="arch" type="xml">
+            <tree string="Catégories de Compétences">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="competency_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action Catégorie de Compétence -->
+    <record id="action_edu_competency_category" model="ir.actions.act_window">
+        <field name="name">Catégories de Compétences</field>
+        <field name="res_model">edu.competency.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle catégorie de compétence
+            </p>
+            <p>
+                Organisez vos compétences par catégories thématiques
+                (académiques, transversales, sociales, etc.).
+            </p>
+        </field>
+    </record>
+
+    <!-- Action Niveau de Maîtrise -->
+    <record id="action_edu_competency_mastery_level" model="ir.actions.act_window">
+        <field name="name">Niveaux de Maîtrise</field>
+        <field name="res_model">edu.competency.mastery.level</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau niveau de maîtrise
+            </p>
+            <p>
+                Définissez les niveaux de maîtrise pour chaque compétence
+                avec leurs descripteurs et seuils.
+            </p>
+        </field>
+    </record>
+</odoo>

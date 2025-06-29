@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_health_center_root"
+              name="Centre de Santé"
+              sequence="50"
+              web_icon="edu_health_center,static/description/icon.png"/>
+    
+    <!-- Sous-menus principaux -->
+    <menuitem id="menu_health_dashboard"
+              name="Tableau de Bord"
+              parent="menu_health_center_root"
+              sequence="5"
+              action="action_health_dashboard"/>
+    
+    <menuitem id="menu_health_records"
+              name="Dossiers Médicaux"
+              parent="menu_health_center_root"
+              sequence="10"/>
+    
+    <menuitem id="menu_health_records_list"
+              name="Dossiers Médicaux"
+              parent="menu_health_records"
+              action="action_health_records"
+              sequence="10"/>
+    
+    <menuitem id="menu_health_records_new"
+              name="Nouveau Dossier"
+              parent="menu_health_records"
+              action="action_health_records_new"
+              sequence="20"/>
+    
+    <!-- Menu Consultations -->
+    <menuitem id="menu_consultations"
+              name="Consultations"
+              parent="menu_health_center_root"
+              sequence="20"/>
+    
+    <menuitem id="menu_consultations_today"
+              name="Consultations du Jour"
+              parent="menu_consultations"
+              action="action_consultations_today"
+              sequence="10"/>
+    
+    <menuitem id="menu_consultations_all"
+              name="Toutes les Consultations"
+              parent="menu_consultations"
+              action="action_consultations_all"
+              sequence="20"/>
+    
+    <menuitem id="menu_consultations_calendar"
+              name="Planning Médical"
+              parent="menu_consultations"
+              action="action_consultations_calendar"
+              sequence="30"/>
+    
+    <!-- Menu Urgences -->
+    <menuitem id="menu_emergencies"
+              name="Urgences"
+              parent="menu_health_center_root"
+              sequence="30"/>
+    
+    <menuitem id="menu_emergency_alert"
+              name="🚨 Nouvelle Urgence"
+              parent="menu_emergencies"
+              action="action_emergency_alert"
+              sequence="5"/>
+    
+    <menuitem id="menu_emergencies_active"
+              name="Urgences Actives"
+              parent="menu_emergencies"
+              action="action_emergencies_active"
+              sequence="10"/>
+    
+    <menuitem id="menu_emergencies_history"
+              name="Historique des Urgences"
+              parent="menu_emergencies"
+              action="action_emergencies_history"
+              sequence="20"/>
+    
+    <!-- Menu Pharmacie -->
+    <menuitem id="menu_pharmacy"
+              name="Pharmacie"
+              parent="menu_health_center_root"
+              sequence="40"/>
+    
+    <menuitem id="menu_prescriptions"
+              name="Prescriptions"
+              parent="menu_pharmacy"
+              action="action_prescriptions"
+              sequence="10"/>
+    
+    <menuitem id="menu_medications"
+              name="Médicaments"
+              parent="menu_pharmacy"
+              action="action_medications"
+              sequence="20"/>
+    
+    <menuitem id="menu_medication_stock"
+              name="Stock Pharmacie"
+              parent="menu_pharmacy"
+              action="action_medication_stock"
+              sequence="30"/>
+    
+    <!-- Menu Vaccinations -->
+    <menuitem id="menu_vaccinations"
+              name="Vaccinations"
+              parent="menu_health_center_root"
+              sequence="50"/>
+    
+    <menuitem id="menu_vaccination_records"
+              name="Carnets de Vaccination"
+              parent="menu_vaccinations"
+              action="action_vaccination_records"
+              sequence="10"/>
+    
+    <menuitem id="menu_vaccination_campaigns"
+              name="Campagnes de Vaccination"
+              parent="menu_vaccinations"
+              action="action_vaccination_campaigns"
+              sequence="20"/>
+    
+    <!-- Menu Personnel -->
+    <menuitem id="menu_medical_staff"
+              name="Personnel Médical"
+              parent="menu_health_center_root"
+              sequence="60"/>
+    
+    <menuitem id="menu_medical_staff_list"
+              name="Personnel"
+              parent="menu_medical_staff"
+              action="action_medical_staff"
+              sequence="10"/>
+    
+    <menuitem id="menu_medical_planning"
+              name="Planning des Gardes"
+              parent="menu_medical_staff"
+              action="action_medical_planning"
+              sequence="20"/>
+    
+    <!-- Menu Configuration -->
+    <menuitem id="menu_health_config"
+              name="Configuration"
+              parent="menu_health_center_root"
+              sequence="70"/>
+    
+    <menuitem id="menu_health_insurance"
+              name="Assurances Santé"
+              parent="menu_health_config"
+              action="action_health_insurance"
+              sequence="10"/>
+    
+    <menuitem id="menu_vaccine_types"
+              name="Types de Vaccins"
+              parent="menu_health_config"
+              action="action_vaccine_types"
+              sequence="20"/>
+    
+    <menuitem id="menu_medical_equipment"
+              name="Équipements Médicaux"
+              parent="menu_health_config"
+              action="action_medical_equipment"
+              sequence="30"/>
+    
+    <!-- Menu Rapports -->
+    <menuitem id="menu_health_reports"
+              name="Rapports Médicaux"
+              parent="menu_health_center_root"
+              sequence="80"/>
+    
+    <menuitem id="menu_health_statistics"
+              name="Statistiques de Santé"
+              parent="menu_health_reports"
+              action="action_health_statistics"
+              sequence="10"/>
+    
+    <menuitem id="menu_epidemiology_reports"
+              name="Rapports Épidémiologiques"
+              parent="menu_health_reports"
+              action="action_epidemiology_reports"
+              sequence="20"/>
+</odoo>

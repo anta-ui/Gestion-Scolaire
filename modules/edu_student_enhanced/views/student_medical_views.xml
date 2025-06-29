@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue liste informations médicales -->
+    <record id="view_student_medical_info_tree" model="ir.ui.view">
+        <field name="name">student.medical.info.tree</field>
+        <field name="model">student.medical.info</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="is_critical" decoration-warning="severity=='high'">
+                <field name="student_name"/>
+                <field name="medical_type"/>
+                <field name="title"/>
+                <field name="severity"/>
+                <field name="date"/>
+                <field name="is_critical"/>
+                <field name="is_active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire informations médicales -->
+    <record id="view_student_medical_info_form" model="ir.ui.view">
+        <field name="name">student.medical.info.form</field>
+        <field name="model">student.medical.info</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_mark_critical" string="⚠️ Marquer Critique" type="object" class="btn-warning"/>
+                    <button name="action_send_notifications" string="📧 Envoyer Notifications" type="object" class="btn-primary"/>
+                    <button name="action_archive" string="📦 Archiver" type="object" class="btn-secondary"/>
+                    <field name="is_active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_send_notifications" type="object" class="oe_stat_button" icon="fa-bell">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Notifier</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="student_id" required="1"/>
+                            <field name="medical_type" required="1"/>
+                            <field name="title" required="1"/>
+                            <field name="severity"/>
+                            <field name="is_critical" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="next_checkup"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="🏥 Détails Médicaux">
+                            <group>
+                                <field name="description" nolabel="1" placeholder="Description détaillée de l'information médicale..."/>
+                            </group>
+                            <group>
+                                <group string="Médecin">
+                                    <field name="doctor_name"/>
+                                    <field name="doctor_phone"/>
+                                    <field name="hospital"/>
+                                </group>
+                                <group string="Traitement">
+                                    <field name="treatment"/>
+                                    <field name="medication_name"/>
+                                    <field name="dosage"/>
+                                    <field name="frequency"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="📄 Documents">
+                            <group>
+                                <field name="medical_report"/>
+                                <field name="prescription"/>
+                                <field name="xray_scan"/>
+                            </group>
+                        </page>
+                        
+                        <page string="🔔 Notifications">
+                            <group>
+                                <group string="Qui Notifier">
+                                    <field name="notify_parents"/>
+                                    <field name="notify_teachers"/>
+                                    <field name="notify_nurse"/>
+                                </group>
+                                <group string="Statut">
+                                    <field name="requires_attention"/>
+                                    <field name="days_since" readonly="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="notes" placeholder="Notes de suivi..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action informations médicales -->
+    <record id="action_student_medical_info" model="ir.actions.act_window">
+        <field name="name">Informations Médicales</field>
+        <field name="res_model">student.medical.info</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ajouter une information médicale
+            </p>
+            <p>
+                Gérez toutes les informations médicales des élèves : allergies, 
+                traitements, vaccinations, etc.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue liste vaccinations -->
+    <record id="view_student_vaccination_tree" model="ir.ui.view">
+        <field name="name">student.vaccination.tree</field>
+        <field name="model">student.vaccination</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="is_up_to_date" decoration-danger="not is_up_to_date">
+                <field name="student_id"/>
+                <field name="vaccine_name"/>
+                <field name="vaccine_type"/>
+                <field name="administration_date"/>
+                <field name="next_dose_date"/>
+                <field name="is_up_to_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire vaccinations -->
+    <record id="view_student_vaccination_form" model="ir.ui.view">
+        <field name="name">student.vaccination.form</field>
+        <field name="model">student.vaccination</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="vaccine_name"/>
+                            <field name="vaccine_type"/>
+                        </group>
+                        <group>
+                            <field name="administration_date"/>
+                            <field name="expiry_date"/>
+                            <field name="next_dose_date"/>
+                            <field name="is_up_to_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="dose_number"/>
+                            <field name="is_booster"/>
+                            <field name="batch_number"/>
+                        </group>
+                        <group>
+                            <field name="administered_by"/>
+                            <field name="location"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="certificate"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action vaccinations -->
+    <record id="action_student_vaccination" model="ir.actions.act_window">
+        <field name="name">Vaccinations</field>
+        <field name="res_model">student.vaccination</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ajouter une vaccination
+            </p>
+            <p>
+                Suivez le carnet de vaccination de chaque élève.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action catégories médicales -->
+    <record id="action_student_medical_category" model="ir.actions.act_window">
+        <field name="name">Catégories Médicales</field>
+        <field name="res_model">student.medical.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

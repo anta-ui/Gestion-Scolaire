@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Équipements de base -->
+    <record id="equipment_projector" model="edu.room.equipment">
+        <field name="name">Projecteur</field>
+        <field name="code">PROJ</field>
+        <field name="category">audiovisual</field>
+        <field name="description">Projecteur multimédia</field>
+    </record>
+    
+    <record id="equipment_whiteboard" model="edu.room.equipment">
+        <field name="name">Tableau blanc</field>
+        <field name="code">WB</field>
+        <field name="category">furniture</field>
+        <field name="description">Tableau blanc interactif</field>
+    </record>
+    
+    <record id="equipment_computer" model="edu.room.equipment">
+        <field name="name">Ordinateur</field>
+        <field name="code">PC</field>
+        <field name="category">computer</field>
+        <field name="description">Ordinateur de bureau</field>
+    </record>
+    
+    <!-- Bâtiment principal -->
+    <record id="building_main" model="edu.building">
+        <field name="name">Bâtiment Principal</field>
+        <field name="code">A</field>
+        <field name="floors_count">3</field>
+        <field name="address">Campus Central</field>
+    </record>
+    
+    <!-- Salles d'exemple -->
+    <record id="room_a101" model="edu.room.enhanced">
+        <field name="name">Salle A101</field>
+        <field name="code">A101</field>
+        <field name="building_id" ref="building_main"/>
+        <field name="floor">1</field>
+        <field name="capacity">30</field>
+        <field name="room_type">classroom</field>
+        <field name="has_projector">True</field>
+        <field name="has_whiteboard">True</field>
+        <field name="has_internet">True</field>
+        <field name="equipment_ids" eval="[(6, 0, [ref('equipment_projector'), ref('equipment_whiteboard')])]"/>
+    </record>
+    
+    <record id="room_a102" model="edu.room.enhanced">
+        <field name="name">Salle A102</field>
+        <field name="code">A102</field>
+        <field name="building_id" ref="building_main"/>
+        <field name="floor">1</field>
+        <field name="capacity">25</field>
+        <field name="room_type">classroom</field>
+        <field name="has_whiteboard">True</field>
+        <field name="has_internet">True</field>
+    </record>
+    
+    <record id="room_lab" model="edu.room.enhanced">
+        <field name="name">Laboratoire Informatique</field>
+        <field name="code">LAB01</field>
+        <field name="building_id" ref="building_main"/>
+        <field name="floor">2</field>
+        <field name="capacity">20</field>
+        <field name="room_type">computer_lab</field>
+        <field name="has_computer">True</field>
+        <field name="has_projector">True</field>
+        <field name="has_internet">True</field>
+        <field name="equipment_ids" eval="[(6, 0, [ref('equipment_computer'), ref('equipment_projector')])]"/>
+    </record>
+</odoo>

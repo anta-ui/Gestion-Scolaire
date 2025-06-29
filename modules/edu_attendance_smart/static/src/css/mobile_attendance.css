@@ -1,0 +1,276 @@
+/* Styles pour l'interface mobile du module Attendance Smart */
+
+.mobile-scanner {
+    padding: 15px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.mobile-scanner h3 {
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#qr-scanner-container {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+#qr-video {
+    border-radius: 10px;
+    border: 3px solid #007bff;
+    max-width: 100%;
+    height: auto;
+}
+
+.mobile-scanner .btn {
+    margin: 5px;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+#scan-result {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Interface de pointage rapide */
+.mobile-checkin {
+    padding: 15px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.mobile-checkin .card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.mobile-checkin .card-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 20px;
+    text-align: center;
+}
+
+.mobile-checkin .card-body {
+    padding: 25px;
+}
+
+.mobile-checkin .form-group {
+    margin-bottom: 20px;
+}
+
+.mobile-checkin .form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.mobile-checkin .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.mobile-checkin .btn-group-toggle .btn {
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s;
+}
+
+.mobile-checkin .btn-group-toggle .btn.active {
+    transform: scale(1.05);
+}
+
+.mobile-checkin .btn-block {
+    border-radius: 25px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+/* Liste des présences mobile */
+.mobile-attendance-list {
+    padding: 15px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.mobile-attendance-list h4 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+#attendance-list {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.attendance-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #007bff;
+    transition: all 0.3s;
+}
+
+.attendance-list-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.attendance-list-item.present {
+    border-left-color: #28a745;
+}
+
+.attendance-list-item.absent {
+    border-left-color: #dc3545;
+}
+
+.attendance-list-item.late {
+    border-left-color: #ffc107;
+}
+
+.student-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+}
+
+.session-info {
+    color: #6c757d;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.status-badge {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.present {
+    background: #28a745;
+    color: white;
+}
+
+.status-badge.absent {
+    background: #dc3545;
+    color: white;
+}
+
+.status-badge.late {
+    background: #ffc107;
+    color: #212529;
+}
+
+.time-info {
+    color: #6c757d;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .mobile-scanner,
+    .mobile-checkin,
+    .mobile-attendance-list {
+        padding: 10px;
+    }
+    
+    .mobile-checkin .card-body {
+        padding: 20px;
+    }
+    
+    .mobile-checkin .btn-group-toggle {
+        flex-direction: column;
+    }
+    
+    .mobile-checkin .btn-group-toggle .btn {
+        margin-bottom: 10px;
+        border-radius: 10px !important;
+    }
+    
+    .attendance-list-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .status-info {
+        margin-top: 15px;
+    }
+}
+
+/* Animation pour le chargement */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Boutons flottants */
+.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+    font-size: 24px;
+    z-index: 1000;
+    transition: all 0.3s;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,123,255,0.6);
+}
+
+/* Notifications toast personnalisées */
+.toast-mobile {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}

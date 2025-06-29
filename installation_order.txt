@@ -1,0 +1,59 @@
+# Ordre d'Installation des Modules de Gestion Scolaire
+
+## Phase 1 - Modules de Base (installer en premier)
+1. edu_student_enhanced
+   - Module de base pour la gestion des étudiants
+   - Requis par plusieurs autres modules
+
+## Phase 2 - Modules Principaux
+2. edu_attendance_smart
+   - Système de présence intelligent
+   - Dépend de: edu_student_enhanced
+
+3. edu_timetable_ai
+   - Planification intelligente des emplois du temps
+   - Dépend de: edu_student_enhanced
+
+4. edu_parent_portal
+   - Portail parent
+   - Dépend de: edu_student_enhanced
+
+## Phase 3 - Modules Spécialisés
+5. edu_accounting_pro
+   - Comptabilité scolaire
+   - Dépend de: edu_student_enhanced
+
+6. edu_communication_hub
+   - Centre de communication
+   - Dépend de: edu_student_enhanced, edu_parent_portal
+
+7. edu_health_center
+   - Centre de santé scolaire
+   - Dépend de: edu_student_enhanced
+
+8. edu_library_plus
+   - Bibliothèque scolaire avancée
+   - Dépend de: edu_student_enhanced
+
+## Phase 4 - Modules Avancés
+9. edu_transport_manager
+   - Gestion du transport scolaire
+   - Dépend de: edu_student_enhanced
+
+10. edu_evaluation_genius
+    - Système d'évaluation intelligent
+    - Dépend de: edu_student_enhanced
+
+## Commandes d'Installation Automatique
+```bash
+# Installation via ligne de commande Odoo
+odoo -d school_db -i edu_student_enhanced --stop-after-init
+odoo -d school_db -i edu_attendance_smart,edu_timetable_ai,edu_parent_portal --stop-after-init
+odoo -d school_db -i edu_accounting_pro,edu_communication_hub,edu_health_center,edu_library_plus --stop-after-init
+odoo -d school_db -i edu_transport_manager,edu_evaluation_genius --stop-after-init
+```
+
+## Notes Importantes
+- Toujours installer edu_student_enhanced en premier
+- Redémarrer Odoo entre chaque phase si nécessaire
+- Vérifier les logs d'installation pour détecter les erreurs 

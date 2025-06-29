@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Tâche cron pour envoyer les notifications en lot -->
+        <record id="ir_cron_send_batch_notifications" model="ir.cron">
+            <field name="name">Envoyer les notifications en lot</field>
+            <field name="model_id" ref="model_edu_parent_notification"/>
+            <field name="state">code</field>
+            <field name="code">model.send_batch_notifications()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <!-- Tâche cron pour nettoyer les anciennes notifications -->
+        <record id="ir_cron_cleanup_old_notifications" model="ir.cron">
+            <field name="name">Nettoyer les anciennes notifications</field>
+            <field name="model_id" ref="model_edu_parent_notification"/>
+            <field name="state">code</field>
+            <field name="code">model.cleanup_old_notifications()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <!-- Tâche cron pour vérifier les alertes de suivi des étudiants -->
+        <record id="ir_cron_check_student_alerts" model="ir.cron">
+            <field name="name">Vérifier les alertes de suivi des étudiants</field>
+            <field name="model_id" ref="model_edu_student_follow"/>
+            <field name="state">code</field>
+            <field name="code">model.run_daily_checks()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</odoo>

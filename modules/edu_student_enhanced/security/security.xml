@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Groupes de sécurité pour le module élèves enhanced -->
+    
+    <!-- Catégorie principale -->
+    <record id="module_category_student_enhanced" model="ir.module.category">
+        <field name="name">Gestion Élèves Avancée</field>
+        <field name="description">Gestion complète des élèves avec fonctionnalités avancées</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Groupe: Utilisateur de base -->
+    <record id="group_student_enhanced_user" model="res.groups">
+        <field name="name">👁️ Consultation Élèves</field>
+        <field name="category_id" ref="module_category_student_enhanced"/>
+        <field name="comment">Peut consulter les informations de base des élèves</field>
+    </record>
+
+    <!-- Groupe: Enseignant -->
+    <record id="group_student_enhanced_teacher" model="res.groups">
+        <field name="name">👨‍🏫 Enseignant</field>
+        <field name="category_id" ref="module_category_student_enhanced"/>
+        <field name="implied_ids" eval="[(4, ref('group_student_enhanced_user'))]"/>
+        <field name="comment">Peut consulter et ajouter des observations comportementales</field>
+    </record>
+
+    <!-- Groupe: Personnel Médical -->
+    <record id="group_student_enhanced_medical" model="res.groups">
+        <field name="name">🏥 Personnel Médical</field>
+        <field name="category_id" ref="module_category_student_enhanced"/>
+        <field name="implied_ids" eval="[(4, ref('group_student_enhanced_user'))]"/>
+        <field name="comment">Accès complet aux informations médicales des élèves</field>
+    </record>
+
+    <!-- Groupe: Direction -->
+    <record id="group_student_enhanced_manager" model="res.groups">
+        <field name="name">👨‍💼 Direction</field>
+        <field name="category_id" ref="module_category_student_enhanced"/>
+        <field name="implied_ids" eval="[(4, ref('group_student_enhanced_teacher')), (4, ref('group_student_enhanced_medical'))]"/>
+        <field name="comment">Accès complet à toutes les fonctionnalités</field>
+    </record>
+
+    <!-- Règles de sécurité -->
+    
+    <!-- Règles pour student.behavior.record -->
+    <record model="ir.rule" id="student_behavior_record_user_rule">
+        <field name="name">Accès aux enregistrements comportementaux (utilisateur)</field>
+        <field name="model_id" ref="model_student_behavior_record"/>
+        <field name="groups" eval="[(4, ref('group_student_enhanced_user'))]"/>
+        <field name="domain_force">[('student_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record model="ir.rule" id="student_behavior_record_teacher_rule">
+        <field name="name">Accès aux enregistrements comportementaux (enseignant)</field>
+        <field name="model_id" ref="model_student_behavior_record"/>
+        <field name="groups" eval="[(4, ref('group_student_enhanced_teacher'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Règles pour student.medical.info -->
+    <record model="ir.rule" id="student_medical_info_user_rule">
+        <field name="name">Accès aux informations médicales (utilisateur)</field>
+        <field name="model_id" ref="model_student_medical_info"/>
+        <field name="groups" eval="[(4, ref('group_student_enhanced_user'))]"/>
+        <field name="domain_force">[('student_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record model="ir.rule" id="student_medical_info_medical_rule">
+        <field name="name">Accès aux informations médicales (personnel médical)</field>
+        <field name="model_id" ref="model_student_medical_info"/>
+        <field name="groups" eval="[(4, ref('group_student_enhanced_medical'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue formulaire pour la configuration du portail -->
+        <record id="view_edu_parent_portal_config_form" model="ir.ui.view">
+            <field name="name">edu.parent.portal.config.form</field>
+            <field name="model">edu.parent.portal.config</field>
+            <field name="arch" type="xml">
+                <form string="Configuration du Portail Parents">
+                    <header>
+                        <button name="action_sync_users" string="Synchroniser les utilisateurs" 
+                                type="object" class="btn-primary" 
+                                help="Créer des comptes utilisateurs pour tous les parents"/>
+                        <button name="action_enable_maintenance" string="Activer maintenance" 
+                                type="object" class="btn-warning" 
+                                invisible="maintenance_mode"
+                                help="Activer le mode maintenance"/>
+                        <button name="action_disable_maintenance" string="Désactiver maintenance" 
+                                type="object" class="btn-success" 
+                                invisible="not maintenance_mode"
+                                help="Désactiver le mode maintenance"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-users" name="action_view_portal_users" type="object">
+                                <field name="total_portal_users" widget="statinfo" string="Utilisateurs"/>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-user-circle">
+                                <field name="total_active_parents" widget="statinfo" string="Parents actifs"/>
+                            </button>
+                        </div>
+                        
+                        <group>
+                            <group string="Informations générales">
+                                <field name="name"/>
+                                <field name="active"/>
+                                <field name="maintenance_mode"/>
+                            </group>
+                            <group string="Apparence">
+                                <field name="theme_color"/>
+                                <field name="custom_primary_color" invisible="theme_color != 'custom'"/>
+                                <field name="custom_secondary_color" invisible="theme_color != 'custom'"/>
+                                <field name="logo" widget="image" class="oe_avatar"/>
+                                <field name="banner_image" widget="image"/>
+                                <field name="favicon" widget="image"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Fonctionnalités" name="features">
+                                <group>
+                                    <group string="Applications et services">
+                                        <field name="enable_mobile_app"/>
+                                        <field name="enable_notifications"/>
+                                        <field name="enable_chat"/>
+                                        <field name="enable_payments"/>
+                                        <field name="enable_appointments"/>
+                                        <field name="enable_document_requests"/>
+                                        <field name="enable_multi_language"/>
+                                        <field name="enable_analytics"/>
+                                    </group>
+                                    <group string="Modules visibles">
+                                        <field name="show_grades"/>
+                                        <field name="show_attendance"/>
+                                        <field name="show_homework"/>
+                                        <field name="show_schedule"/>
+                                        <field name="show_disciplinary"/>
+                                        <field name="show_medical"/>
+                                        <field name="show_transport"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Sécurité" name="security">
+                                <group>
+                                    <group string="Authentification">
+                                        <field name="require_2fa"/>
+                                        <field name="session_timeout"/>
+                                        <field name="max_login_attempts"/>
+                                        <field name="lockout_duration"/>
+                                    </group>
+                                    <group string="Limitations">
+                                        <field name="max_children_per_parent"/>
+                                        <field name="max_file_upload_size"/>
+                                        <field name="allowed_file_extensions" widget="text"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Notifications" name="notifications">
+                                <group>
+                                    <group string="Types de notifications">
+                                        <field name="email_notifications"/>
+                                        <field name="sms_notifications"/>
+                                    </group>
+                                    <group string="Paramètres régionaux">
+                                        <field name="default_language"/>
+                                        <field name="timezone"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Affichage" name="display">
+                                <group>
+                                    <group string="Interface utilisateur">
+                                        <field name="items_per_page"/>
+                                        <field name="auto_refresh_interval"/>
+                                        <field name="show_student_photos"/>
+                                        <field name="show_teacher_contacts"/>
+                                    </group>
+                                    <group string="Disponibilité">
+                                        <field name="available_hours_start" widget="float_time"/>
+                                        <field name="available_hours_end" widget="float_time"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Maintenance" name="maintenance">
+                                <group>
+                                    <field name="maintenance_message" widget="html" invisible="not maintenance_mode"/>
+                                </group>
+                                <group string="Analytics et suivi">
+                                    <field name="track_user_activity"/>
+                                    <field name="generate_usage_reports"/>
+                                    <field name="avg_daily_visits" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vue liste pour la configuration -->
+        <record id="view_edu_parent_portal_config_tree" model="ir.ui.view">
+            <field name="name">edu.parent.portal.config.tree</field>
+            <field name="model">edu.parent.portal.config</field>
+            <field name="arch" type="xml">
+                <tree string="Configurations du Portail">
+                    <field name="name"/>
+                    <field name="active"/>
+                    <field name="theme_color"/>
+                    <field name="enable_mobile_app"/>
+                    <field name="email_notifications"/>
+                    <field name="maintenance_mode"/>
+                    <field name="total_portal_users"/>
+                    <field name="total_active_parents"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Action pour la configuration -->
+        <record id="action_edu_parent_portal_config" model="ir.actions.act_window">
+            <field name="name">Configuration du Portail Parents</field>
+            <field name="res_model">edu.parent.portal.config</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurer le portail parents
+                </p>
+                <p>
+                    Configurez les paramètres généraux, les notifications et les options avancées
+                    du portail parents.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Menu pour la configuration -->
+        <menuitem id="menu_edu_parent_portal_config"
+                  name="Configuration Portail"
+                  parent="base.menu_administration"
+                  action="action_edu_parent_portal_config"
+                  sequence="10"/>
+        
+    </data>
+</odoo>
+

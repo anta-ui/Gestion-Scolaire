@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Barème de Notation -->
+    <record id="view_edu_grade_scale_form" model="ir.ui.view">
+        <field name="name">edu.grade.scale.form</field>
+        <field name="model">edu.grade.scale</field>
+        <field name="arch" type="xml">
+            <form string="Barème de Notation">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_evaluations" type="object" 
+                                class="oe_stat_button" icon="fa-list">
+                            <field name="evaluation_count" widget="statinfo" 
+                                   string="Évaluations"/>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Archivé" bg_color="bg-danger" 
+                            invisible="active"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du barème"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="scale_type"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="min_value"/>
+                            <field name="max_value"/>
+                            <field name="pass_mark"/>
+                            <field name="decimal_places"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description du barème de notation"/>
+                        </page>
+                        <page string="Niveaux de Performance" name="levels">
+                            <field name="grade_level_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="min_value"/>
+                                    <field name="max_value"/>
+                                    <field name="letter_grade"/>
+                                    <field name="color_class"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Barème de Notation -->
+    <record id="view_edu_grade_scale_tree" model="ir.ui.view">
+        <field name="name">edu.grade.scale.tree</field>
+        <field name="model">edu.grade.scale</field>
+        <field name="arch" type="xml">
+            <tree string="Barèmes de Notation">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="scale_type"/>
+                <field name="min_value"/>
+                <field name="max_value"/>
+                <field name="pass_mark"/>
+                <field name="evaluation_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Barème de Notation -->
+    <record id="view_edu_grade_scale_search" model="ir.ui.view">
+        <field name="name">edu.grade.scale.search</field>
+        <field name="model">edu.grade.scale</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Barèmes">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="description"/>
+                
+                <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Numérique" name="numeric" domain="[('scale_type', '=', 'numeric')]"/>
+                <filter string="Lettres" name="letter" domain="[('scale_type', '=', 'letter')]"/>
+                <filter string="Pourcentage" name="percentage" domain="[('scale_type', '=', 'percentage')]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Type" name="group_type" context="{'group_by': 'scale_type'}"/>
+                    <filter string="Actif" name="group_active" context="{'group_by': 'active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Barème de Notation -->
+    <record id="action_edu_grade_scale" model="ir.actions.act_window">
+        <field name="name">Barèmes de Notation</field>
+        <field name="res_model">edu.grade.scale</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau barème de notation
+            </p>
+            <p>
+                Définissez les barèmes de notation utilisés dans votre établissement
+                (0-20, 0-100, A-F, etc.).
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire Niveau de Performance -->
+    <record id="view_edu_grade_level_form" model="ir.ui.view">
+        <field name="name">edu.grade.level.form</field>
+        <field name="model">edu.grade.level</field>
+        <field name="arch" type="xml">
+            <form string="Niveau de Performance">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du niveau"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="grade_scale_id"/>
+                            <field name="min_value"/>
+                            <field name="max_value"/>
+                        </group>
+                        <group>
+                            <field name="letter_grade"/>
+                            <field name="color_class"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="description" placeholder="Description du niveau de performance"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Niveau de Performance -->
+    <record id="view_edu_grade_level_tree" model="ir.ui.view">
+        <field name="name">edu.grade.level.tree</field>
+        <field name="model">edu.grade.level</field>
+        <field name="arch" type="xml">
+            <tree string="Niveaux de Performance">
+                <field name="name"/>
+                <field name="grade_scale_id"/>
+                <field name="min_value"/>
+                <field name="max_value"/>
+                <field name="letter_grade"/>
+                <field name="color_class"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

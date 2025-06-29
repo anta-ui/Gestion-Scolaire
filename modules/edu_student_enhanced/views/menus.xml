@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Principal Éducation Étendue -->
+    <menuitem id="menu_education_enhanced_root"
+              name="Éducation Étendue"
+              sequence="5"
+              web_icon="edu_student_enhanced,static/description/icon.png"/>
+
+    <!-- Sous-menu Élèves -->
+    <menuitem id="menu_students_enhanced"
+              name="Élèves"
+              parent="menu_education_enhanced_root"
+              sequence="10"/>
+
+    <!-- Menu Élèves Étendus -->
+    <menuitem id="menu_student_enhanced_list"
+              name="Tous les Élèves"
+              parent="menu_students_enhanced"
+              action="openeducat_core.act_open_op_student_view"
+              sequence="10"/>
+
+    <!-- Menu Groupes Familiaux -->
+    <menuitem id="menu_family_groups"
+              name="Groupes Familiaux"
+              parent="menu_students_enhanced"
+              action="action_student_family_group"
+              sequence="20"/>
+
+    <!-- Sous-menu Suivi Comportemental -->
+    <menuitem id="menu_behavior_tracking"
+              name="Suivi Comportemental"
+              parent="menu_education_enhanced_root"
+              sequence="20"/>
+
+    <!-- Menu Enregistrements Comportementaux -->
+    <menuitem id="menu_behavior_records"
+              name="Enregistrements"
+              parent="menu_behavior_tracking"
+              action="action_student_behavior_record"
+              sequence="10"/>
+
+    <!-- Menu Tableau de Bord Comportemental -->
+    <menuitem id="menu_behavior_dashboard"
+              name="Tableau de Bord"
+              parent="menu_behavior_tracking"
+              action="action_behavior_dashboard"
+              sequence="20"/>
+
+    <!-- Sous-menu Médical -->
+    <menuitem id="menu_medical"
+              name="Médical"
+              parent="menu_education_enhanced_root"
+              sequence="30"/>
+
+    <!-- Menu Informations Médicales -->
+    <menuitem id="menu_medical_info"
+              name="Informations Médicales"
+              parent="menu_medical"
+              action="action_student_medical_info"
+              sequence="10"/>
+
+    <!-- Sous-menu Documents -->
+    <menuitem id="menu_documents"
+              name="Documents"
+              parent="menu_education_enhanced_root"
+              sequence="40"/>
+
+    <!-- Menu Tous les Documents -->
+    <menuitem id="menu_all_documents"
+              name="Tous les Documents"
+              parent="menu_documents"
+              action="action_student_document"
+              sequence="10"/>
+
+    <!-- Menu Documents Manquants -->
+    <menuitem id="menu_missing_documents"
+              name="Documents Manquants"
+              parent="menu_documents"
+              action="action_missing_documents"
+              sequence="20"/>
+
+    <!-- Sous-menu Analytics -->
+    <menuitem id="menu_analytics"
+              name="Analytics"
+              parent="menu_education_enhanced_root"
+              sequence="50"/>
+
+    <!-- Menu Rapports Élèves -->
+    <menuitem id="menu_student_reports"
+              name="Rapports Élèves"
+              parent="menu_analytics"
+              sequence="10"/>
+
+    <!-- Menu Prédictions IA -->
+    <menuitem id="menu_ai_predictions"
+              name="Prédictions IA"
+              parent="menu_analytics"
+              sequence="20"/>
+
+    <!-- Sous-menu Configuration -->
+    <menuitem id="menu_configuration"
+              name="Configuration"
+              parent="menu_education_enhanced_root"
+              sequence="90"/>
+
+    <!-- Menu Catégories Étudiants -->
+    <menuitem id="menu_student_categories"
+              name="Catégories d'Élèves"
+              parent="menu_configuration"
+              sequence="10"/>
+
+    <!-- Menu Types de Documents -->
+    <menuitem id="menu_document_types"
+              name="Types de Documents"
+              parent="menu_configuration"
+              sequence="20"/>
+
+    <!-- Menu Paramètres Comportementaux -->
+    <menuitem id="menu_behavior_settings"
+              name="Paramètres Comportementaux"
+              parent="menu_configuration"
+              sequence="30"/>
+</odoo> 

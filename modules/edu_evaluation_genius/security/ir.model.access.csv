@@ -1,0 +1,84 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_evaluation_type_admin,edu.evaluation.type admin,model_edu_evaluation_type,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_evaluation_type_faculty,edu.evaluation.type faculty,model_edu_evaluation_type,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_evaluation_type_user,edu.evaluation.type user,model_edu_evaluation_type,base.group_user,1,0,0,0
+
+access_edu_grade_scale_admin,edu.grade.scale admin,model_edu_grade_scale,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_grade_scale_faculty,edu.grade.scale faculty,model_edu_grade_scale,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_grade_scale_user,edu.grade.scale user,model_edu_grade_scale,base.group_user,1,0,0,0
+
+access_edu_grade_level_admin,edu.grade.level admin,model_edu_grade_level,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_grade_level_faculty,edu.grade.level faculty,model_edu_grade_level,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_grade_level_user,edu.grade.level user,model_edu_grade_level,base.group_user,1,0,0,0
+
+access_edu_competency_admin,edu.competency admin,model_edu_competency,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_competency_faculty,edu.competency faculty,model_edu_competency,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_competency_user,edu.competency user,model_edu_competency,base.group_user,1,0,0,0
+
+access_edu_competency_category_admin,edu.competency.category admin,model_edu_competency_category,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_competency_category_faculty,edu.competency.category faculty,model_edu_competency_category,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_competency_category_user,edu.competency.category user,model_edu_competency_category,base.group_user,1,0,0,0
+
+access_edu_competency_mastery_level_admin,edu.competency.mastery.level admin,model_edu_competency_mastery_level,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_competency_mastery_level_faculty,edu.competency.mastery.level faculty,model_edu_competency_mastery_level,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_competency_mastery_level_user,edu.competency.mastery.level user,model_edu_competency_mastery_level,base.group_user,1,0,0,0
+
+access_edu_evaluation_criteria_admin,edu.evaluation.criteria admin,model_edu_evaluation_criteria,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_evaluation_criteria_faculty,edu.evaluation.criteria faculty,model_edu_evaluation_criteria,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_evaluation_criteria_user,edu.evaluation.criteria user,model_edu_evaluation_criteria,base.group_user,1,0,0,0
+
+access_edu_criteria_rubric_level_admin,edu.criteria.rubric.level admin,model_edu_criteria_rubric_level,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_criteria_rubric_level_faculty,edu.criteria.rubric.level faculty,model_edu_criteria_rubric_level,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_criteria_rubric_level_user,edu.criteria.rubric.level user,model_edu_criteria_rubric_level,base.group_user,1,0,0,0
+
+access_edu_evaluation_period_admin,edu.evaluation.period admin,model_edu_evaluation_period,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_evaluation_period_faculty,edu.evaluation.period faculty,model_edu_evaluation_period,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_evaluation_period_user,edu.evaluation.period user,model_edu_evaluation_period,base.group_user,1,0,0,0
+
+access_edu_evaluation_admin,edu.evaluation admin,model_edu_evaluation,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_evaluation_faculty,edu.evaluation faculty,model_edu_evaluation,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_evaluation_user,edu.evaluation user,model_edu_evaluation,base.group_user,1,0,0,0
+
+access_edu_evaluation_line_admin,edu.evaluation.line admin,model_edu_evaluation_line,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_evaluation_line_faculty,edu.evaluation.line faculty,model_edu_evaluation_line,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_evaluation_line_user,edu.evaluation.line user,model_edu_evaluation_line,base.group_user,1,0,0,0
+
+access_edu_competency_evaluation_admin,edu.competency.evaluation admin,model_edu_competency_evaluation,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_competency_evaluation_faculty,edu.competency.evaluation faculty,model_edu_competency_evaluation,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_competency_evaluation_user,edu.competency.evaluation user,model_edu_competency_evaluation,base.group_user,1,0,0,0
+
+access_edu_competency_evaluation_report_admin,edu.competency.evaluation.report admin,model_edu_competency_evaluation_report,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_competency_evaluation_report_faculty,edu.competency.evaluation.report faculty,model_edu_competency_evaluation_report,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_competency_evaluation_report_user,edu.competency.evaluation.report user,model_edu_competency_evaluation_report,base.group_user,1,0,0,0
+
+access_edu_grade_average_admin,edu.grade.average admin,model_edu_grade_average,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_grade_average_faculty,edu.grade.average faculty,model_edu_grade_average,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_grade_average_user,edu.grade.average user,model_edu_grade_average,base.group_user,1,0,0,0
+
+access_edu_grade_average_wizard_admin,edu.grade.average.wizard admin,model_edu_grade_average_wizard,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_grade_average_wizard_faculty,edu.grade.average.wizard faculty,model_edu_grade_average_wizard,openeducat_core.group_op_faculty,1,1,1,1
+access_edu_grade_average_wizard_user,edu.grade.average.wizard user,model_edu_grade_average_wizard,base.group_user,1,1,1,1
+
+access_edu_report_card_admin,edu.report.card admin,model_edu_report_card,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_report_card_faculty,edu.report.card faculty,model_edu_report_card,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_report_card_user,edu.report.card user,model_edu_report_card,base.group_user,1,0,0,0
+
+access_edu_report_card_subject_line_admin,edu.report.card.subject.line admin,model_edu_report_card_subject_line,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_report_card_subject_line_faculty,edu.report.card.subject.line faculty,model_edu_report_card_subject_line,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_report_card_subject_line_user,edu.report.card.subject.line user,model_edu_report_card_subject_line,base.group_user,1,0,0,0
+
+access_edu_report_card_competency_line_admin,edu.report.card.competency.line admin,model_edu_report_card_competency_line,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_report_card_competency_line_faculty,edu.report.card.competency.line faculty,model_edu_report_card_competency_line,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_report_card_competency_line_user,edu.report.card.competency.line user,model_edu_report_card_competency_line,base.group_user,1,0,0,0
+
+access_edu_report_card_template_admin,edu.report.card.template admin,model_edu_report_card_template,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_report_card_template_faculty,edu.report.card.template faculty,model_edu_report_card_template,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_report_card_template_user,edu.report.card.template user,model_edu_report_card_template,base.group_user,1,0,0,0
+
+access_edu_evaluation_analytics_admin,edu.evaluation.analytics admin,model_edu_evaluation_analytics,openeducat_core.group_op_back_office_admin,1,0,0,0
+access_edu_evaluation_analytics_faculty,edu.evaluation.analytics faculty,model_edu_evaluation_analytics,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_evaluation_analytics_user,edu.evaluation.analytics user,model_edu_evaluation_analytics,base.group_user,1,0,0,0
+
+access_edu_evaluation_dashboard_admin,edu.evaluation.dashboard admin,model_edu_evaluation_dashboard,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_evaluation_dashboard_faculty,edu.evaluation.dashboard faculty,model_edu_evaluation_dashboard,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_evaluation_dashboard_user,edu.evaluation.dashboard user,model_edu_evaluation_dashboard,base.group_user,1,0,0,0

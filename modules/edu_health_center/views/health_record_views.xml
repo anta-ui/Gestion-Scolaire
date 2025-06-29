@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vue liste des dossiers médicaux -->
+    <record id="view_health_record_tree" model="ir.ui.view">
+        <field name="name">health.record.tree</field>
+        <field name="model">edu.health.record</field>
+        <field name="arch" type="xml">
+            <tree string="Dossiers Médicaux">
+                <field name="student_id"/>
+                <field name="blood_type"/>
+                <field name="allergies"/>
+                <field name="chronic_conditions"/>
+                <field name="emergency_contact"/>
+                <field name="emergency_phone"/>
+                <field name="last_consultation_date"/>
+                <field name="consultation_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire des dossiers médicaux -->
+    <record id="view_health_record_form" model="ir.ui.view">
+        <field name="name">health.record.form</field>
+        <field name="model">edu.health.record</field>
+        <field name="arch" type="xml">
+            <form string="Dossier Médical">
+                <header>
+                    <button name="action_update_medical_info" type="object" string="Mettre à jour" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="student_id" placeholder="Sélectionner un étudiant"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Informations Médicales">
+                            <field name="blood_type"/>
+                            <field name="weight"/>
+                            <field name="height"/>
+                            <field name="bmi" readonly="1"/>
+                        </group>
+                        <group string="Contact d'Urgence">
+                            <field name="emergency_contact"/>
+                            <field name="emergency_phone"/>
+                            <field name="emergency_relationship"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Conditions Médicales">
+                            <field name="allergies" widget="text"/>
+                            <field name="chronic_conditions" widget="text"/>
+                            <field name="current_medications" widget="text"/>
+                        </group>
+                        <group string="Assurance">
+                            <field name="insurance_id"/>
+                            <field name="social_security_number"/>
+                            <field name="insurance_number"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Statistiques">
+                            <field name="consultation_count" readonly="1"/>
+                            <field name="last_consultation_date" readonly="1"/>
+                        </group>
+                        <group string="Métadonnées">
+                            <field name="create_date" readonly="1"/>
+                            <field name="write_date" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Consultations">
+                            <field name="consultation_ids">
+                                <tree>
+                                    <field name="consultation_date"/>
+                                    <field name="doctor_id"/>
+                                    <field name="reason"/>
+                                    <field name="diagnosis"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="Notes Médicales">
+                            <field name="medical_notes" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche des dossiers médicaux -->
+    <record id="view_health_record_search" model="ir.ui.view">
+        <field name="name">health.record.search</field>
+        <field name="model">edu.health.record</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Dossiers Médicaux">
+                <field name="student_id"/>
+                <field name="blood_type"/>
+                <field name="allergies"/>
+                <field name="chronic_conditions"/>
+                
+                <filter string="Avec Allergies" name="with_allergies" domain="[('allergies', '!=', False)]"/>
+                <filter string="Conditions Chroniques" name="chronic" domain="[('chronic_conditions', '!=', False)]"/>
+                <filter string="Assurés" name="insured" domain="[('insurance_id', '!=', False)]"/>
+                
+                <separator/>
+                <filter string="Consultations Récentes" name="recent_consultations" 
+                        domain="[('last_consultation_date', '>=', (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Groupe Sanguin" name="group_blood_type" context="{'group_by': 'blood_type'}"/>
+                    <filter string="Assurance" name="group_insurance" context="{'group_by': 'insurance_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_health_record" model="ir.actions.act_window">
+        <field name="name">Dossiers Médicaux</field>
+        <field name="res_model">edu.health.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_health_record_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau dossier médical
+            </p>
+            <p>
+                Les dossiers médicaux contiennent toutes les informations de santé des étudiants.
+            </p>
+        </field>
+    </record>
+
+</odoo> 

@@ -1,0 +1,71 @@
+.library-dashboard {
+    padding: 20px;
+}
+
+.library-stats-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.library-book-card {
+    transition: transform 0.2s;
+}
+
+.library-book-card:hover {
+    transform: translateY(-5px);
+}
+
+.library-availability-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.library-qr-code {
+    max-width: 200px;
+    margin: 10px auto;
+    display: block;
+}
+
+.library-search-advanced {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.library-member-card {
+    border-left: 4px solid #007bff;
+    padding-left: 15px;
+}
+
+.library-overdue {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.library-available {
+    color: #28a745;
+}
+
+.library-digital-badge {
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .library-dashboard {
+        padding: 10px;
+    }
+    
+    .library-stats-card {
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+}

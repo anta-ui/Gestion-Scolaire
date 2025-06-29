@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vue liste des configurations -->
+    <record id="view_edu_accounting_config_tree" model="ir.ui.view">
+        <field name="name">edu.accounting.config.tree</field>
+        <field name="model">edu.accounting.config</field>
+        <field name="arch" type="xml">
+            <tree string="Configurations Comptabilité" decoration-info="active">
+                <field name="name"/>
+                <field name="academic_year_id"/>
+                <field name="currency_id"/>
+                <field name="fiscal_year_start"/>
+                <field name="auto_generate_invoices"/>
+                <field name="enable_late_fees"/>
+                <field name="enable_online_payments"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire de configuration -->
+    <record id="view_edu_accounting_config_form" model="ir.ui.view">
+        <field name="name">edu.accounting.config.form</field>
+        <field name="model">edu.accounting.config</field>
+        <field name="arch" type="xml">
+            <form string="Configuration Comptabilité Éducative">
+                <header>
+                    <button name="action_test_stripe_connection" type="object" 
+                            string="Tester Stripe" class="btn-secondary"
+                            invisible="not stripe_secret_key"/>
+                    <button name="action_generate_monthly_invoices" type="object" 
+                            string="Générer Factures Mensuelles" class="btn-primary"
+                            invisible="not auto_generate_invoices"/>
+                    <button name="action_send_payment_reminders" type="object" 
+                            string="Envoyer Rappels" class="btn-secondary"
+                            invisible="not enable_payment_reminders"/>
+                    <button name="action_financial_dashboard" type="object" 
+                            string="Tableau de Bord" class="btn-info"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_financial_dashboard" type="object" 
+                                class="oe_stat_button" icon="fa-dashboard">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Tableau</span>
+                                <span class="o_stat_value">de Bord</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Nom de la configuration"/></h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Configuration Générale">
+                            <field name="country_id"/>
+                            <field name="currency_id" readonly="not manual_currency_override"/>
+                            <field name="manual_currency_override"/>
+                            <button name="action_suggest_currency_by_country" type="object" 
+                                    string="Suggérer Devise" class="btn-link"
+                                    icon="fa-lightbulb-o" 
+                                    invisible="not country_id"
+                                    help="Obtenir une suggestion de devise basée sur le pays"/>
+                            <field name="fiscal_year_start"/>
+                            <field name="academic_year_id"/>
+                        </group>
+                        <group string="Statistiques">
+                            <field name="total_invoiced_current_year" widget="monetary"/>
+                            <field name="total_collected_current_year" widget="monetary"/>
+                            <field name="outstanding_amount" widget="monetary"/>
+                            <field name="collection_rate" widget="percentage"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Facturation" name="invoicing">
+                            <group>
+                                <group string="Paramètres de Facturation">
+                                    <field name="auto_generate_invoices"/>
+                                    <field name="invoice_due_days"/>
+                                    <field name="invoice_prefix"/>
+                                    <field name="invoice_template_id"/>
+                                </group>
+                                <group string="Frais de Retard">
+                                    <field name="enable_late_fees"/>
+                                    <field name="late_payment_fee_rate" 
+                                           invisible="not enable_late_fees"/>
+                                    <field name="grace_period_days" 
+                                           invisible="not enable_late_fees"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Paiements en Ligne" name="online_payments">
+                            <group>
+                                <group string="Configuration Générale">
+                                    <field name="enable_online_payments"/>
+                                    <field name="enable_mobile_money"/>
+                                    <field name="multi_currency_support"/>
+                                </group>
+                            </group>
+                            
+                            <group string="Stripe" invisible="not enable_online_payments">
+                                <group>
+                                    <field name="stripe_publishable_key" password="True"/>
+                                    <field name="stripe_secret_key" password="True"/>
+                                </group>
+                            </group>
+                            
+                            <group string="PayPal" invisible="not enable_online_payments">
+                                <group>
+                                    <field name="paypal_client_id" password="True"/>
+                                    <field name="paypal_client_secret" password="True"/>
+                                </group>
+                            </group>
+                            
+                            <group string="Mobile Money" invisible="not enable_mobile_money">
+                                <group>
+                                    <field name="orange_money_merchant_id"/>
+                                    <field name="orange_money_api_key" password="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Bourses et Remises" name="scholarships">
+                            <group>
+                                <group string="Bourses">
+                                    <field name="enable_scholarships"/>
+                                    <field name="auto_apply_scholarships" 
+                                           invisible="not enable_scholarships"/>
+                                    <field name="max_scholarship_percentage" 
+                                           invisible="not enable_scholarships"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Notifications" name="notifications">
+                            <group>
+                                <group string="Rappels de Paiement">
+                                    <field name="enable_payment_reminders"/>
+                                    <field name="reminder_days_before" 
+                                           invisible="not enable_payment_reminders"/>
+                                    <field name="reminder_days_after" 
+                                           invisible="not enable_payment_reminders"/>
+                                </group>
+                                <group string="Rapports">
+                                    <field name="generate_monthly_reports"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Comptabilité" name="accounting">
+                            <group>
+                                <group string="Comptes par Défaut">
+                                    <field name="student_receivable_account_id"/>
+                                    <field name="tuition_income_account_id"/>
+                                    <field name="scholarship_expense_account_id"/>
+                                    <field name="late_fee_income_account_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Options Avancées" name="advanced">
+                            <group>
+                                <group string="Paiements">
+                                    <field name="auto_reconcile_payments"/>
+                                    <field name="require_payment_validation"/>
+                                    <field name="enable_payment_plans"/>
+                                </group>
+                                <group string="Intégration Bancaire">
+                                    <field name="enable_bank_synchronization"/>
+                                    <field name="bank_sync_frequency" 
+                                           invisible="not enable_bank_synchronization"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche des configurations -->
+    <record id="view_edu_accounting_config_search" model="ir.ui.view">
+        <field name="name">edu.accounting.config.search</field>
+        <field name="model">edu.accounting.config</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Configurations">
+                <field name="name" string="Nom"/>
+                <field name="country_id" string="Pays"/>
+                <field name="academic_year_id" string="Année Scolaire"/>
+                <field name="currency_id" string="Devise"/>
+                
+                <filter string="Actives" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactives" name="inactive" domain="[('active', '=', False)]"/>
+                
+                <separator/>
+                <filter string="Génération Auto" name="auto_generate" 
+                        domain="[('auto_generate_invoices', '=', True)]"/>
+                <filter string="Frais de Retard" name="late_fees" 
+                        domain="[('enable_late_fees', '=', True)]"/>
+                <filter string="Paiements en Ligne" name="online_payments" 
+                        domain="[('enable_online_payments', '=', True)]"/>
+                <filter string="Bourses" name="scholarships" 
+                        domain="[('enable_scholarships', '=', True)]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Pays" name="group_country" 
+                            context="{'group_by': 'country_id'}"/>
+                    <filter string="Devise" name="group_currency" 
+                            context="{'group_by': 'currency_id'}"/>
+                    <filter string="Année Scolaire" name="group_academic_year" 
+                            context="{'group_by': 'academic_year_id'}"/>
+                    <filter string="Année Fiscale" name="group_fiscal_year" 
+                            context="{'group_by': 'fiscal_year_start'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action pour les configurations -->
+    <record id="action_edu_accounting_config" model="ir.actions.act_window">
+        <field name="name">Configuration Comptabilité</field>
+        <field name="res_model">edu.accounting.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_edu_accounting_config_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configurer votre système comptable éducatif
+            </p>
+            <p>
+                La configuration définit tous les paramètres de fonctionnement 
+                de votre système comptable : facturation, paiements, bourses, etc.
+            </p>
+        </field>
+    </record>
+
+</odoo>

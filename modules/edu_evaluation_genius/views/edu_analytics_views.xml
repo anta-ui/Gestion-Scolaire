@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue Liste Analytiques Évaluations -->
+        <record id="view_edu_evaluation_analytics_tree" model="ir.ui.view">
+            <field name="name">edu.evaluation.analytics.tree</field>
+            <field name="model">edu.evaluation.analytics</field>
+            <field name="arch" type="xml">
+                <tree string="Analytiques d'Évaluation" create="false" edit="false" delete="false">
+                    <field name="student_name"/>
+                    <field name="course_name"/>
+                    <field name="faculty_name"/>
+                    <field name="standard_name"/>
+                    <field name="period_name"/>
+                    <field name="evaluation_count"/>
+                    <field name="average_grade" widget="float" digits="[6,2]"/>
+                    <field name="grade_percentage" widget="progressbar"/>
+                    <field name="success_rate" widget="progressbar"/>
+                    <field name="absence_rate" widget="progressbar"/>
+                    <field name="evaluation_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Graphique Analytiques -->
+        <record id="view_edu_evaluation_analytics_graph" model="ir.ui.view">
+            <field name="name">edu.evaluation.analytics.graph</field>
+            <field name="model">edu.evaluation.analytics</field>
+            <field name="arch" type="xml">
+                <graph string="Analytiques d'Évaluation" type="bar">
+                    <field name="course_name" type="row"/>
+                    <field name="average_grade" type="measure"/>
+                    <field name="success_rate" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Vue Pivot Analytiques -->
+        <record id="view_edu_evaluation_analytics_pivot" model="ir.ui.view">
+            <field name="name">edu.evaluation.analytics.pivot</field>
+            <field name="model">edu.evaluation.analytics</field>
+            <field name="arch" type="xml">
+                <pivot string="Analytiques d'Évaluation">
+                    <field name="standard_name" type="row"/>
+                    <field name="course_name" type="row"/>
+                    <field name="period_name" type="col"/>
+                    <field name="average_grade" type="measure"/>
+                    <field name="success_rate" type="measure"/>
+                    <field name="evaluation_count" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Vue Recherche Analytiques -->
+        <record id="view_edu_evaluation_analytics_search" model="ir.ui.view">
+            <field name="name">edu.evaluation.analytics.search</field>
+            <field name="model">edu.evaluation.analytics</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Analytiques">
+                    <field name="student_name"/>
+                    <field name="course_name"/>
+                    <field name="faculty_name"/>
+                    <field name="standard_name"/>
+                    <field name="period_name"/>
+                    
+                    <filter name="high_success" string="Taux de réussite élevé" 
+                            domain="[('success_rate', '>=', 80)]"/>
+                    <filter name="low_success" string="Taux de réussite faible" 
+                            domain="[('success_rate', '&lt;', 50)]"/>
+                    <filter name="high_absence" string="Absentéisme élevé" 
+                            domain="[('absence_rate', '>=', 20)]"/>
+                    
+                    <separator/>
+                    <filter name="current_month" string="Mois actuel" 
+                            domain="[('month', '=', context_today().month)]"/>
+                    <filter name="current_year" string="Année actuelle" 
+                            domain="[('year', '=', context_today().year)]"/>
+                    
+                    <group expand="0" string="Grouper par">
+                        <filter name="group_student" string="Élève" context="{'group_by': 'student_name'}"/>
+                        <filter name="group_course" string="Matière" context="{'group_by': 'course_name'}"/>
+                        <filter name="group_faculty" string="Enseignant" context="{'group_by': 'faculty_name'}"/>
+                        <filter name="group_standard" string="Classe" context="{'group_by': 'standard_name'}"/>
+                        <filter name="group_period" string="Période" context="{'group_by': 'period_name'}"/>
+                        <filter name="group_month" string="Mois" context="{'group_by': 'month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action Analytiques -->
+        <record id="action_edu_evaluation_analytics" model="ir.actions.act_window">
+            <field name="name">Analytiques d'Évaluation</field>
+            <field name="res_model">edu.evaluation.analytics</field>
+            <field name="view_mode">tree,graph,pivot</field>
+            <field name="search_view_id" ref="view_edu_evaluation_analytics_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune donnée analytique disponible
+                </p>
+                <p>
+                    Les analytiques d'évaluation permettent d'analyser les performances 
+                    des élèves, des classes et des matières.
+                </p>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire Tableau de Bord -->
+        <record id="view_edu_evaluation_dashboard_form" model="ir.ui.view">
+            <field name="name">edu.evaluation.dashboard.form</field>
+            <field name="model">edu.evaluation.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Tableau de Bord">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nom du tableau de bord"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Configuration">
+                                <field name="description"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                            <group string="Métriques">
+                                <field name="total_evaluations" readonly="1"/>
+                                <field name="average_grade" readonly="1" widget="float"/>
+                                <field name="success_rate" readonly="1" widget="progressbar"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Filtres">
+                                <group>
+                                    <group string="Élèves et Classes">
+                                        <field name="student_ids" widget="many2many_tags"/>
+                                        <field name="standard_ids" widget="many2many_tags"/>
+                                    </group>
+                                    <group string="Matières et Enseignants">
+                                        <field name="course_ids" widget="many2many_tags"/>
+                                        <field name="faculty_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="period_ids" widget="many2many_tags"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue Liste Tableau de Bord -->
+        <record id="view_edu_evaluation_dashboard_tree" model="ir.ui.view">
+            <field name="name">edu.evaluation.dashboard.tree</field>
+            <field name="model">edu.evaluation.dashboard</field>
+            <field name="arch" type="xml">
+                <tree string="Tableaux de Bord">
+                    <field name="name"/>
+                    <field name="total_evaluations"/>
+                    <field name="average_grade" widget="float"/>
+                    <field name="success_rate" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action Tableau de Bord -->
+        <record id="action_edu_evaluation_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableaux de Bord</field>
+            <field name="res_model">edu.evaluation.dashboard</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier tableau de bord
+                </p>
+                <p>
+                    Les tableaux de bord permettent de suivre les performances 
+                    avec des filtres personnalisés.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

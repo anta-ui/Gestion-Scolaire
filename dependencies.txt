@@ -1,0 +1,46 @@
+# Dépendances des Modules de Gestion Scolaire
+
+## Modules Odoo Standard Requis
+- account (Comptabilité)
+- base (Module de base Odoo)
+- calendar (Calendrier)
+- contacts (Contacts)
+- fleet (Gestion de flotte)
+- hr (Ressources humaines)
+- hr_attendance (Présences RH)
+- mail (Messagerie)
+- payment (Paiements)
+- portal (Portail)
+- product (Produits)
+- resource (Ressources)
+- sale (Ventes)
+- sms (SMS)
+- stock (Stock)
+- web (Interface web)
+- website (Site web)
+
+## Modules OpenEduCat Requis
+- openeducat_core (Module principal OpenEduCat)
+- openeducat_admission (Admissions)
+- openeducat_parent (Gestion des parents)
+- openeducat_timetable (Emploi du temps)
+- openeducat_activity (Activités et événements)
+
+## Dépendances Python
+- qrcode (Génération de codes QR)
+- PIL/Pillow (Traitement d'images)
+
+## Modules Personnalisés Interdépendants
+- edu_student_enhanced (Requis par plusieurs autres modules)
+
+## Installation des Dépendances Python
+```bash
+pip install qrcode[pil]
+pip install Pillow
+```
+
+## Notes d'Installation
+1. Installer d'abord tous les modules Odoo standard
+2. Installer les modules OpenEduCat
+3. Installer les dépendances Python
+4. Installer les modules personnalisés dans l'ordre de dépendance 

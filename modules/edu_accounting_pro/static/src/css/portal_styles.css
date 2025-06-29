@@ -1,0 +1,358 @@
+/* Styles pour le portail étudiant - Comptabilité */
+
+.edu_portal_accounting {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.portal_invoice_card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.portal_invoice_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.invoice_card_header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+}
+
+.invoice_card_header h4 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.invoice_card_header .invoice_date {
+    opacity: 0.9;
+    font-size: 0.9em;
+}
+
+.invoice_card_body {
+    padding: 20px;
+}
+
+.invoice_details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.invoice_amount {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.invoice_status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.invoice_status.paid {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.invoice_status.partial {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.invoice_status.overdue {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.invoice_status.pending {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.payment_progress {
+    margin: 15px 0;
+}
+
+.progress_bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress_fill {
+    height: 100%;
+    background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+    transition: width 0.3s ease;
+}
+
+.progress_text {
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.invoice_actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn_portal {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn_portal.primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn_portal.primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.btn_portal.secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn_portal.secondary:hover {
+    background-color: #545b62;
+}
+
+.btn_portal.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn_portal.success:hover {
+    background-color: #1e7e34;
+}
+
+.payment_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.payment_modal_content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.payment_form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.form_group input,
+.form_group select {
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.2s ease;
+}
+
+.form_group input:focus,
+.form_group select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.payment_summary {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.summary_row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary_row.total {
+    font-weight: bold;
+    font-size: 1.2em;
+    border-top: 2px solid #dee2e6;
+    padding-top: 10px;
+}
+
+.payment_methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.payment_method_card {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.payment_method_card:hover {
+    border-color: #007bff;
+    background-color: #f8f9ff;
+}
+
+.payment_method_card.selected {
+    border-color: #007bff;
+    background-color: #e7f3ff;
+}
+
+.payment_method_icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #6c757d;
+}
+
+.payment_method_name {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.payment_history {
+    margin-top: 30px;
+}
+
+.payment_history h5 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.payment_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.payment_item_info {
+    flex: 1;
+}
+
+.payment_date {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.payment_method {
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.payment_amount {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 1.1em;
+}
+
+.alert_portal {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border-left: 4px solid;
+}
+
+.alert_portal.success {
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.alert_portal.warning {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+.alert_portal.danger {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.alert_portal.info {
+    background-color: #cce5ff;
+    border-color: #007bff;
+    color: #004085;
+}
+
+@media (max-width: 768px) {
+    .edu_portal_accounting {
+        padding: 10px;
+    }
+    
+    .invoice_details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .invoice_actions {
+        flex-direction: column;
+    }
+    
+    .payment_methods {
+        grid-template-columns: 1fr;
+    }
+    
+    .payment_modal_content {
+        padding: 20px;
+        margin: 20px;
+    }
+} 

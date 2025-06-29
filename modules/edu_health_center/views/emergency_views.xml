@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue liste des urgences -->
+    <record id="view_health_emergency_tree" model="ir.ui.view">
+        <field name="name">health.emergency.tree</field>
+        <field name="model">health.emergency</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="severity=='critical'" 
+                  decoration-warning="severity=='high'"
+                  decoration-info="severity=='medium'"
+                  decoration-muted="state in ['resolved', 'cancelled']">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="emergency_date"/>
+                <field name="severity" widget="badge"/>
+                <field name="emergency_type"/>
+                <field name="location"/>
+                <field name="handled_by"/>
+                <field name="parents_contacted" widget="boolean_toggle"/>
+                <field name="emergency_services_called" widget="boolean_toggle"/>
+                <field name="state" widget="badge"/>
+                <button name="action_resolve" type="object" 
+                        string="Résoudre" class="btn-success btn-sm"
+                        attrs="{'invisible': [('state', '!=', 'open')]}"
+                        title="Marquer comme résolue"/>
+                <button name="action_transfer" type="object" 
+                        string="Transférer" class="btn-warning btn-sm"
+                        attrs="{'invisible': [('state', '!=', 'open')]}"
+                        title="Transférer aux services d'urgence"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire des urgences -->
+    <record id="view_health_emergency_form" model="ir.ui.view">
+        <field name="name">health.emergency.form</field>
+        <field name="model">health.emergency</field>
+        <field name="arch" type="xml">
+            <form string="Urgence de Santé">
+                <header>
+                    <button name="action_resolve" type="object" 
+                            string="RÉSOUDRE" class="btn-success"
+                            attrs="{'invisible': [('state', '!=', 'open')]}"
+                            confirm="Marquer cette urgence comme résolue?"/>
+                    <button name="action_transfer" type="object" 
+                            string="TRANSFÉRER" class="btn-warning"
+                            attrs="{'invisible': [('state', '!=', 'open')]}"
+                            confirm="Transférer cette urgence aux services d'urgence?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,resolved,transferred"/>
+                </header>
+                
+                <sheet>
+                    <div class="alert alert-danger" role="alert" 
+                         attrs="{'invisible': [('severity', '!=', 'critical')]}">
+                        <strong>🚨 URGENCE CRITIQUE</strong> - Intervention immédiate requise
+                    </div>
+                    
+                    <div class="alert alert-warning" role="alert" 
+                         attrs="{'invisible': [('severity', '!=', 'high')]}">
+                        <strong>⚠️ URGENCE ÉLEVÉE</strong> - Intervention rapide nécessaire
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="student_id" readonly="1"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info">
+                            <field name="emergency_date"/>
+                            <field name="severity"/>
+                            <field name="emergency_type"/>
+                            <field name="location"/>
+                        </group>
+                        <group name="staff_info">
+                            <field name="reported_by"/>
+                            <field name="handled_by"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Description de l'urgence">
+                        <field name="description" colspan="2" widget="html"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Actions Prises" name="actions">
+                            <group>
+                                <field name="actions_taken" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Contacts d'Urgence" name="contacts">
+                            <group string="Parents/Tuteurs">
+                                <field name="parents_contacted"/>
+                                <field name="contact_time" attrs="{'invisible': [('parents_contacted', '=', False)]}"/>
+                            </group>
+                            
+                            <group string="Services d'Urgence">
+                                <field name="emergency_services_called"/>
+                                <field name="service_type" attrs="{'invisible': [('emergency_services_called', '=', False)]}"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Suivi et Résolution" name="followup">
+                            <group>
+                                <field name="resolution_date" readonly="1"/>
+                                <field name="outcome" widget="html" colspan="2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue kanban des urgences -->
+    <record id="view_health_emergency_kanban" model="ir.ui.view">
+        <field name="name">health.emergency.kanban</field>
+        <field name="model">health.emergency</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="severity" class="o_kanban_small_column">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="emergency_date"/>
+                <field name="severity"/>
+                <field name="emergency_type"/>
+                <field name="state"/>
+                <field name="handled_by"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                            <field name="student_id"/>
+                                        </small>
+                                    </div>
+                                    <div class="o_kanban_record_right">
+                                        <span t-att-class="'badge ' + (record.state.raw_value == 'open' ? 'badge-danger' : 'badge-success')">
+                                            <field name="state"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <i class="fa fa-clock-o"/> <field name="emergency_date"/>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-map-marker"/> <field name="emergency_type"/>
+                                    </div>
+                                    <div t-if="record.handled_by.raw_value">
+                                        <i class="fa fa-user-md"/> <field name="handled_by"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <button name="action_resolve" type="object" 
+                                                class="btn btn-success btn-sm"
+                                                t-if="record.state.raw_value == 'open'">
+                                            Résoudre
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue recherche des urgences -->
+    <record id="view_health_emergency_search" model="ir.ui.view">
+        <field name="name">health.emergency.search</field>
+        <field name="model">health.emergency</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Numéro"/>
+                <field name="student_id" string="Étudiant"/>
+                <field name="emergency_type" string="Type"/>
+                <field name="handled_by" string="Personnel"/>
+                <field name="description" string="Description"/>
+                
+                <filter name="open" string="En cours" domain="[('state', '=', 'open')]"/>
+                <filter name="critical" string="Critiques" domain="[('severity', '=', 'critical')]"/>
+                <filter name="high" string="Élevées" domain="[('severity', '=', 'high')]"/>
+                <filter name="today" string="Aujourd'hui" 
+                        domain="[('emergency_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),
+                                ('emergency_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter name="this_week" string="Cette semaine" 
+                        domain="[('emergency_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                
+                <separator/>
+                <filter name="parents_contacted" string="Parents contactés" domain="[('parents_contacted', '=', True)]"/>
+                <filter name="services_called" string="Services appelés" domain="[('emergency_services_called', '=', True)]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter name="group_severity" string="Gravité" context="{'group_by': 'severity'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'emergency_type'}"/>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'emergency_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vue protocoles d'urgence -->
+    <record id="view_health_emergency_protocol_tree" model="ir.ui.view">
+        <field name="name">health.emergency.protocol.tree</field>
+        <field name="model">health.emergency.protocol</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="emergency_type"/>
+                <field name="severity" widget="badge"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_health_emergency_protocol_form" model="ir.ui.view">
+        <field name="name">health.emergency.protocol.form</field>
+        <field name="model">health.emergency.protocol</field>
+        <field name="arch" type="xml">
+            <form string="Protocole d'Urgence">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="emergency_type"/>
+                            <field name="severity"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Étapes du Protocole" name="steps">
+                            <field name="steps" widget="html" placeholder="Décrivez les étapes détaillées à suivre pour ce type d'urgence..."/>
+                        </page>
+                        
+                        <page string="Contacts d'Urgence" name="contacts">
+                            <field name="contacts" widget="html" placeholder="Numéros et contacts à appeler pour ce type d'urgence..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_health_emergency" model="ir.actions.act_window">
+        <field name="name">Urgences de Santé</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune urgence enregistrée
+            </p>
+            <p>
+                Gérez les urgences de santé avec un système de suivi complet
+                incluant les protocoles d'intervention et les contacts d'urgence.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_health_emergency_active" model="ir.actions.act_window">
+        <field name="name">Urgences Actives</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('state', '=', 'open')]</field>
+        <field name="context">{'default_state': 'open'}</field>
+    </record>
+
+    <record id="action_health_emergency_protocol" model="ir.actions.act_window">
+        <field name="name">Protocoles d'Urgence</field>
+        <field name="res_model">health.emergency.protocol</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier protocole d'urgence
+            </p>
+            <p>
+                Définissez les protocoles d'intervention pour chaque type
+                d'urgence médicale selon leur gravité.
+            </p>
+        </field>
+    </record>
+
+    <!-- Actions rapides -->
+    <record id="action_emergency_new" model="ir.actions.act_window">
+        <field name="name">🚨 Nouvelle Urgence</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_severity': 'high', 'form_view_initial_mode': 'edit'}</field>
+    </record>
+</odoo>
