@@ -13,9 +13,9 @@ const Layout = ({ children }) => {
   const isFormulairePubliquePage = location.pathname === '/formulaire-publique';
  
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', width: '100%' }}>
       {!isHomePage && !isLoginPage && !isAboutPage && !isContactPage && !isPortailParentPage && !isFormulairePubliquePage && <Sidebar />}
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', width: '100%' }}>
         {children}
       </Box>
     </Box>
