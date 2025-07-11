@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- Catégories de sécurité -->
+        <record id="module_category_communication" model="ir.module.category">
+            <field name="name">Communication Hub</field>
+            <field name="description">Gestion des communications (SMS, Email, Push)</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Groupes de sécurité -->
+        <record id="group_communication_user" model="res.groups">
+            <field name="name">Communication / Utilisateur</field>
+            <field name="category_id" ref="module_category_communication"/>
+            <field name="comment">Peut consulter et envoyer des messages de base</field>
+        </record>
+
+        <record id="group_communication_manager" model="res.groups">
+            <field name="name">Communication / Gestionnaire</field>
+            <field name="category_id" ref="module_category_communication"/>
+            <field name="implied_ids" eval="[(4, ref('group_communication_user'))]"/>
+            <field name="comment">Peut gérer les templates et campagnes de communication</field>
+        </record>
+
+        <record id="group_communication_admin" model="res.groups">
+            <field name="name">Communication / Administrateur</field>
+            <field name="category_id" ref="module_category_communication"/>
+            <field name="implied_ids" eval="[(4, ref('group_communication_manager'))]"/>
+            <field name="comment">Accès complet au système de communication</field>
+        </record>
+
+        <!-- TOUTES LES RÈGLES TEMPORAIREMENT COMMENTÉES -->
+        <!--
+        <record id="rule_edu_message_user" model="ir.rule">
+            <field name="name">Messages: utilisateur peut voir ses propres messages</field>
+            <field name="model_id" ref="model_edu_message"/>
+            <field name="groups" eval="[(4, ref('group_communication_user'))]"/>
+            <field name="domain_force">[('sender_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_edu_message_manager" model="ir.rule">
+            <field name="name">Messages: gestionnaire peut voir tous les messages</field>
+            <field name="model_id" ref="model_edu_message"/>
+            <field name="groups" eval="[(4, ref('group_communication_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        -->
+
+    </data>
+</odoo>

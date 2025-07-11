@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_message_all,edu.message,model_edu_message,,1,1,1,1
+access_edu_message_template_all,edu.message.template,model_edu_message_template,,1,1,1,1
+access_edu_message_template_category_all,edu.message.template.category,model_edu_message_template_category,,1,1,1,1
+access_edu_communication_config_all,edu.communication.config,model_edu_communication_config,,1,1,1,1
+access_edu_communication_provider_all,edu.communication.provider,model_edu_communication_provider,,1,1,1,1
+access_edu_notification_type_all,edu.notification.type,model_edu_notification_type,,1,1,1,1
+access_edu_campaign_all,edu.campaign,model_edu_campaign,,1,1,1,1
+access_edu_notification_all,edu.notification,model_edu_notification,,1,1,1,1
+access_edu_chat_all,edu.chat,model_edu_chat,,1,1,1,1
+access_edu_chat_message_all,edu.chat.message,model_edu_chat_message,,1,1,1,1
+access_edu_announcement_all,edu.announcement,model_edu_announcement,,1,1,1,1
+access_edu_communication_analytics_all,edu.communication.analytics,model_edu_communication_analytics,,1,1,1,1
+access_edu_contact_group_all,edu.contact.group,model_edu_contact_group,,1,1,1,1
