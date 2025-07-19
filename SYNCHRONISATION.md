@@ -84,3 +84,7 @@ Vos anciens modules ont été sauvegardés dans :
 
 ---
 *Synchronisation mise en place le $(date +%Y-%m-%d) par Assistant IA* 
+
+
+
+python3 /opt/odoo17/odoo-bin -c /etc/odoo/odoo.conf -d school_management_new --http-port=8069 --log-level=info
