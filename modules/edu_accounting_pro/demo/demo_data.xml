@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Structures de frais de démonstration -->
+        <record id="demo_fee_structure_primary" model="edu.fee.structure">
+            <field name="name">Structure Frais Primaire 2024</field>
+            <field name="code">PRIM2024</field>
+            <field name="billing_type">monthly</field>
+            <field name="total_amount">500.00</field>
+            <field name="description">Structure de frais pour les classes primaires</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="demo_fee_structure_secondary" model="edu.fee.structure">
+            <field name="name">Structure Frais Secondaire 2024</field>
+            <field name="code">SEC2024</field>
+            <field name="billing_type">quarterly</field>
+            <field name="total_amount">1800.00</field>
+            <field name="description">Structure de frais pour les classes secondaires</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Lignes de structure de frais -->
+        <record id="demo_fee_line_tuition_primary" model="edu.fee.structure.line">
+            <field name="fee_structure_id" ref="demo_fee_structure_primary"/>
+            <field name="fee_type_id" ref="fee_type_tuition"/>
+            <field name="amount">350.00</field>
+            <field name="is_mandatory">True</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="demo_fee_line_transport_primary" model="edu.fee.structure.line">
+            <field name="fee_structure_id" ref="demo_fee_structure_primary"/>
+            <field name="fee_type_id" ref="fee_type_transport"/>
+            <field name="amount">100.00</field>
+            <field name="is_mandatory">False</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="demo_fee_line_meals_primary" model="edu.fee.structure.line">
+            <field name="fee_structure_id" ref="demo_fee_structure_primary"/>
+            <field name="fee_type_id" ref="fee_type_meals"/>
+            <field name="amount">50.00</field>
+            <field name="is_mandatory">False</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Bourses de démonstration -->
+        <record id="demo_scholarship_merit_1" model="edu.scholarship">
+            <field name="name">Bourse Excellence 2024</field>
+            <field name="scholarship_type_id" ref="scholarship_type_merit"/>
+            <field name="amount">2000.00</field>
+            <field name="percentage">50.0</field>
+            <field name="start_date">2024-09-01</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="state">active</field>
+        </record>
+
+        <record id="demo_scholarship_need_1" model="edu.scholarship">
+            <field name="name">Aide Sociale Famille Nombreuse</field>
+            <field name="scholarship_type_id" ref="scholarship_type_need"/>
+            <field name="percentage">30.0</field>
+            <field name="start_date">2024-09-01</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- Plans de paiement de démonstration -->
+        <record id="demo_payment_plan_1" model="edu.payment.plan">
+            <field name="name">Plan Mensuel Standard</field>
+            <field name="template_id" ref="payment_plan_monthly"/>
+            <field name="installments_count">10</field>
+            <field name="frequency">monthly</field>
+            <field name="start_date">2024-09-01</field>
+            <field name="end_date">2025-06-30</field>
+        </record>
+
+        <!-- Factures de démonstration (seulement si des étudiants existent) -->
+        <function model="edu.student.invoice" name="_create_demo_invoices"/>
+
+    </data>
+</odoo> 

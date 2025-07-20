@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Compagnies d'Assurance -->
+        <record id="insurance_company_1" model="health.insurance.company">
+            <field name="name">Assurance Scolaire Plus</field>
+            <field name="email">contact@assurance-scolaire-plus.fr</field>
+            <field name="phone">01 23 45 67 89</field>
+            <field name="website">https://www.assurance-scolaire-plus.fr</field>
+            <field name="street">123 Avenue de la République</field>
+            <field name="city">Paris</field>
+            <field name="zip">75011</field>
+            <field name="notes">Spécialisée dans l'assurance scolaire et étudiante</field>
+        </record>
+
+        <record id="insurance_company_2" model="health.insurance.company">
+            <field name="name">Mutuelle Étudiante France</field>
+            <field name="email">info@mutuelle-etudiante.fr</field>
+            <field name="phone">01 98 76 54 32</field>
+            <field name="website">https://www.mutuelle-etudiante.fr</field>
+            <field name="street">456 Boulevard Saint-Germain</field>
+            <field name="city">Paris</field>
+            <field name="zip">75006</field>
+            <field name="notes">Mutuelle dédiée aux étudiants et jeunes actifs</field>
+        </record>
+
+        <!-- Types de Vaccins -->
+        <record id="vaccine_type_dtpolio" model="vaccination.type">
+            <field name="name">DT-Polio</field>
+            <field name="mandatory">True</field>
+            <field name="age_minimum">2</field>
+            <field name="age_maximum">18</field>
+            <field name="doses_required">3</field>
+            <field name="interval_between_doses">30</field>
+            <field name="booster_required">True</field>
+            <field name="booster_interval">120</field>
+            <field name="description">Diphtérie, Tétanos, Poliomyélite - Vaccination obligatoire</field>
+        </record>
+
+        <record id="vaccine_type_ror" model="vaccination.type">
+            <field name="name">ROR</field>
+            <field name="mandatory">True</field>
+            <field name="age_minimum">1</field>
+            <field name="age_maximum">18</field>
+            <field name="doses_required">2</field>
+            <field name="interval_between_doses">30</field>
+            <field name="booster_required">False</field>
+            <field name="description">Rougeole, Oreillons, Rubéole - Protection triple</field>
+        </record>
+
+        <record id="vaccine_type_hepatite_b" model="vaccination.type">
+            <field name="name">Hépatite B</field>
+            <field name="mandatory">True</field>
+            <field name="age_minimum">0</field>
+            <field name="age_maximum">18</field>
+            <field name="doses_required">3</field>
+            <field name="interval_between_doses">30</field>
+            <field name="booster_required">True</field>
+            <field name="booster_interval">240</field>
+            <field name="description">Protection contre l'hépatite B</field>
+        </record>
+
+        <!-- Stock de Médicaments -->
+        <record id="medication_paracetamol" model="medication.stock">
+            <field name="name">Paracétamol 500mg</field>
+            <field name="active_ingredient">Paracétamol</field>
+            <field name="dosage">500</field>
+            <field name="dosage_unit">mg</field>
+            <field name="form">tablet</field>
+            <field name="category">analgesic</field>
+            <field name="current_stock">250</field>
+            <field name="minimum_stock">50</field>
+            <field name="maximum_stock">500</field>
+            <field name="unit_cost">0.15</field>
+            <field name="supplier">Pharmacie Centrale</field>
+            <field name="batch_number">PAR2024001</field>
+            <field name="expiry_date">2025-12-31</field>
+            <field name="prescription_required">False</field>
+            <field name="storage_conditions">Conserver à température ambiante, à l'abri de l'humidité</field>
+        </record>
+
+        <record id="medication_ibuprofen" model="medication.stock">
+            <field name="name">Ibuprofène 200mg</field>
+            <field name="active_ingredient">Ibuprofène</field>
+            <field name="dosage">200</field>
+            <field name="dosage_unit">mg</field>
+            <field name="form">tablet</field>
+            <field name="category">analgesic</field>
+            <field name="current_stock">150</field>
+            <field name="minimum_stock">30</field>
+            <field name="maximum_stock">300</field>
+            <field name="unit_cost">0.25</field>
+            <field name="supplier">Pharmacie Centrale</field>
+            <field name="batch_number">IBU2024002</field>
+            <field name="expiry_date">2025-08-15</field>
+            <field name="prescription_required">False</field>
+            <field name="storage_conditions">Conserver à température ambiante</field>
+        </record>
+
+        <record id="medication_amoxicillin" model="medication.stock">
+            <field name="name">Amoxicilline 500mg</field>
+            <field name="active_ingredient">Amoxicilline</field>
+            <field name="dosage">500</field>
+            <field name="dosage_unit">mg</field>
+            <field name="form">capsule</field>
+            <field name="category">antibiotic</field>
+            <field name="current_stock">80</field>
+            <field name="minimum_stock">20</field>
+            <field name="maximum_stock">200</field>
+            <field name="unit_cost">0.45</field>
+            <field name="supplier">Pharmacie Centrale</field>
+            <field name="batch_number">AMO2024003</field>
+            <field name="expiry_date">2025-06-30</field>
+            <field name="prescription_required">True</field>
+            <field name="storage_conditions">Conserver au réfrigérateur entre 2-8°C</field>
+        </record>
+
+        <!-- Personnel Médical -->
+        <record id="medical_staff_doctor_1" model="medical.staff">
+            <field name="name">Dr. Marie Dubois</field>
+            <field name="staff_type">doctor</field>
+            <field name="specialization">Médecine Générale</field>
+            <field name="phone">06 12 34 56 78</field>
+            <field name="email">marie.dubois@ecole-extraordinaire.com</field>
+            <field name="license_number">MD75001234</field>
+            <field name="license_expiry">2025-12-31</field>
+            <field name="qualifications">&lt;p&gt;Docteur en Médecine - Université Paris Descartes&lt;br/&gt;
+                Diplôme de Médecine Scolaire&lt;br/&gt;
+                Formation en Pédiatrie&lt;/p&gt;</field>
+            <field name="available_hours">&lt;p&gt;&lt;strong&gt;Lundi-Vendredi:&lt;/strong&gt; 8h00-17h00&lt;br/&gt;
+                &lt;strong&gt;Garde d'urgence:&lt;/strong&gt; Sur appel&lt;/p&gt;</field>
+            <field name="emergency_contact">01 23 45 67 89</field>
+        </record>
+
+        <record id="medical_staff_nurse_1" model="medical.staff">
+            <field name="name">Sophie Martin</field>
+            <field name="staff_type">nurse</field>
+            <field name="specialization">Infirmière Scolaire</field>
+            <field name="phone">06 98 76 54 32</field>
+            <field name="email">sophie.martin@ecole-extraordinaire.com</field>
+            <field name="license_number">IDE75005678</field>
+            <field name="license_expiry">2025-06-30</field>
+            <field name="qualifications">&lt;p&gt;Diplôme d'État d'Infirmier&lt;br/&gt;
+                Spécialisation en Santé Scolaire&lt;br/&gt;
+                Formation aux Premiers Secours&lt;/p&gt;</field>
+            <field name="available_hours">&lt;p&gt;&lt;strong&gt;Lundi-Vendredi:&lt;/strong&gt; 7h30-16h30&lt;br/&gt;
+                &lt;strong&gt;Permanence:&lt;/strong&gt; 12h00-14h00&lt;/p&gt;</field>
+            <field name="emergency_contact">01 98 76 54 32</field>
+        </record>
+
+        <record id="medical_staff_nurse_2" model="medical.staff">
+            <field name="name">Jean-Pierre Leroy</field>
+            <field name="staff_type">nurse</field>
+            <field name="specialization">Infirmier Urgentiste</field>
+            <field name="phone">06 11 22 33 44</field>
+            <field name="email">jp.leroy@ecole-extraordinaire.com</field>
+            <field name="license_number">IDE75009876</field>
+            <field name="license_expiry">2025-09-15</field>
+            <field name="qualifications">&lt;p&gt;Diplôme d'État d'Infirmier&lt;br/&gt;
+                Spécialisation en Médecine d'Urgence&lt;br/&gt;
+                Certificat de Secourisme Avancé&lt;/p&gt;</field>
+            <field name="available_hours">&lt;p&gt;&lt;strong&gt;Lundi-Vendredi:&lt;/strong&gt; 8h00-17h00&lt;br/&gt;
+                &lt;strong&gt;Urgences:&lt;/strong&gt; 24h/24 sur appel&lt;/p&gt;</field>
+            <field name="emergency_contact">01 11 22 33 44</field>
+        </record>
+
+        <!-- Protocoles d'Urgence -->
+        <record id="emergency_protocol_allergic" model="health.emergency.protocol">
+            <field name="name">Réaction Allergique Sévère</field>
+            <field name="emergency_type">allergy</field>
+            <field name="severity">critical</field>
+            <field name="response_time">5</field>
+            <field name="steps">1. Identifier l'allergène et l'éloigner
+2. Évaluer les signes vitaux
+3. Administrer l'épinéphrine si disponible
+4. Appeler le SAMU (15)
+5. Contacter les parents
+6. Surveiller constamment jusqu'à l'arrivée des secours</field>
+            <field name="protocol_steps">&lt;ol&gt;
+                &lt;li&gt;Identifier l'allergène et l'éloigner&lt;/li&gt;
+                &lt;li&gt;Évaluer les signes vitaux&lt;/li&gt;
+                &lt;li&gt;Administrer l'épinéphrine si disponible&lt;/li&gt;
+                &lt;li&gt;Appeler le SAMU (15)&lt;/li&gt;
+                &lt;li&gt;Contacter les parents&lt;/li&gt;
+                &lt;li&gt;Surveiller constamment jusqu'à l'arrivée des secours&lt;/li&gt;
+            &lt;/ol&gt;</field>
+            <field name="required_equipment">Épinéphrine auto-injecteur, Oxygène, Défibrillateur</field>
+            <field name="contact_emergency_services">True</field>
+            <field name="notify_parents">True</field>
+            <field name="notify_administration">True</field>
+        </record>
+
+        <record id="emergency_protocol_asthma" model="health.emergency.protocol">
+            <field name="name">Crise d'Asthme Sévère</field>
+            <field name="emergency_type">breathing</field>
+            <field name="severity">high</field>
+            <field name="response_time">10</field>
+            <field name="steps">1. Installer l'élève en position assise
+2. Administrer l'inhalateur de secours
+3. Rassurer et calmer l'élève
+4. Surveiller la respiration
+5. Si pas d'amélioration en 10 min, appeler le SAMU
+6. Contacter les parents</field>
+            <field name="protocol_steps">&lt;ol&gt;
+                &lt;li&gt;Installer l'élève en position assise&lt;/li&gt;
+                &lt;li&gt;Administrer l'inhalateur de secours&lt;/li&gt;
+                &lt;li&gt;Rassurer et calmer l'élève&lt;/li&gt;
+                &lt;li&gt;Surveiller la respiration&lt;/li&gt;
+                &lt;li&gt;Si pas d'amélioration en 10 min, appeler le SAMU&lt;/li&gt;
+                &lt;li&gt;Contacter les parents&lt;/li&gt;
+            &lt;/ol&gt;</field>
+            <field name="required_equipment">Inhalateur de secours, Oxygène, Nébuliseur</field>
+            <field name="contact_emergency_services">False</field>
+            <field name="notify_parents">True</field>
+            <field name="notify_administration">True</field>
+        </record>
+
+        <record id="emergency_protocol_breathing" model="health.emergency.protocol">
+            <field name="name">Problème Respiratoire</field>
+            <field name="emergency_type">breathing</field>
+            <field name="severity">high</field>
+            <field name="response_time">3</field>
+            <field name="steps">1. Placer l'étudiant en position assise
+2. Desserrer les vêtements serrés
+3. Administrer l'inhalateur si disponible
+4. Appeler le SAMU si nécessaire
+5. Contacter les parents
+6. Surveiller la respiration</field>
+            <field name="protocol_steps">&lt;ol&gt;
+                &lt;li&gt;Placer l'étudiant en position assise&lt;/li&gt;
+                &lt;li&gt;Desserrer les vêtements serrés&lt;/li&gt;
+                &lt;li&gt;Administrer l'inhalateur si disponible&lt;/li&gt;
+                &lt;li&gt;Appeler le SAMU si nécessaire&lt;/li&gt;
+                &lt;li&gt;Contacter les parents&lt;/li&gt;
+                &lt;li&gt;Surveiller la respiration&lt;/li&gt;
+            &lt;/ol&gt;</field>
+            <field name="required_equipment">Inhalateur, Oxygène</field>
+            <field name="contact_emergency_services">False</field>
+            <field name="notify_parents">True</field>
+            <field name="notify_administration">True</field>
+        </record>
+
+        <record id="emergency_protocol_injury" model="health.emergency.protocol">
+            <field name="name">Blessure Grave</field>
+            <field name="emergency_type">injury</field>
+            <field name="severity">medium</field>
+            <field name="response_time">10</field>
+            <field name="steps">1. Évaluer la gravité de la blessure
+2. Nettoyer et désinfecter si nécessaire
+3. Appliquer un pansement stérile
+4. Immobiliser si fracture suspectée
+5. Contacter les parents
+6. Transférer à l'hôpital si nécessaire</field>
+            <field name="protocol_steps">&lt;ol&gt;
+                &lt;li&gt;Évaluer la gravité de la blessure&lt;/li&gt;
+                &lt;li&gt;Nettoyer et désinfecter si nécessaire&lt;/li&gt;
+                &lt;li&gt;Appliquer un pansement stérile&lt;/li&gt;
+                &lt;li&gt;Immobiliser si fracture suspectée&lt;/li&gt;
+                &lt;li&gt;Contacter les parents&lt;/li&gt;
+                &lt;li&gt;Transférer à l'hôpital si nécessaire&lt;/li&gt;
+            &lt;/ol&gt;</field>
+            <field name="required_equipment">Trousse de premiers secours, Attelles, Bandages</field>
+            <field name="contact_emergency_services">False</field>
+            <field name="notify_parents">True</field>
+            <field name="notify_administration">True</field>
+        </record>
+
+        <!-- Planning Personnel (exemples pour cette semaine) -->
+        <record id="staff_schedule_doctor_1" model="medical.staff.schedule">
+            <field name="staff_id" ref="medical_staff_doctor_1"/>
+            <field name="date" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="start_time">8.0</field>
+            <field name="end_time">17.0</field>
+            <field name="shift_type">day</field>
+            <field name="notes">Consultations générales et examens médicaux</field>
+        </record>
+
+        <record id="staff_schedule_nurse_1" model="medical.staff.schedule">
+            <field name="staff_id" ref="medical_staff_nurse_1"/>
+            <field name="date" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="start_time">7.5</field>
+            <field name="end_time">16.5</field>
+            <field name="shift_type">day</field>
+            <field name="notes">Permanence infirmerie et soins courants</field>
+        </record>
+
+        <record id="staff_schedule_nurse_2" model="medical.staff.schedule">
+            <field name="staff_id" ref="medical_staff_nurse_2"/>
+            <field name="date" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="start_time">16.0</field>
+            <field name="end_time">22.0</field>
+            <field name="shift_type">night</field>
+            <field name="notes">Service de nuit et urgences</field>
+        </record>
+
+        <!-- Formations Personnel -->
+        <record id="training_first_aid" model="medical.staff.training">
+            <field name="name">Formation Premiers Secours PSC1</field>
+            <field name="staff_id" ref="medical_staff_nurse_1"/>
+            <field name="training_type">safety</field>
+            <field name="training_date">2024-11-01</field>
+            <field name="duration_hours">8</field>
+            <field name="trainer">Croix-Rouge Française</field>
+            <field name="status">completed</field>
+            <field name="certificate_issued">True</field>
+            <field name="certificate_number">PSC1-2024-001</field>
+            <field name="expiry_date">2027-11-01</field>
+            <field name="description">&lt;p&gt;Formation complète aux gestes de premiers secours&lt;br/&gt;
+                Réanimation cardio-pulmonaire&lt;br/&gt;
+                Utilisation du défibrillateur&lt;/p&gt;</field>
+            <field name="evaluation_score">18</field>
+            <field name="evaluation_notes">&lt;p&gt;Excellente maîtrise des gestes techniques&lt;br/&gt;
+                Très bonne gestion du stress&lt;/p&gt;</field>
+        </record>
+
+        <record id="training_pediatric" model="medical.staff.training">
+            <field name="name">Soins Pédiatriques Avancés</field>
+            <field name="staff_id" ref="medical_staff_doctor_1"/>
+            <field name="training_type">continuing_education</field>
+            <field name="training_date">2025-01-15</field>
+            <field name="duration_hours">16</field>
+            <field name="trainer">Hôpital Necker - Service Pédiatrie</field>
+            <field name="status">planned</field>
+            <field name="certificate_issued">False</field>
+            <field name="description">&lt;p&gt;Formation spécialisée en pédiatrie&lt;br/&gt;
+                Pathologies spécifiques de l'enfant&lt;br/&gt;
+                Techniques d'examen adaptées&lt;/p&gt;</field>
+        </record>
+
+        <!-- Analyses de Santé -->
+        <record id="health_analytics_monthly" model="health.analytics">
+            <field name="name">Analyse Mensuelle - Décembre 2024</field>
+            <field name="generation_date" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="analysis_type">epidemic</field>
+            <field name="period_start">2024-12-01</field>
+            <field name="period_end" eval="time.strftime('%Y-%m-%d')"/>
+            <field name="recommendations">Renforcer les mesures d'hygiène et sensibiliser aux gestes barrières. Surveillance accrue des symptômes grippaux recommandée.</field>
+        </record>
+
+        <!-- Tableau de Bord Santé -->
+        <record id="health_dashboard_main" model="health.dashboard">
+            <field name="name">Tableau de Bord Principal</field>
+        </record>
+
+    </data>
+</odoo>

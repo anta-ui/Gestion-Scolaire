@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue kanban du tableau de bord -->
+    <record id="view_edu_accounting_dashboard_kanban" model="ir.ui.view">
+        <field name="name">edu.accounting.dashboard.kanban</field>
+        <field name="model">edu.accounting.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_account_kanban">
+                <field name="name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <div class="o_kanban_image_fill_left d-none d-md-block" style="background-color: #875A7B;">
+                                <i class="fa fa-calculator fa-2x"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings mt4">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="text-muted">
+                                        Tableau de bord comptable
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action du tableau de bord -->
+    <record id="action_edu_accounting_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord Comptable</field>
+        <field name="res_model">edu.accounting.dashboard</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Bienvenue dans le tableau de bord comptable !
+            </p>
+            <p>
+                Gérez vos finances éducatives depuis cette interface centralisée.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue formulaire simple -->
+    <record id="view_edu_accounting_dashboard_form" model="ir.ui.view">
+        <field name="name">edu.accounting.dashboard.form</field>
+        <field name="model">edu.accounting.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Tableau de Bord">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

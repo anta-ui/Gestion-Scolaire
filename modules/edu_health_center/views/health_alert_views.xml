@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vue Tree pour les alertes -->
+    <record id="view_health_alert_tree" model="ir.ui.view">
+        <field name="name">health.alert.tree</field>
+        <field name="model">health.alert</field>
+        <field name="arch" type="xml">
+            <tree string="Alertes de Santé">
+                <field name="name"/>
+                <field name="alert_type"/>
+                <field name="severity" widget="badge"/>
+                <field name="state" widget="badge"/>
+                <field name="student_id"/>
+                <field name="created_by"/>
+                <field name="create_date"/>
+                <field name="is_archived"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Form pour les alertes -->
+    <record id="view_health_alert_form" model="ir.ui.view">
+        <field name="name">health.alert.form</field>
+        <field name="model">health.alert</field>
+        <field name="arch" type="xml">
+            <form string="Alerte de Santé">
+                <header>
+                    <button name="action_activate" string="Activer" type="object" 
+                            class="oe_highlight" invisible="state == 'active'"/>
+                    <button name="action_resolve" string="Résoudre" type="object" 
+                            class="btn-success" invisible="state == 'resolved'"/>
+                    <button name="action_cancel" string="Annuler" type="object" 
+                            class="btn-secondary"/>
+                    <button name="action_archive" string="Archiver" type="object" 
+                            class="btn-warning" invisible="is_archived == True"/>
+                    <button name="action_unarchive" string="Désarchiver" type="object" 
+                            class="btn-info" invisible="is_archived == False"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,resolved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Titre de l'alerte..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Informations générales">
+                            <field name="alert_type"/>
+                            <field name="severity"/>
+                            <field name="student_id"/>
+                            <field name="health_record_id"/>
+                            <field name="is_archived"/>
+                        </group>
+                        <group string="Dates">
+                            <field name="due_date"/>
+                            <field name="resolved_date"/>
+                            <field name="created_by"/>
+                            <field name="resolved_by"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Search -->
+    <record id="view_health_alert_search" model="ir.ui.view">
+        <field name="name">health.alert.search</field>
+        <field name="model">health.alert</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Alertes">
+                <field name="name"/>
+                <field name="alert_type"/>
+                <field name="student_id"/>
+                <field name="created_by"/>
+                <separator/>
+                <filter string="Actives" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Résolues" name="resolved" domain="[('state', '=', 'resolved')]"/>
+                <filter string="Non archivées" name="not_archived" domain="[('is_archived', '=', False)]"/>
+                <filter string="Archivées" name="archived" domain="[('is_archived', '=', True)]"/>
+                <separator/>
+                <filter string="Urgences" name="emergency" domain="[('alert_type', '=', 'emergency')]"/>
+                <filter string="Critiques" name="critical" domain="[('severity', '=', 'critical')]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Type" name="group_type" context="{'group_by': 'alert_type'}"/>
+                    <filter string="Gravité" name="group_severity" context="{'group_by': 'severity'}"/>
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo> 

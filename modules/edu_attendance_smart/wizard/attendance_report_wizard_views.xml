@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue formulaire du wizard de rapport -->
+        <record id="view_attendance_report_wizard_form" model="ir.ui.view">
+            <field name="name">attendance.report.wizard.form</field>
+            <field name="model">attendance.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Générateur de rapport de présence">
+                    <group>
+                        <group string="Période">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Type et format">
+                            <field name="report_type"/>
+                            <field name="export_format"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Filtres">
+                        <field name="student_ids" widget="many2many_tags"/>
+                        <field name="teacher_ids" widget="many2many_tags"/>
+                        <field name="session_ids" widget="many2many_tags"/>
+                        <field name="class_ids" widget="many2many_tags"/>
+                    </group>
+                    
+                    <group string="Options">
+                        <field name="group_by"/>
+                        <field name="include_excused"/>
+                        <field name="include_statistics"/>
+                    </group>
+                    
+                    <footer>
+                        <button name="action_generate_report" type="object" string="Générer le rapport" class="btn-primary"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action du wizard -->
+        <record id="action_attendance_report_wizard" model="ir.actions.act_window">
+            <field name="name">Générateur de rapport</field>
+            <field name="res_model">attendance.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_attendance_report_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

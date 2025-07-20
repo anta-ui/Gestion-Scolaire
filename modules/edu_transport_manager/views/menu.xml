@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_transport_root"
+              name="Transport Scolaire"
+              sequence="60"
+              web_icon="edu_transport_manager,static/description/icon.png"/>
+    
+    <!-- Dashboard -->
+    <menuitem id="menu_transport_dashboard"
+              name="🚌 Tableau de Bord"
+              parent="menu_transport_root"
+              sequence="5"
+              action="action_transport_dashboard"/>
+    
+    <!-- Flotte -->
+    <menuitem id="menu_fleet"
+              name="Flotte"
+              parent="menu_transport_root"
+              sequence="10"/>
+    
+    <menuitem id="menu_vehicles"
+              name="Véhicules"
+              parent="menu_fleet"
+              action="action_transport_vehicles"
+              sequence="10"/>
+    
+    <menuitem id="menu_drivers"
+              name="Chauffeurs"
+              parent="menu_fleet"
+              action="action_transport_drivers"
+              sequence="20"/>
+    
+    <menuitem id="menu_maintenance"
+              name="Maintenance"
+              parent="menu_fleet"
+              action="action_transport_maintenance"
+              sequence="30"/>
+    
+    <!-- Itinéraires -->
+    <menuitem id="menu_routes"
+              name="Itinéraires"
+              parent="menu_transport_root"
+              sequence="20"/>
+    
+    <menuitem id="menu_routes_list"
+              name="Itinéraires"
+              parent="menu_routes"
+              action="action_transport_routes"
+              sequence="10"/>
+    
+    <menuitem id="menu_route_optimizer"
+              name="🎯 Optimiseur IA"
+              parent="menu_routes"
+              action="action_route_optimizer"
+              sequence="20"/>
+    
+    <menuitem id="menu_stops"
+              name="Arrêts"
+              parent="menu_routes"
+              action="action_transport_stops"
+              sequence="30"/>
+    
+    <!-- Trajets -->
+    <menuitem id="menu_trips"
+              name="Trajets"
+              parent="menu_transport_root"
+              sequence="30"/>
+    
+    <menuitem id="menu_trips_today"
+              name="Trajets du Jour"
+              parent="menu_trips"
+              action="action_trips_today"
+              sequence="10"/>
+    
+    <menuitem id="menu_trips_live"
+              name="🔴 Suivi en Direct"
+              parent="menu_trips"
+              action="action_trips_live_tracking"
+              sequence="15"/>
+    
+    <menuitem id="menu_trips_all"
+              name="Tous les Trajets"
+              parent="menu_trips"
+              action="action_transport_trips"
+              sequence="20"/>
+    
+    <menuitem id="menu_trip_calendar"
+              name="Calendrier des Trajets"
+              parent="menu_trips"
+              action="action_trips_calendar"
+              sequence="30"/>
+    
+    <!-- Étudiants Transport -->
+    <menuitem id="menu_transport_students"
+              name="Étudiants"
+              parent="menu_transport_root"
+              sequence="40"/>
+    
+    <menuitem id="menu_students_list"
+              name="Étudiants Transportés"
+              parent="menu_transport_students"
+              action="action_transport_students"
+              sequence="10"/>
+    
+    <menuitem id="menu_student_assignments"
+              name="Affectations Itinéraires"
+              parent="menu_transport_students"
+              action="action_student_route_assignments"
+              sequence="20"/>
+    
+    <!-- Suivi GPS -->
+    <menuitem id="menu_tracking"
+              name="Suivi GPS"
+              parent="menu_transport_root"
+              sequence="50"/>
+    
+    <menuitem id="menu_live_map"
+              name="🗺️ Carte en Temps Réel"
+              parent="menu_tracking"
+              action="action_live_tracking_map"
+              sequence="10"/>
+    
+    <menuitem id="menu_gps_history"
+              name="Historique GPS"
+              parent="menu_tracking"
+              action="action_gps_tracking_history"
+              sequence="20"/>
+    
+    <menuitem id="menu_geofencing"
+              name="Zones de Géofencing"
+              parent="menu_tracking"
+              action="action_geofencing_zones"
+              sequence="30"/>
+    
+    <!-- Urgences -->
+    <menuitem id="menu_emergencies"
+              name="🚨 Urgences"
+              parent="menu_transport_root"
+              sequence="55"/>
+    
+    <menuitem id="menu_emergency_alerts"
+              name="Alertes Actives"
+              parent="menu_emergencies"
+              action="action_transport_emergency_alerts"
+              sequence="10"/>
+    
+    <menuitem id="menu_emergency_protocols"
+              name="Protocoles d'Urgence"
+              parent="menu_emergencies"
+              action="action_emergency_protocols"
+              sequence="20"/>
+    
+    <!-- Facturation -->
+    <menuitem id="menu_billing"
+              name="Facturation"
+              parent="menu_transport_root"
+              sequence="60"/>
+    
+    <menuitem id="menu_transport_billing"
+              name="Factures Transport"
+              parent="menu_billing"
+              action="action_transport_billing"
+              sequence="10"/>
+    
+    <menuitem id="menu_subscriptions"
+              name="Abonnements"
+              parent="menu_billing"
+              action="action_transport_subscriptions"
+              sequence="20"/>
+    
+    <menuitem id="menu_pricing"
+              name="Tarification"
+              parent="menu_billing"
+              action="action_transport_pricing"
+              sequence="30"/>
+    
+    <!-- Analytics -->
+    <menuitem id="menu_analytics"
+              name="Analytics"
+              parent="menu_transport_root"
+              sequence="70"/>
+    
+    <menuitem id="menu_transport_kpis"
+              name="📊 KPIs Transport"
+              parent="menu_analytics"
+              action="action_transport_kpis"
+              sequence="10"/>
+    
+    <menuitem id="menu_efficiency_reports"
+              name="Rapports d'Efficacité"
+              parent="menu_analytics"
+              action="action_efficiency_reports"
+              sequence="20"/>
+    
+    <menuitem id="menu_cost_analysis"
+              name="Analyse des Coûts"
+              parent="menu_analytics"
+              action="action_cost_analysis"
+              sequence="30"/>
+    
+    <!-- Configuration -->
+    <menuitem id="menu_transport_config"
+              name="Configuration"
+              parent="menu_transport_root"
+              sequence="80"/>
+    
+    <menuitem id="menu_transport_settings"
+              name="Paramètres Transport"
+              parent="menu_transport_config"
+              action="action_transport_settings"
+              sequence="10"/>
+    
+    <menuitem id="menu_gps_devices"
+              name="Dispositifs GPS"
+              parent="menu_transport_config"
+              action="action_gps_devices"
+              sequence="20"/>
+</odoo>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vue liste des consultations -->
+    <record id="view_medical_consultation_tree" model="ir.ui.view">
+        <field name="name">medical.consultation.tree</field>
+        <field name="model">edu.medical.consultation</field>
+        <field name="arch" type="xml">
+            <tree string="Consultations Médicales" decoration-info="state=='scheduled'" decoration-success="state=='completed'" decoration-warning="state=='in_progress'">
+                <field name="consultation_date"/>
+                <field name="student_id"/>
+                <field name="doctor_id"/>
+                <field name="consultation_type"/>
+                <field name="chief_complaint"/>
+                <field name="diagnosis"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire des consultations -->
+    <record id="view_medical_consultation_form" model="ir.ui.view">
+        <field name="name">medical.consultation.form</field>
+        <field name="model">edu.medical.consultation</field>
+        <field name="arch" type="xml">
+            <form string="Consultation Médicale">
+                <header>
+                    <button name="action_start_consultation" type="object" string="Commencer" class="btn-primary"/>
+                    <button name="action_complete_consultation" type="object" string="Terminer" class="btn-success"/>
+                    <button name="action_cancel_consultation" type="object" string="Annuler" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="student_id" placeholder="Sélectionner un étudiant"/>
+                        </h1>
+                        <h2>
+                            <field name="consultation_date"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group string="Informations Générales">
+                            <field name="health_record_id"/>
+                            <field name="doctor_id"/>
+                            <field name="nurse_id"/>
+                            <field name="consultation_type"/>
+                            <field name="duration"/>
+                        </group>
+                        <group string="Signes Vitaux">
+                            <field name="temperature"/>
+                            <field name="blood_pressure_systolic"/>
+                            <field name="blood_pressure_diastolic"/>
+                            <field name="heart_rate"/>
+                            <field name="weight"/>
+                            <field name="height"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="chief_complaint" string="Motif de consultation" widget="text"/>
+                    </group>
+                    
+                    <group>
+                        <field name="diagnosis" string="Diagnostic" widget="text"/>
+                    </group>
+                    
+                    <group>
+                        <field name="treatment" string="Traitement prescrit" widget="text"/>
+                    </group>
+                    
+                    <group>
+                        <group string="Suivi">
+                            <field name="follow_up_needed"/>
+                            <field name="follow_up_date"/>
+                            <field name="follow_up_notes" widget="text"/>
+                        </group>
+                        <group string="Certificat médical">
+                            <field name="medical_certificate"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue kanban des consultations -->
+    <record id="view_medical_consultation_kanban" model="ir.ui.view">
+        <field name="name">medical.consultation.kanban</field>
+        <field name="model">edu.medical.consultation</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="student_id"/>
+                <field name="doctor_id"/>
+                <field name="consultation_date"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="student_id"/>
+                                    </strong>
+                                    <small class="o_kanban_record_subtitle text-muted">
+                                        <field name="consultation_date"/>
+                                    </small>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="doctor_id"/>
+                                    <br/>
+                                    <field name="chief_complaint"/>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="state" widget="label_selection" 
+                                           options="{'classes': {'scheduled': 'info', 'in_progress': 'warning', 'completed': 'success', 'cancelled': 'danger'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue calendrier des consultations -->
+    <record id="view_medical_consultation_calendar" model="ir.ui.view">
+        <field name="name">medical.consultation.calendar</field>
+        <field name="model">edu.medical.consultation</field>
+        <field name="arch" type="xml">
+            <calendar string="Consultations" date_start="consultation_date" color="doctor_id" mode="month">
+                <field name="student_id"/>
+                <field name="doctor_id"/>
+                <field name="chief_complaint"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Vue recherche des consultations -->
+    <record id="view_medical_consultation_search" model="ir.ui.view">
+        <field name="name">medical.consultation.search</field>
+        <field name="model">edu.medical.consultation</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Consultations">
+                <field name="student_id"/>
+                <field name="doctor_id"/>
+                <field name="chief_complaint"/>
+                <field name="diagnosis"/>
+                
+                <filter string="Aujourd'hui" name="today" 
+                        domain="[('consultation_date', '=', context_today())]"/>
+                <filter string="Cette Semaine" name="this_week" 
+                        domain="[('consultation_date', '>=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                 ('consultation_date', '&lt;=', (context_today() + datetime.timedelta(days=6-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter string="Ce Mois" name="this_month" 
+                        domain="[('consultation_date', '>=', context_today().replace(day=1).strftime('%Y-%m-%d'))]"/>
+                
+                <separator/>
+                <filter string="Programmées" name="scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter string="En Cours" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminées" name="completed" domain="[('state', '=', 'completed')]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Médecin" name="group_doctor" context="{'group_by': 'doctor_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'consultation_type'}"/>
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'consultation_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_medical_consultation" model="ir.actions.act_window">
+        <field name="name">Consultations Médicales</field>
+        <field name="res_model">edu.medical.consultation</field>
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="search_view_id" ref="view_medical_consultation_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Programmer une nouvelle consultation
+            </p>
+            <p>
+                Gérez les consultations médicales des étudiants.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action pour consultations d'aujourd'hui -->
+    <record id="action_consultation_today" model="ir.actions.act_window">
+        <field name="name">Consultations d'Aujourd'hui</field>
+        <field name="res_model">edu.medical.consultation</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('consultation_date', '=', context_today())]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <!-- Action pour consultations en cours -->
+    <record id="action_consultation_in_progress" model="ir.actions.act_window">
+        <field name="name">Consultations en Cours</field>
+        <field name="res_model">edu.medical.consultation</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('state', '=', 'in_progress')]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+</odoo>

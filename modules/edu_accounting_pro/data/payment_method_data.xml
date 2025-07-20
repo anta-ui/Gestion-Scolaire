@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Méthodes de paiement par défaut -->
+        <record id="payment_method_cash" model="edu.payment.method.new">
+            <field name="name">Espèces</field>
+            <field name="code">CASH</field>
+            <field name="method_type">cash</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="payment_method_bank_transfer" model="edu.payment.method.new">
+            <field name="name">Virement bancaire</field>
+            <field name="code">TRANSFER</field>
+            <field name="method_type">bank_transfer</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="payment_method_card" model="edu.payment.method.new">
+            <field name="name">Carte bancaire</field>
+            <field name="code">CARD</field>
+            <field name="method_type">credit_card</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="payment_method_mobile" model="edu.payment.method.new">
+            <field name="name">Mobile Money</field>
+            <field name="code">MOBILE</field>
+            <field name="method_type">mobile_money</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="payment_method_check" model="edu.payment.method.new">
+            <field name="name">Chèque</field>
+            <field name="code">CHECK</field>
+            <field name="method_type">check</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="payment_method_online" model="edu.pay.method">
+            <field name="name">Paiement en ligne</field>
+            <field name="code">ONLINE</field>
+            <field name="method_type">online</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</odoo>

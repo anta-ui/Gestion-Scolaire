@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Rapport Reçu de Paiement -->
+    <record id="action_report_payment_receipt" model="ir.actions.report">
+        <field name="name">Reçu de Paiement</field>
+        <field name="model">edu.student.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_accounting_pro.report_payment_receipt_document</field>
+        <field name="report_file">edu_accounting_pro.report_payment_receipt_document</field>
+        <field name="binding_model_id" ref="model_edu_student_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template Reçu de Paiement -->
+    <template id="report_payment_receipt_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="payment">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <!-- En-tête -->
+                        <div class="row">
+                            <div class="col-8">
+                                <h3>
+                                    <span>Reçu de Paiement</span>
+                                </h3>
+                                <h4>
+                                    <span>N° </span><span t-field="payment.name"/>
+                                </h4>
+                            </div>
+                            <div class="col-4 text-right">
+                                <div t-if="payment.state" class="badge badge-pill badge-success">
+                                    <span t-field="payment.state"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informations de paiement -->
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Payé par :</strong>
+                                <div t-field="payment.student_id.name"/>
+                                <div t-if="payment.student_id.gr_no">
+                                    N° Étudiant: <span t-field="payment.student_id.gr_no"/>
+                                </div>
+                                <div t-if="payment.student_id.standard_id">
+                                    Classe: <span t-field="payment.student_id.standard_id.name"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Détails du paiement :</strong>
+                                <div>
+                                    Date: <span t-field="payment.payment_date"/>
+                                </div>
+                                <div>
+                                    Méthode: <span t-field="payment.payment_method_id.name"/>
+                                </div>
+                                <div t-if="payment.reference">
+                                    Référence: <span t-field="payment.reference"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Montant -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <div class="alert alert-success" style="font-size: 24px;">
+                                    <strong>Montant reçu : 
+                                        <span t-field="payment.amount" 
+                                              t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Factures payées -->
+                        <div t-if="payment.invoice_ids" class="mt32">
+                            <strong>Factures payées :</strong>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Facture</th>
+                                        <th>Date facture</th>
+                                        <th class="text-right">Montant facture</th>
+                                        <th class="text-right">Montant payé</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="payment.invoice_ids" t-as="invoice">
+                                        <tr>
+                                            <td><span t-field="invoice.name"/></td>
+                                            <td><span t-field="invoice.invoice_date"/></td>
+                                            <td class="text-right">
+                                                <span t-field="invoice.amount_total" 
+                                                      t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="payment.amount" 
+                                                      t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Notes -->
+                        <div t-if="payment.notes" class="mt32">
+                            <strong>Notes :</strong>
+                            <p t-field="payment.notes"/>
+                        </div>
+                        
+                        <!-- Signature -->
+                        <div class="row mt64">
+                            <div class="col-6">
+                                <p>
+                                    <strong>Reçu par :</strong><br/>
+                                    <span t-field="payment.create_uid.name"/><br/>
+                                    Le <span t-field="payment.create_date" t-options="{'widget': 'date'}"/>
+                                </p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p>
+                                    <strong>Signature :</strong><br/>
+                                    <br/>
+                                    <br/>
+                                    ____________________
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo> 

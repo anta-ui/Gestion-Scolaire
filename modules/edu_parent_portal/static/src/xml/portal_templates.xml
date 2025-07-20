@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    
+    <!-- Template principal du portail parent -->
+    <t t-name="ParentPortal.Dashboard">
+        <div class="portal-parent-container">
+            <div class="portal-header">
+                <h1>Portail Parents</h1>
+                <p>Bienvenue dans votre espace personnel</p>
+            </div>
+            <div class="portal-content">
+                <!-- Contenu à implémenter -->
+            </div>
+        </div>
+    </t>
+    
+    <!-- Template pour les notifications -->
+    <t t-name="ParentPortal.Notification">
+        <div class="portal-notification" t-att-class="type">
+            <span class="message" t-esc="message"/>
+            <button class="close" type="button">&times;</button>
+        </div>
+    </t>
+    
+    <!-- Template pour les widgets du tableau de bord -->
+    <t t-name="ParentPortal.Widget">
+        <div class="portal-card" t-att-id="'widget-' + widget_id">
+            <div class="portal-card-header" t-esc="title"/>
+            <div class="portal-card-content" t-raw="content"/>
+        </div>
+    </t>
+    
+</templates>

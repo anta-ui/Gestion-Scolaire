@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue liste des tableaux de bord -->
+        <record id="view_edu_parent_dashboard_tree" model="ir.ui.view">
+            <field name="name">edu.parent.dashboard.tree</field>
+            <field name="model">edu.parent.dashboard</field>
+            <field name="arch" type="xml">
+                <tree string="Tableaux de bord">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="is_default"/>
+                    <field name="layout"/>
+                    <field name="last_viewed"/>
+                    <field name="view_count"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire du tableau de bord -->
+        <record id="view_edu_parent_dashboard_form" model="ir.ui.view">
+            <field name="name">edu.parent.dashboard.form</field>
+            <field name="model">edu.parent.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Tableau de bord parent">
+                    <header>
+                        <button name="action_reset_layout" type="object" string="Réinitialiser" class="btn-secondary"/>
+                        <button name="action_duplicate" type="object" string="Dupliquer" class="btn-secondary"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="user_id"/>
+                                <field name="is_default"/>
+                            </group>
+                            <group>
+                                <field name="layout"/>
+                                <field name="columns"/>
+                                <field name="refresh_interval"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Widgets affichés">
+                                <group>
+                                    <group string="Widgets principaux">
+                                        <field name="show_summary_widget"/>
+                                        <field name="show_grades_widget"/>
+                                        <field name="show_attendance_widget"/>
+                                        <field name="show_homework_widget"/>
+                                        <field name="show_schedule_widget"/>
+                                    </group>
+                                    <group string="Widgets communication">
+                                        <field name="show_messages_widget"/>
+                                        <field name="show_announcements_widget"/>
+                                        <field name="show_calendar_widget"/>
+                                    </group>
+                                    <group string="Widgets avancés">
+                                        <field name="show_payments_widget"/>
+                                        <field name="show_progress_widget"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Paramètres">
+                                <group>
+                                    <group>
+                                        <field name="items_limit"/>
+                                        <field name="date_range"/>
+                                    </group>
+                                    <group>
+                                        <field name="last_viewed" readonly="1"/>
+                                        <field name="view_count" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Configuration avancée">
+                                <field name="widget_config" widget="ace" options="{'mode': 'json'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vue kanban des tableaux de bord -->
+        <record id="view_edu_parent_dashboard_kanban" model="ir.ui.view">
+            <field name="name">edu.parent.dashboard.kanban</field>
+            <field name="model">edu.parent.dashboard</field>
+            <field name="arch" type="xml">
+                <kanban string="Tableaux de bord">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="is_default"/>
+                    <field name="layout"/>
+                    <field name="view_count"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <strong><field name="name"/></strong>
+                                            <t t-if="record.is_default.raw_value">
+                                                <span class="badge badge-success">Par défaut</span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-user"/> <field name="user_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="fa fa-eye"/> <field name="view_count"/> vues
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="fa fa-th"/> <field name="layout"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Action pour les tableaux de bord -->
+        <record id="action_edu_parent_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableaux de bord parents</field>
+            <field name="res_model">edu.parent.dashboard</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier tableau de bord parent !
+                </p>
+                <p>
+                    Les tableaux de bord permettent aux parents de personnaliser leur vue d'ensemble
+                    des informations scolaires de leurs enfants.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

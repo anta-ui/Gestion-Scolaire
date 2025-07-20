@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Templates pour l'interface web -->
+        
+        <!-- Template principal pour l'emploi du temps -->
+        <template id="timetable_template" name="Timetable Template">
+            <div class="timetable-container">
+                <h2>Emploi du Temps IA</h2>
+                <div id="timetable-widget"></div>
+            </div>
+        </template>
+
+        <!-- Template pour l'affichage public -->
+        <template id="timetable_public_template" name="Public Timetable">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>Emploi du Temps</h1>
+                            <div id="public-timetable"></div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

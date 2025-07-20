@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Vue liste des structures de frais -->
+    <record id="view_edu_fee_structure_tree" model="ir.ui.view">
+        <field name="name">edu.fee.structure.tree</field>
+        <field name="model">edu.fee.structure</field>
+        <field name="arch" type="xml">
+            <tree string="Structures de Frais" decoration-muted="not active">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="academic_year_id"/>
+                <field name="course_id"/>
+                <field name="batch_id"/>
+                <field name="billing_type"/>
+                <field name="total_amount" widget="monetary"/>
+                <field name="student_count"/>
+                <field name="invoice_count"/>
+                <field name="active" column_invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire des structures de frais -->
+    <record id="view_edu_fee_structure_form" model="ir.ui.view">
+        <field name="name">edu.fee.structure.form</field>
+        <field name="model">edu.fee.structure</field>
+        <field name="arch" type="xml">
+            <form string="Structure de Frais">
+                <header>
+                    <button name="action_generate_invoices" type="object" 
+                            string="Générer les Factures" class="btn-primary"
+                            invisible="not active"/>
+                    <button name="action_duplicate" type="object" 
+                            string="Dupliquer" class="btn-secondary"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" 
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="invoice_count" widget="statinfo" 
+                                   string="Factures"/>
+                        </button>
+                        <button name="%(openeducat_core.act_open_op_student_view)d" type="action" 
+                                class="oe_stat_button" icon="fa-users"
+                                context="{'search_default_course_id': course_id, 'search_default_academic_year_id': academic_year_id}">
+                            <field name="student_count" widget="statinfo" 
+                                   string="Étudiants"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Nom de la structure"/></h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="academic_year_id"/>
+                            <field name="course_id"/>
+                            <field name="batch_id"/>
+                            <field name="billing_type"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Configuration des Paiements">
+                        <group>
+                            <field name="allow_partial_payment"/>
+                            <field name="scholarship_applicable"/>
+                        </group>
+                        <group>
+                            <field name="discount_applicable"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Lignes de Frais" name="fee_lines">
+                            <field name="fee_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="fee_type_id"/>
+                                    <field name="description"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="is_mandatory"/>
+                                    <field name="tax_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="account_id" optional="hide"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="mandatory_amount" widget="monetary"/>
+                                <field name="optional_amount" widget="monetary"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total_amount"/>
+                                </div>
+                                <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Description" name="description">
+                            <field name="description" nolabel="1"/>
+                        </page>
+                        
+                        <page string="Notes" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Notes internes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue kanban des structures de frais -->
+    <record id="view_edu_fee_structure_kanban" model="ir.ui.view">
+        <field name="name">edu.fee.structure.kanban</field>
+        <field name="model">edu.fee.structure</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="academic_year_id"/>
+                <field name="course_id"/>
+                <field name="batch_id"/>
+                <field name="total_amount"/>
+                <field name="currency_id"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <small class="o_kanban_record_subtitle text-muted">
+                                        <field name="code"/> - <field name="course_id"/>
+                                        <span t-if="record.batch_id.value"> / <field name="batch_id"/></span>
+                                    </small>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="academic_year_id"/>
+                                    <br/>
+                                    <strong><field name="total_amount" widget="monetary"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue recherche des structures de frais -->
+    <record id="view_edu_fee_structure_search" model="ir.ui.view">
+        <field name="name">edu.fee.structure.search</field>
+        <field name="model">edu.fee.structure</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Structures de Frais">
+                <field name="name" string="Nom"/>
+                <field name="code" string="Code"/>
+                <field name="academic_year_id" string="Année Scolaire"/>
+                <field name="course_id" string="Cours"/>
+                <field name="batch_id" string="Batch"/>
+                
+                <filter string="Actives" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactives" name="inactive" domain="[('active', '=', False)]"/>
+                
+                <separator/>
+                <filter string="Annuelle" name="annual" domain="[('billing_type', '=', 'annual')]"/>
+                <filter string="Semestrielle" name="semester" domain="[('billing_type', '=', 'semester')]"/>
+                <filter string="Trimestrielle" name="quarterly" domain="[('billing_type', '=', 'quarterly')]"/>
+                <filter string="Mensuelle" name="monthly" domain="[('billing_type', '=', 'monthly')]"/>
+                
+                <separator/>
+                <filter string="Bourses Applicables" name="scholarship_applicable" 
+                        domain="[('scholarship_applicable', '=', True)]"/>
+                <filter string="Remises Applicables" name="discount_applicable" 
+                        domain="[('discount_applicable', '=', True)]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Année Scolaire" name="group_academic_year" 
+                            context="{'group_by': 'academic_year_id'}"/>
+                    <filter string="Cours" name="group_course" 
+                            context="{'group_by': 'course_id'}"/>
+                    <filter string="Batch" name="group_batch" 
+                            context="{'group_by': 'batch_id'}"/>
+                    <filter string="Type de Facturation" name="group_billing_type" 
+                            context="{'group_by': 'billing_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action pour les structures de frais -->
+    <record id="action_edu_fee_structure" model="ir.actions.act_window">
+        <field name="name">Structures de Frais</field>
+        <field name="res_model">edu.fee.structure</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_edu_fee_structure_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre première structure de frais
+            </p>
+            <p>
+                Les structures de frais définissent les montants à facturer 
+                pour chaque cours et année scolaire.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue liste des lignes de structure de frais -->
+    <record id="view_edu_fee_structure_line_tree" model="ir.ui.view">
+        <field name="name">edu.fee.structure.line.tree</field>
+        <field name="model">edu.fee.structure.line</field>
+        <field name="arch" type="xml">
+            <tree string="Lignes de Structure de Frais" editable="top">
+                <field name="sequence" widget="handle"/>
+                <field name="fee_structure_id"/>
+                <field name="fee_type_id"/>
+                <field name="description"/>
+                <field name="amount" widget="monetary"/>
+                <field name="is_mandatory"/>
+                <field name="tax_ids" widget="many2many_tags"/>
+                <field name="account_id"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action pour les lignes de structure de frais -->
+    <record id="action_edu_fee_structure_line" model="ir.actions.act_window">
+        <field name="name">Lignes de Structure de Frais</field>
+        <field name="res_model">edu.fee.structure.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_edu_fee_structure_line_tree"/>
+    </record>
+
+</odoo>

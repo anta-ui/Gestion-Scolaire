@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue liste pour les menus du portail -->
+        <record id="view_edu_portal_menu_tree" model="ir.ui.view">
+            <field name="name">edu.portal.menu.tree</field>
+            <field name="model">edu.portal.menu</field>
+            <field name="arch" type="xml">
+                <tree string="Menus du Portail">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="url"/>
+                    <field name="icon"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire pour les menus -->
+        <record id="view_edu_portal_menu_form" model="ir.ui.view">
+            <field name="name">edu.portal.menu.form</field>
+            <field name="model">edu.portal.menu</field>
+            <field name="arch" type="xml">
+                <form string="Menu du Portail">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="url"/>
+                                <field name="icon"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="active"/>
+                                <field name="target"/>
+                            </group>
+                        </group>
+                        <group string="Paramètres">
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les menus -->
+        <record id="action_edu_portal_menu" model="ir.actions.act_window">
+            <field name="name">Menus du Portail</field>
+            <field name="res_model">edu.portal.menu</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+    </data>
+</odoo>

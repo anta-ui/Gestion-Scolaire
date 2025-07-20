@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vues pour les contraintes d'emploi du temps -->
+        
+        <!-- Vue liste des contraintes -->
+        <record id="view_timetable_constraint_tree" model="ir.ui.view">
+            <field name="name">edu.timetable.constraint.tree</field>
+            <field name="model">edu.timetable.constraint</field>
+            <field name="arch" type="xml">
+                <tree string="Contraintes" decoration-danger="is_violated == True">
+                    <field name="name"/>
+                    <field name="constraint_type"/>
+                    <field name="category"/>
+                    <field name="priority"/>
+                    <field name="is_violated"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des contraintes -->
+        <record id="view_timetable_constraint_form" model="ir.ui.view">
+            <field name="name">edu.timetable.constraint.form</field>
+            <field name="model">edu.timetable.constraint</field>
+            <field name="arch" type="xml">
+                <form string="Contrainte d'emploi du temps">
+                    <sheet>
+                        <group>
+                            <group name="basic_info">
+                                <field name="name"/>
+                                <field name="constraint_type"/>
+                                <field name="category"/>
+                                <field name="timetable_id"/>
+                            </group>
+                            <group name="priority">
+                                <field name="priority"/>
+                                <field name="weight"/>
+                                <field name="active"/>
+                                <field name="is_violated"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Entités concernées" name="entities">
+                                <group>
+                                    <group>
+                                        <field name="teacher_ids" widget="many2many_tags"/>
+                                        <field name="class_ids" widget="many2many_tags"/>
+                                    </group>
+                                    <group>
+                                        <field name="room_ids" widget="many2many_tags"/>
+                                        <field name="subject_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Contraintes temporelles" name="time">
+                                <group>
+                                    <group>
+                                        <field name="time_constraint_type"/>
+                                        <field name="start_time" widget="float_time"/>
+                                        <field name="end_time" widget="float_time"/>
+                                    </group>
+                                    <group>
+                                        <field name="max_per_day"/>
+                                        <field name="min_gap_hours"/>
+                                        <field name="max_consecutive"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Ressources" name="resources">
+                                <group>
+                                    <group>
+                                        <field name="min_capacity"/>
+                                        <field name="max_capacity"/>
+                                    </group>
+                                    <group>
+                                        <field name="required_equipment_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour les contraintes -->
+        <record id="action_timetable_constraints" model="ir.actions.act_window">
+            <field name="name">Contraintes d'emploi du temps</field>
+            <field name="res_model">edu.timetable.constraint</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

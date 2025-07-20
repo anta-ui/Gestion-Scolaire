@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Action pour le tableau de bord -->
+        <record id="action_health_center_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord Santé</field>
+            <field name="res_model">health.dashboard</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Gestion du tableau de bord du centre de santé</field>
+        </record>
+
+        <!-- Action pour les alertes de santé -->
+        <record id="action_health_alerts" model="ir.actions.act_window">
+            <field name="name">Alertes de Santé</field>
+            <field name="res_model">health.alert</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Gestion des alertes et notifications de santé</field>
+        </record>
+
+        <!-- Action pour les analyses de santé -->
+        <record id="action_health_analytics" model="ir.actions.act_window">
+            <field name="name">Analyses de Santé</field>
+            <field name="res_model">health.analytics</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Analyses et rapports de santé</field>
+        </record>
+    </data>
+</odoo> 

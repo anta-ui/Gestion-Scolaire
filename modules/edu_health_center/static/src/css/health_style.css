@@ -1,0 +1,148 @@
+.health-dashboard {
+    padding: 20px;
+}
+
+.health-stats-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.emergency-alert-card {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.medical-alert {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.medical-alert.high {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.medical-alert.critical {
+    background: #721c24;
+    color: white;
+    border-color: #6d1f28;
+}
+
+.vital-signs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.vital-sign-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    border-left: 3px solid #007bff;
+}
+
+.vital-sign-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.vital-sign-label {
+    font-size: 12px;
+    color: #6c757d;
+    text-transform: uppercase;
+}
+
+.health-record-card {
+    border-left: 4px solid #28a745;
+}
+
+.health-record-card.allergies {
+    border-left-color: #ffc107;
+    background: #fff9e6;
+}
+
+.health-record-card.chronic {
+    border-left-color: #fd7e14;
+    background: #fff2e6;
+}
+
+.consultation-calendar {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.emergency-button {
+    background: linear-gradient(45deg, #ff416c 0%, #ff4b2b 100%);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+}
+
+.emergency-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+}
+
+.medication-tracker {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.vaccination-badge {
+    background: #28a745;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.vaccination-badge.due {
+    background: #ffc107;
+    color: #212529;
+}
+
+.vaccination-badge.overdue {
+    background: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .health-dashboard {
+        padding: 10px;
+    }
+    
+    .vital-signs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .health-stats-card {
+        padding: 15px;
+    }
+}

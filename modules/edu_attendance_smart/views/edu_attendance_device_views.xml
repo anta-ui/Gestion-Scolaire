@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_edu_attendance_device_tree" model="ir.ui.view">
+            <field name="name">edu.attendance.device.tree</field>
+            <field name="model">edu.attendance.device</field>
+            <field name="arch" type="xml">
+                <tree string="Dispositifs d'assiduité">
+                    <field name="name"/>
+                    <field name="device_type"/>
+                    <field name="location_id"/>
+                    <field name="state"/>
+                    <field name="last_scan_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_edu_attendance_device_form" model="ir.ui.view">
+            <field name="name">edu.attendance.device.form</field>
+            <field name="model">edu.attendance.device</field>
+            <field name="arch" type="xml">
+                <form string="Dispositif d'assiduité">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="device_type"/>
+                                <field name="location_id"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                                <field name="last_scan_date"/>
+                                <field name="ip_address"/>
+                                <field name="mac_address"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Configuration">
+                                <group>
+                                    <field name="allow_qr_scan"/>
+                                    <field name="allow_biometric"/>
+                                    <field name="allow_rfid"/>
+                                    <field name="require_photo"/>
+                                    <field name="require_location"/>
+                                </group>
+                                <group>
+                                    <field name="description"/>
+                                    <field name="total_scans"/>
+                                    <field name="successful_scans"/>
+                                    <field name="failed_scans"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_edu_attendance_device_search" model="ir.ui.view">
+            <field name="name">edu.attendance.device.search</field>
+            <field name="model">edu.attendance.device</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher dispositifs">
+                    <field name="name"/>
+                    <field name="device_type"/>
+                    <field name="location_id"/>
+                    <field name="state"/>
+                    <filter string="Actifs" name="active" domain="[('state', '=', 'active')]"/>
+                    <filter string="Inactifs" name="inactive" domain="[('state', '=', 'inactive')]"/>
+                    <group expand="0" string="Regrouper par">
+                        <filter string="Type" name="group_type" context="{'group_by': 'device_type'}"/>
+                        <filter string="Localisation" name="group_location" context="{'group_by': 'location_id'}"/>
+                        <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_edu_attendance_device" model="ir.actions.act_window">
+            <field name="name">Dispositifs d'assiduité</field>
+            <field name="res_model">edu.attendance.device</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_edu_attendance_device_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer le premier dispositif d'assiduité
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Item - Déplacé vers le fichier de menus principal -->
+    </data>
+</odoo> 

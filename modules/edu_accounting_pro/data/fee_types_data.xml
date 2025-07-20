@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Types de frais de base -->
+        <record id="fee_type_tuition" model="edu.fee.type">
+            <field name="name">Frais de Scolarité</field>
+            <field name="code">TUITION</field>
+            <field name="category">tuition</field>
+            <field name="sequence">10</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="max_discount_percentage">50.0</field>
+            <field name="description">Frais de scolarité pour l'enseignement général</field>
+        </record>
+
+        <record id="fee_type_registration" model="edu.fee.type">
+            <field name="name">Frais d'Inscription</field>
+            <field name="code">REGISTRATION</field>
+            <field name="category">registration</field>
+            <field name="sequence">20</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">False</field>
+            <field name="scholarship_applicable">False</field>
+            <field name="discount_applicable">False</field>
+            <field name="description">Frais d'inscription annuelle</field>
+        </record>
+
+        <record id="fee_type_transport" model="edu.fee.type">
+            <field name="name">Transport Scolaire</field>
+            <field name="code">TRANSPORT</field>
+            <field name="category">transport</field>
+            <field name="sequence">30</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais de transport scolaire</field>
+        </record>
+
+        <record id="fee_type_meals" model="edu.fee.type">
+            <field name="name">Restauration</field>
+            <field name="code">MEALS</field>
+            <field name="category">meals</field>
+            <field name="sequence">40</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais de restauration scolaire</field>
+        </record>
+
+        <record id="fee_type_accommodation" model="edu.fee.type">
+            <field name="name">Hébergement</field>
+            <field name="code">ACCOMMODATION</field>
+            <field name="category">accommodation</field>
+            <field name="sequence">50</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais d'hébergement en internat</field>
+        </record>
+
+        <record id="fee_type_books" model="edu.fee.type">
+            <field name="name">Manuels et Fournitures</field>
+            <field name="code">BOOKS</field>
+            <field name="category">books</field>
+            <field name="sequence">60</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais pour manuels scolaires et fournitures</field>
+        </record>
+
+        <record id="fee_type_activities" model="edu.fee.type">
+            <field name="name">Activités Extrascolaires</field>
+            <field name="code">ACTIVITIES</field>
+            <field name="category">activities</field>
+            <field name="sequence">70</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">False</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais pour activités extrascolaires</field>
+        </record>
+
+        <record id="fee_type_exams" model="edu.fee.type">
+            <field name="name">Examens et Certifications</field>
+            <field name="code">EXAMS</field>
+            <field name="category">exams</field>
+            <field name="sequence">80</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">False</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">False</field>
+            <field name="description">Frais d'examens et de certifications</field>
+        </record>
+
+        <record id="fee_type_insurance" model="edu.fee.type">
+            <field name="name">Assurance Scolaire</field>
+            <field name="code">INSURANCE</field>
+            <field name="category">insurance</field>
+            <field name="sequence">90</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">False</field>
+            <field name="scholarship_applicable">False</field>
+            <field name="discount_applicable">False</field>
+            <field name="description">Assurance scolaire obligatoire</field>
+        </record>
+
+        <record id="fee_type_technology" model="edu.fee.type">
+            <field name="name">Technologie et Équipement</field>
+            <field name="code">TECHNOLOGY</field>
+            <field name="category">technology</field>
+            <field name="sequence">100</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais pour équipements technologiques</field>
+        </record>
+
+        <record id="fee_type_uniform" model="edu.fee.type">
+            <field name="name">Uniformes</field>
+            <field name="code">UNIFORM</field>
+            <field name="category">uniform</field>
+            <field name="sequence">110</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais pour uniformes scolaires</field>
+        </record>
+
+        <record id="fee_type_library" model="edu.fee.type">
+            <field name="name">Bibliothèque</field>
+            <field name="code">LIBRARY</field>
+            <field name="category">library</field>
+            <field name="sequence">120</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais d'accès à la bibliothèque</field>
+        </record>
+
+        <record id="fee_type_laboratory" model="edu.fee.type">
+            <field name="name">Laboratoire</field>
+            <field name="code">LABORATORY</field>
+            <field name="category">laboratory</field>
+            <field name="sequence">130</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais d'utilisation des laboratoires</field>
+        </record>
+
+        <record id="fee_type_sports" model="edu.fee.type">
+            <field name="name">Sports</field>
+            <field name="code">SPORTS</field>
+            <field name="category">sports</field>
+            <field name="sequence">140</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">False</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais pour activités sportives</field>
+        </record>
+
+        <record id="fee_type_medical" model="edu.fee.type">
+            <field name="name">Frais Médicaux</field>
+            <field name="code">MEDICAL</field>
+            <field name="category">medical</field>
+            <field name="sequence">150</field>
+            <field name="is_mandatory">True</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">False</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">False</field>
+            <field name="description">Frais médicaux et de santé</field>
+        </record>
+
+        <record id="fee_type_late_payment" model="edu.fee.type">
+            <field name="name">Frais de Retard</field>
+            <field name="code">LATE_FEE</field>
+            <field name="category">other</field>
+            <field name="sequence">900</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">False</field>
+            <field name="allow_partial_payment">False</field>
+            <field name="scholarship_applicable">False</field>
+            <field name="discount_applicable">False</field>
+            <field name="description">Frais de retard de paiement</field>
+        </record>
+
+        <record id="fee_type_other" model="edu.fee.type">
+            <field name="name">Autres Frais</field>
+            <field name="code">OTHER</field>
+            <field name="category">other</field>
+            <field name="sequence">999</field>
+            <field name="is_mandatory">False</field>
+            <field name="is_refundable">True</field>
+            <field name="allow_partial_payment">True</field>
+            <field name="scholarship_applicable">True</field>
+            <field name="discount_applicable">True</field>
+            <field name="description">Frais divers non catégorisés</field>
+        </record>
+
+    </data>
+</odoo>

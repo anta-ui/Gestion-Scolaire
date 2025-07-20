@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Types d'évaluations par défaut -->
+        <record id="evaluation_type_control" model="edu.evaluation.type">
+            <field name="name">Contrôle</field>
+            <field name="code">CTRL</field>
+            <field name="description">Contrôle de connaissances en classe</field>
+            <field name="sequence">10</field>
+            <field name="coefficient">1.0</field>
+            <field name="duration">1.0</field>
+            <field name="color">1</field>
+            <field name="allow_retake" eval="True"/>
+            <field name="max_retakes">1</field>
+            <field name="require_justification" eval="False"/>
+        </record>
+        
+        <record id="evaluation_type_exam" model="edu.evaluation.type">
+            <field name="name">Examen</field>
+            <field name="code">EXAM</field>
+            <field name="description">Examen officiel</field>
+            <field name="sequence">20</field>
+            <field name="coefficient">2.0</field>
+            <field name="duration">2.0</field>
+            <field name="color">2</field>
+            <field name="allow_retake" eval="True"/>
+            <field name="max_retakes">1</field>
+            <field name="require_justification" eval="True"/>
+        </record>
+        
+        <record id="evaluation_type_homework" model="edu.evaluation.type">
+            <field name="name">Devoir maison</field>
+            <field name="code">DM</field>
+            <field name="description">Travail à faire à la maison</field>
+            <field name="sequence">30</field>
+            <field name="coefficient">0.5</field>
+            <field name="duration">0.1</field>
+            <field name="color">3</field>
+            <field name="allow_retake" eval="False"/>
+            <field name="require_justification" eval="False"/>
+        </record>
+        
+        <record id="evaluation_type_oral" model="edu.evaluation.type">
+            <field name="name">Oral</field>
+            <field name="code">ORAL</field>
+            <field name="description">Évaluation orale</field>
+            <field name="sequence">40</field>
+            <field name="coefficient">1.5</field>
+            <field name="duration">0.5</field>
+            <field name="color">4</field>
+            <field name="allow_retake" eval="True"/>
+            <field name="max_retakes">1</field>
+            <field name="require_justification" eval="True"/>
+        </record>
+        
+        <record id="evaluation_type_tp" model="edu.evaluation.type">
+            <field name="name">Travaux Pratiques</field>
+            <field name="code">TP</field>
+            <field name="description">Évaluation pratique en laboratoire</field>
+            <field name="sequence">50</field>
+            <field name="coefficient">1.0</field>
+            <field name="duration">2.0</field>
+            <field name="color">5</field>
+            <field name="allow_retake" eval="False"/>
+            <field name="require_justification" eval="False"/>
+        </record>
+        
+        <record id="evaluation_type_project" model="edu.evaluation.type">
+            <field name="name">Projet</field>
+            <field name="code">PROJ</field>
+            <field name="description">Évaluation de projet</field>
+            <field name="sequence">60</field>
+            <field name="coefficient">2.0</field>
+            <field name="duration">0.1</field>
+            <field name="color">6</field>
+            <field name="allow_retake" eval="False"/>
+            <field name="require_justification" eval="True"/>
+        </record>
+        
+        <record id="evaluation_type_quiz" model="edu.evaluation.type">
+            <field name="name">Quiz</field>
+            <field name="code">QUIZ</field>
+            <field name="description">Interrogation rapide</field>
+            <field name="sequence">70</field>
+            <field name="coefficient">0.5</field>
+            <field name="duration">0.25</field>
+            <field name="color">7</field>
+            <field name="allow_retake" eval="False"/>
+            <field name="require_justification" eval="False"/>
+        </record>
+        
+        <record id="evaluation_type_participation" model="edu.evaluation.type">
+            <field name="name">Participation</field>
+            <field name="code">PART</field>
+            <field name="description">Évaluation de la participation en classe</field>
+            <field name="sequence">80</field>
+            <field name="coefficient">0.5</field>
+            <field name="duration">0.1</field>
+            <field name="color">8</field>
+            <field name="is_continuous" eval="True"/>
+            <field name="allow_retake" eval="False"/>
+            <field name="require_justification" eval="False"/>
+        </record>
+        
+        <record id="evaluation_type_continuous" model="edu.evaluation.type">
+            <field name="name">Contrôle continu</field>
+            <field name="code">CC</field>
+            <field name="description">Évaluation continue sur la période</field>
+            <field name="sequence">90</field>
+            <field name="coefficient">1.0</field>
+            <field name="duration">0.1</field>
+            <field name="color">9</field>
+            <field name="is_continuous" eval="True"/>
+            <field name="allow_retake" eval="False"/>
+            <field name="require_justification" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

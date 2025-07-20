@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Actions pour les Dossiers Médicaux -->
+    <record id="action_health_records" model="ir.actions.act_window">
+        <field name="name">Dossiers Médicaux</field>
+        <field name="res_model">edu.health.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau dossier médical
+            </p>
+        </field>
+    </record>
+
+    <record id="action_health_records_new" model="ir.actions.act_window">
+        <field name="name">Nouveau Dossier Médical</field>
+        <field name="res_model">edu.health.record</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Actions pour les Consultations -->
+    <record id="action_consultations_today" model="ir.actions.act_window">
+        <field name="name">Consultations du Jour</field>
+        <field name="res_model">edu.medical.consultation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_consultations_all" model="ir.actions.act_window">
+        <field name="name">Toutes les Consultations</field>
+        <field name="res_model">edu.medical.consultation</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+    <record id="action_consultations_calendar" model="ir.actions.act_window">
+        <field name="name">Planning Médical</field>
+        <field name="res_model">edu.medical.consultation</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <!-- Actions pour les Urgences -->
+    <record id="action_emergency_alert" model="ir.actions.act_window">
+        <field name="name">Nouvelle Urgence</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_emergencies_active" model="ir.actions.act_window">
+        <field name="name">Urgences Actives</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_emergencies_history" model="ir.actions.act_window">
+        <field name="name">Historique des Urgences</field>
+        <field name="res_model">health.emergency</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Actions pour la Pharmacie -->
+    <record id="action_prescriptions" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="res_model">medication.prescription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_medications" model="ir.actions.act_window">
+        <field name="name">Médicaments</field>
+        <field name="res_model">medication.stock</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_medication_stock" model="ir.actions.act_window">
+        <field name="name">Stock Pharmacie</field>
+        <field name="res_model">medication.stock</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Actions pour les Vaccinations -->
+    <record id="action_vaccination_records" model="ir.actions.act_window">
+        <field name="name">Carnets de Vaccination</field>
+        <field name="res_model">vaccination.record</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_vaccination_campaigns" model="ir.actions.act_window">
+        <field name="name">Campagnes de Vaccination</field>
+        <field name="res_model">vaccination.schedule</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Actions pour le Personnel Médical -->
+    <record id="action_medical_staff" model="ir.actions.act_window">
+        <field name="name">Personnel Médical</field>
+        <field name="res_model">medical.staff</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_medical_planning" model="ir.actions.act_window">
+        <field name="name">Planning des Gardes</field>
+        <field name="res_model">medical.staff.schedule</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <!-- Actions pour la Configuration -->
+    <record id="action_health_insurance" model="ir.actions.act_window">
+        <field name="name">Assurances Santé</field>
+        <field name="res_model">health.insurance.company</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_vaccine_types" model="ir.actions.act_window">
+        <field name="name">Types de Vaccins</field>
+        <field name="res_model">vaccination.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_medical_equipment" model="ir.actions.act_window">
+        <field name="name">Protocoles d'Urgence</field>
+        <field name="res_model">health.emergency.protocol</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Actions pour les Rapports -->
+    <record id="action_health_statistics" model="ir.actions.act_window">
+        <field name="name">Statistiques de Santé</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_epidemiology_reports" model="ir.actions.act_window">
+        <field name="name">Rapports Épidémiologiques</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('analysis_type', '=', 'epidemic')]</field>
+    </record>
+
+    <!-- Action pour le Tableau de Bord -->
+    <record id="action_health_center_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord Santé</field>
+        <field name="res_model">health.dashboard</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+</odoo>

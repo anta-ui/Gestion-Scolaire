@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Menu principal Comptabilité Éducative -->
+    <menuitem id="menu_edu_accounting_main_root" 
+              name="Comptabilité Éducative" 
+              sequence="25"
+              groups="base.group_user"
+              web_icon="edu_accounting_pro,static/description/icon.png"/>
+    
+    <!-- Tableau de Bord -->
+    <menuitem id="menu_edu_accounting_dashboard" 
+              name="Tableau de Bord" 
+              parent="menu_edu_accounting_main_root" 
+              action="action_edu_accounting_dashboard" 
+              sequence="5"
+              groups="base.group_user"/>
+    
+    <!-- Configuration -->
+    <menuitem id="menu_edu_accounting_config" 
+              name="Configuration" 
+              parent="menu_edu_accounting_main_root" 
+              sequence="10"
+              groups="base.group_system"/>
+    
+    <menuitem id="menu_edu_accounting_config_main" 
+              name="Configuration Générale" 
+              parent="menu_edu_accounting_config" 
+              action="action_edu_accounting_config" 
+              sequence="10"
+              groups="base.group_system"/>
+    
+    <menuitem id="menu_edu_fee_type" 
+              name="Types de Frais" 
+              parent="menu_edu_accounting_config" 
+              action="action_edu_fee_type" 
+              sequence="20"
+              groups="base.group_system"/>
+    
+    <!-- Structures de Frais -->
+    <menuitem id="menu_edu_fee_structure" 
+              name="Structures de Frais" 
+              parent="menu_edu_accounting_main_root" 
+              action="action_edu_fee_structure" 
+              sequence="20"
+              groups="base.group_user"/>
+    
+    <!-- Facturation -->
+    <menuitem id="menu_edu_student_invoice" 
+              name="Factures Étudiants" 
+              parent="menu_edu_accounting_main_root" 
+              action="action_edu_student_invoice" 
+              sequence="30"
+              groups="base.group_user"/>
+
+    <!-- Paiements -->
+    <menuitem id="menu_edu_student_payment" 
+              name="Paiements Étudiants" 
+              parent="menu_edu_accounting_main_root" 
+              action="action_edu_student_payment" 
+              sequence="40"
+              groups="base.group_user"/>
+
+</odoo>

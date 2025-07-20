@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Menu racine -->
+        <menuitem id="menu_parent_portal_root"
+                  name="Portail Parents"
+                  sequence="15"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  web_icon="edu_parent_portal,static/description/icon.png"/>
+        
+        <!-- Configuration -->
+        <menuitem id="menu_parent_portal_config"
+                  name="Configuration"
+                  parent="menu_parent_portal_root"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="10"/>
+        
+        <menuitem id="menu_parent_portal_config_settings"
+                  name="Paramètres du portail"
+                  parent="menu_parent_portal_config"
+                  action="action_edu_parent_portal_config"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="10"/>
+        
+        <menuitem id="menu_portal_menus"
+                  name="Menus du portail"
+                  parent="menu_parent_portal_config"
+                  action="action_edu_portal_menu"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="20"/>
+        
+        <menuitem id="menu_notification_preferences"
+                  name="Préférences de notification"
+                  parent="menu_parent_portal_config"
+                  action="action_edu_notification_preference"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="30"/>
+        
+        <!-- Gestion -->
+        <menuitem id="menu_parent_portal_management"
+                  name="Gestion"
+                  parent="menu_parent_portal_root"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="20"/>
+        
+        <menuitem id="menu_parent_notifications"
+                  name="Notifications"
+                  parent="menu_parent_portal_management"
+                  action="action_edu_parent_notification"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="10"/>
+        
+        <menuitem id="menu_parent_appointments"
+                  name="Rendez-vous"
+                  parent="menu_parent_portal_management"
+                  action="action_edu_parent_appointment"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="20"/>
+        
+        <menuitem id="menu_parent_documents"
+                  name="Documents"
+                  parent="menu_parent_portal_management"
+                  action="action_edu_parent_document"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="30"/>
+        
+        <menuitem id="menu_parent_payments"
+                  name="Paiements"
+                  parent="menu_parent_portal_management"
+                  action="action_edu_parent_payment"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="40"/>
+        
+        <!-- Rapports -->
+        <menuitem id="menu_parent_portal_reports"
+                  name="Rapports"
+                  parent="menu_parent_portal_root"
+                  groups="openeducat_core.group_op_back_office_admin"
+                  sequence="30"/>
+        
+    </data>
+</odoo>

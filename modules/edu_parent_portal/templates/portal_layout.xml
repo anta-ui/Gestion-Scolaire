@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Layout de base du portail parents -->
+    <template id="portal_layout" name="Portail Parents - Layout" inherit_id="portal.portal_layout">
+        
+        <!-- CSS personnalisés -->
+        <xpath expr="//head" position="inside">
+            <link rel="stylesheet" type="text/css" href="/edu_parent_portal/static/src/css/portal_style.css"/>
+            <link rel="stylesheet" type="text/css" href="/edu_parent_portal/static/src/css/portal_dashboard.css"/>
+            <link rel="stylesheet" type="text/css" href="/edu_parent_portal/static/src/css/portal_responsive.css"/>
+            
+            <!-- Meta tags pour PWA -->
+            <meta name="mobile-web-app-capable" content="yes"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+            <meta name="theme-color" content="#007bff"/>
+            
+            <!-- Manifest PWA -->
+            <link rel="manifest" href="/edu_parent_portal/static/manifest.json"/>
+        </xpath>
+        
+        <!-- Navigation du portail parents -->
+        <xpath expr="//div[@id='wrapwrap']" position="inside">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary parent-portal-nav" t-if="request.env.user.partner_id.is_parent">
+                <div class="container">
+                    <a class="navbar-brand" href="/my">
+                        <img src="/edu_parent_portal/static/description/icon.png" alt="Logo" height="30" class="me-2"/>
+                        Portail Parents
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="portalNavbar">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my" t-attf-class="#{page_name == 'home' and 'active' or ''}">
+                                    <i class="fa fa-dashboard me-1"></i>
+                                    Tableau de bord
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my/children" t-attf-class="#{page_name == 'children' and 'active' or ''}">
+                                    <i class="fa fa-users me-1"></i>
+                                    Mes enfants
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my/grades" t-attf-class="#{page_name == 'grades' and 'active' or ''}">
+                                    <i class="fa fa-star me-1"></i>
+                                    Notes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my/attendance" t-attf-class="#{page_name == 'attendance' and 'active' or ''}">
+                                    <i class="fa fa-check-circle me-1"></i>
+                                    Présences
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my/homework" t-attf-class="#{page_name == 'homework' and 'active' or ''}">
+                                    <i class="fa fa-book me-1"></i>
+                                    Devoirs
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my/messages" t-attf-class="#{page_name == 'messages' and 'active' or ''}">
+                                    <i class="fa fa-envelope me-1"></i>
+                                    Messages
+                                    <span class="badge bg-danger ms-1" t-if="messages_count">
+                                        <t t-esc="messages_count"/>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                        <!-- Menu utilisateur -->
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fa fa-user me-1"></i>
+                                    <t t-esc="user.name"/>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/my/profile"><i class="fa fa-user me-2"></i>Mon profil</a></li>
+                                    <li><a class="dropdown-item" href="/my/documents"><i class="fa fa-file me-2"></i>Documents</a></li>
+                                    <li><a class="dropdown-item" href="/my/payments"><i class="fa fa-credit-card me-2"></i>Paiements</a></li>
+                                    <li><a class="dropdown-item" href="/my/appointments"><i class="fa fa-calendar me-2"></i>Rendez-vous</a></li>
+                                    <li><hr class="dropdown-divider"/></li>
+                                    <li><a class="dropdown-item" href="/web/session/logout"><i class="fa fa-sign-out me-2"></i>Déconnexion</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </xpath>
+        
+        <!-- JavaScript personnalisés -->
+        <xpath expr="//body" position="inside">
+            <script src="/edu_parent_portal/static/src/js/portal_main.js"></script>
+            <script src="/edu_parent_portal/static/src/js/notification_manager.js"></script>
+            <script src="/edu_parent_portal/static/lib/chart.js/chart.min.js"></script>
+            <script src="/edu_parent_portal/static/lib/moment/moment.min.js"></script>
+        </xpath>
+        
+    </template>
+    
+    <!-- Breadcrumb personnalisé -->
+    <template id="portal_breadcrumb" name="Portail Parents - Breadcrumb">
+        <div class="container mt-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/my"><i class="fa fa-home me-1"></i>Accueil</a>
+                    </li>
+                    <t t-if="page_name == 'children'">
+                        <li class="breadcrumb-item active">Mes enfants</li>
+                    </t>
+                    <t t-if="page_name == 'child_detail'">
+                        <li class="breadcrumb-item"><a href="/my/children">Mes enfants</a></li>
+                        <li class="breadcrumb-item active"><t t-esc="student.name"/></li>
+                    </t>
+                    <t t-if="page_name == 'grades'">
+                        <li class="breadcrumb-item active">Notes et évaluations</li>
+                    </t>
+                    <t t-if="page_name == 'attendance'">
+                        <li class="breadcrumb-item active">Présences</li>
+                    </t>
+                    <t t-if="page_name == 'homework'">
+                        <li class="breadcrumb-item active">Devoirs</li>
+                    </t>
+                    <t t-if="page_name == 'messages'">
+                        <li class="breadcrumb-item active">Messages</li>
+                    </t>
+                    <t t-if="page_name == 'chat_detail'">
+                        <li class="breadcrumb-item"><a href="/my/messages">Messages</a></li>
+                        <li class="breadcrumb-item active"><t t-esc="chat.name"/></li>
+                    </t>
+                </ol>
+            </nav>
+        </div>
+    </template>
+    
+    <!-- Widget de notification -->
+    <template id="notification_widget" name="Widget de notifications">
+        <div class="notification-widget" id="notificationWidget">
+            <button class="btn btn-outline-primary position-relative" data-bs-toggle="dropdown">
+                <i class="fa fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationCount" style="display: none;">
+                    0
+                </span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="width: 350px;">
+                <div class="dropdown-header d-flex justify-content-between align-items-center">
+                    <span>Notifications</span>
+                    <button class="btn btn-sm btn-link" onclick="markAllNotificationsRead()">
+                        Tout marquer comme lu
+                    </button>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div id="notificationList" class="notification-list">
+                    <div class="dropdown-item-text text-center text-muted py-3">
+                        Aucune notification
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item text-center">
+                    <a href="/my/notifications" class="btn btn-sm btn-primary">Voir toutes les notifications</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Sidebar mobile -->
+    <template id="mobile_sidebar" name="Sidebar mobile">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="/my">
+                        <i class="fa fa-dashboard me-2"></i>Tableau de bord
+                    </a>
+                    <a class="nav-link" href="/my/children">
+                        <i class="fa fa-users me-2"></i>Mes enfants
+                    </a>
+                    <a class="nav-link" href="/my/grades">
+                        <i class="fa fa-star me-2"></i>Notes
+                    </a>
+                    <a class="nav-link" href="/my/attendance">
+                        <i class="fa fa-check-circle me-2"></i>Présences
+                    </a>
+                    <a class="nav-link" href="/my/homework">
+                        <i class="fa fa-book me-2"></i>Devoirs
+                    </a>
+                    <a class="nav-link" href="/my/schedule">
+                        <i class="fa fa-calendar me-2"></i>Planning
+                    </a>
+                    <a class="nav-link" href="/my/messages">
+                        <i class="fa fa-envelope me-2"></i>Messages
+                    </a>
+                    <hr/>
+                    <a class="nav-link" href="/my/documents">
+                        <i class="fa fa-file me-2"></i>Documents
+                    </a>
+                    <a class="nav-link" href="/my/payments">
+                        <i class="fa fa-credit-card me-2"></i>Paiements
+                    </a>
+                    <a class="nav-link" href="/my/appointments">
+                        <i class="fa fa-calendar-check me-2"></i>Rendez-vous
+                    </a>
+                    <a class="nav-link" href="/my/profile">
+                        <i class="fa fa-user me-2"></i>Mon profil
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </template>
+    
+</odoo>

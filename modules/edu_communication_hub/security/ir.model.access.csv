@@ -1,0 +1,52 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_communication_config_admin,edu.communication.config admin,model_edu_communication_config,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_communication_config_faculty,edu.communication.config faculty,model_edu_communication_config,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_communication_config_user,edu.communication.config user,model_edu_communication_config,base.group_user,1,0,0,0
+
+access_edu_communication_provider_admin,edu.communication.provider admin,model_edu_communication_provider,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_communication_provider_faculty,edu.communication.provider faculty,model_edu_communication_provider,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_communication_provider_user,edu.communication.provider user,model_edu_communication_provider,base.group_user,1,0,0,0
+
+access_edu_message_template_admin,edu.message.template admin,model_edu_message_template,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_message_template_faculty,edu.message.template faculty,model_edu_message_template,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_message_template_user,edu.message.template user,model_edu_message_template,base.group_user,1,0,0,0
+
+access_edu_notification_type_admin,edu.notification.type admin,model_edu_notification_type,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_notification_type_faculty,edu.notification.type faculty,model_edu_notification_type,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_notification_type_user,edu.notification.type user,model_edu_notification_type,base.group_user,1,0,0,0
+
+access_edu_message_admin,edu.message admin,model_edu_message,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_message_faculty,edu.message faculty,model_edu_message,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_message_user,edu.message user,model_edu_message,base.group_user,1,1,1,0
+
+access_edu_message_delivery_admin,edu.message.delivery admin,model_edu_message_delivery,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_message_delivery_faculty,edu.message.delivery faculty,model_edu_message_delivery,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_message_delivery_user,edu.message.delivery user,model_edu_message_delivery,base.group_user,1,0,0,0
+
+access_edu_campaign_admin,edu.campaign admin,model_edu_campaign,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_campaign_faculty,edu.campaign faculty,model_edu_campaign,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_campaign_user,edu.campaign user,model_edu_campaign,base.group_user,1,0,0,0
+
+access_edu_notification_admin,edu.notification admin,model_edu_notification,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_notification_faculty,edu.notification faculty,model_edu_notification,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_notification_user,edu.notification user,model_edu_notification,base.group_user,1,1,0,0
+
+access_edu_chat_admin,edu.chat admin,model_edu_chat,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_chat_faculty,edu.chat faculty,model_edu_chat,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_chat_user,edu.chat user,model_edu_chat,base.group_user,1,1,1,0
+
+access_edu_chat_message_admin,edu.chat.message admin,model_edu_chat_message,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_chat_message_faculty,edu.chat.message faculty,model_edu_chat_message,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_chat_message_user,edu.chat.message user,model_edu_chat_message,base.group_user,1,1,1,0
+
+access_edu_announcement_admin,edu.announcement admin,model_edu_announcement,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_announcement_faculty,edu.announcement faculty,model_edu_announcement,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_announcement_user,edu.announcement user,model_edu_announcement,base.group_user,1,0,0,0
+
+access_edu_contact_group_admin,edu.contact.group admin,model_edu_contact_group,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_contact_group_faculty,edu.contact.group faculty,model_edu_contact_group,openeducat_core.group_op_faculty,1,1,1,0
+access_edu_contact_group_user,edu.contact.group user,model_edu_contact_group,base.group_user,1,0,0,0
+
+access_edu_communication_analytics_admin,edu.communication.analytics admin,model_edu_communication_analytics,openeducat_core.group_op_back_office_admin,1,1,1,1
+access_edu_communication_analytics_faculty,edu.communication.analytics faculty,model_edu_communication_analytics,openeducat_core.group_op_faculty,1,0,0,0
+access_edu_communication_analytics_user,edu.communication.analytics user,model_edu_communication_analytics,base.group_user,1,0,0,0

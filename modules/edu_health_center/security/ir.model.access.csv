@@ -1,0 +1,21 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_dashboard_all,Health Dashboard Access,model_health_dashboard,base.group_user,1,1,1,1
+access_health_alert_all,Health Alert Access,model_health_alert,base.group_user,1,1,1,1
+access_health_analytics_all,Health Analytics Access,model_health_analytics,base.group_user,1,1,1,1
+access_health_emergency_all,Health Emergency Access,model_health_emergency,base.group_user,1,1,1,1
+access_health_emergency_protocol_all,Health Emergency Protocol Access,model_health_emergency_protocol,base.group_user,1,1,1,1
+access_health_record_all,Health Record Access,model_edu_health_record,base.group_user,1,1,1,1
+access_medical_consultation_all,Medical Consultation Access,model_edu_medical_consultation,base.group_user,1,1,1,1
+access_medication_stock_all,Medication Stock Access,model_medication_stock,base.group_user,1,1,1,1
+access_medication_prescription_all,Medication Prescription Access,model_medication_prescription,base.group_user,1,1,1,1
+access_medication_administration_all,Medication Administration Access,model_medication_administration,base.group_user,1,1,1,1
+access_vaccination_type_all,Vaccination Type Access,model_vaccination_type,base.group_user,1,1,1,1
+access_vaccination_record_all,Vaccination Record Access,model_vaccination_record,base.group_user,1,1,1,1
+access_vaccination_schedule_all,Vaccination Schedule Access,model_vaccination_schedule,base.group_user,1,1,1,1
+access_medical_staff_all,Medical Staff Access,model_medical_staff,base.group_user,1,1,1,1
+access_medical_staff_schedule_all,Medical Staff Schedule Access,model_medical_staff_schedule,base.group_user,1,1,1,1
+access_medical_staff_training_all,Medical Staff Training Access,model_medical_staff_training,base.group_user,1,1,1,1
+access_health_insurance_company_all,Health Insurance Company Access,model_health_insurance_company,base.group_user,1,1,1,1
+access_health_insurance_policy_all,Health Insurance Policy Access,model_health_insurance_policy,base.group_user,1,1,1,1
+access_health_insurance_claim_all,Health Insurance Claim Access,model_health_insurance_claim,base.group_user,1,1,1,1
+access_medical_equipment_all,Medical Equipment Access,model_medical_equipment,base.group_user,1,1,1,1

@@ -1,0 +1,86 @@
+/* 
+ * Styles responsifs pour le portail parents
+ * =======================================
+ */
+
+/* Styles pour tablettes */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .portal-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .portal-parent-container {
+        padding: 20px;
+    }
+    
+    .dashboard-widget {
+        padding: 18px;
+    }
+}
+
+/* Styles pour ordinateurs */
+@media (min-width: 1025px) {
+    .portal-dashboard {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+    
+    .portal-parent-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+}
+
+/* Styles pour grands écrans */
+@media (min-width: 1440px) {
+    .portal-dashboard {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .portal-parent-container {
+        max-width: 1400px;
+    }
+}
+
+/* Utilitaires responsifs */
+.hidden-mobile {
+    display: block;
+}
+
+.hidden-desktop {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hidden-mobile {
+        display: none;
+    }
+    
+    .hidden-desktop {
+        display: block;
+    }
+}
+
+/* Flexbox utilitaires */
+.flex-responsive {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.flex-responsive > * {
+    flex: 1;
+    min-width: 250px;
+}
+
+@media (max-width: 768px) {
+    .flex-responsive {
+        flex-direction: column;
+    }
+    
+    .flex-responsive > * {
+        min-width: auto;
+    }
+}

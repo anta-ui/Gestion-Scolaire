@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menu racine -->
+        <menuitem id="menu_edu_attendance_root" 
+                  name="Présences Smart"
+                  web_icon="edu_attendance_smart,static/description/icon.png"
+                  sequence="45"/>
+
+        <!-- Menu Présences -->
+        <menuitem id="menu_edu_attendance_main"
+                  name="Présences"
+                  parent="menu_edu_attendance_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_edu_attendance_sessions"
+                  name="Sessions"
+                  parent="menu_edu_attendance_main"
+                  action="action_edu_attendance_session"
+                  sequence="10"/>
+
+        <menuitem id="menu_edu_attendance_records"
+                  name="Enregistrements"
+                  parent="menu_edu_attendance_main"
+                  action="action_edu_attendance_record"
+                  sequence="20"/>
+
+        <!-- Menu Equipements -->
+        <menuitem id="menu_edu_equipment"
+                  name="Équipements"
+                  parent="menu_edu_attendance_root"
+                  sequence="40"/>
+
+        <menuitem id="menu_edu_devices"
+                  name="Appareils de pointage"
+                  parent="menu_edu_equipment"
+                  action="action_edu_attendance_device"
+                  sequence="10"/>
+
+        <menuitem id="menu_edu_attendance_device"
+                  name="Dispositifs"
+                  parent="menu_edu_equipment"
+                  action="action_edu_attendance_device"
+                  sequence="20"/>
+
+        <menuitem id="menu_edu_qr_codes"
+                  name="QR Codes"
+                  parent="menu_edu_equipment"
+                  action="action_edu_qr_code"
+                  sequence="30"/>
+
+    </data>
+</odoo>

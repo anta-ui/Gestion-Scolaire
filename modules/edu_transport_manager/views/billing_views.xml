@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des factures transport -->
+        <record id="view_transport_billing_tree" model="ir.ui.view">
+            <field name="name">transport.billing.tree</field>
+            <field name="model">transport.billing</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state=='paid'" 
+                      decoration-info="state=='invoiced'"
+                      decoration-warning="state=='confirmed'">
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="subscription_id"/>
+                    <field name="date"/>
+                    <field name="period_start"/>
+                    <field name="period_end"/>
+                    <field name="total_amount"/>
+                    <field name="state" widget="badge"/>
+                    <button name="action_confirm" type="object" string="Confirmer" class="btn-primary"/>
+                    <button name="action_create_invoice" type="object" string="Créer Facture" class="btn-success"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des factures transport -->
+        <record id="view_transport_billing_form" model="ir.ui.view">
+            <field name="name">transport.billing.form</field>
+            <field name="model">transport.billing</field>
+            <field name="arch" type="xml">
+                <form string="Facturation Transport">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirmer" class="btn-primary"/>
+                        <button name="action_create_invoice" type="object" string="Créer Facture" class="btn-success"/>
+                        <button name="action_cancel" type="object" string="Annuler" class="btn-danger"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="student_id"/>
+                                <field name="subscription_id"/>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="period_start"/>
+                                <field name="period_end"/>
+                                <field name="payment_method"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group>
+                                <field name="base_amount"/>
+                                <field name="discount_amount"/>
+                                <field name="penalty_amount"/>
+                                <field name="total_amount"/>
+                            </group>
+                            <group>
+                                <field name="invoice_id"/>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        
+                        <field name="notes" placeholder="Notes..."/>
+                    </sheet>
+                    
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche des factures transport -->
+        <record id="view_transport_billing_search" model="ir.ui.view">
+            <field name="name">transport.billing.search</field>
+            <field name="model">transport.billing</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="subscription_id"/>
+                    <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Confirmées" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <filter string="Facturées" name="invoiced" domain="[('state', '=', 'invoiced')]"/>
+                    <filter string="Payées" name="paid" domain="[('state', '=', 'paid')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Étudiant" name="group_student" context="{'group_by': 'student_id'}"/>
+                        <filter string="Mois" name="group_month" context="{'group_by': 'date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

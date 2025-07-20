@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Menu principal Communication Hub -->
+        <menuitem id="menu_communication_hub_root"
+                  name="Communication Hub"
+                  sequence="15"
+                  groups="edu_communication_hub.group_communication_user,edu_communication_hub.group_communication_manager,edu_communication_hub.group_communication_admin,base.group_system"
+                  web_icon="edu_communication_hub,static/description/icon.png"/>
+        
+        <!-- Sous-menus principaux -->
+        <menuitem id="menu_communication_messages"
+                  name="Messages"
+                  parent="menu_communication_hub_root"
+                  sequence="10"/>
+        
+        <menuitem id="menu_communication_campaigns"
+                  name="Campagnes"
+                  parent="menu_communication_hub_root"
+                  sequence="20"/>
+        
+        <menuitem id="menu_communication_templates"
+                  name="Modèles"
+                  parent="menu_communication_hub_root"
+                  sequence="30"/>
+        
+        <menuitem id="menu_communication_chat"
+                  name="Chat"
+                  parent="menu_communication_hub_root"
+                  sequence="40"/>
+        
+        <menuitem id="menu_communication_announcements"
+                  name="Annonces"
+                  parent="menu_communication_hub_root"
+                  sequence="50"/>
+        
+        <menuitem id="menu_communication_analytics"
+                  name="Rapports"
+                  parent="menu_communication_hub_root"
+                  sequence="60"/>
+        
+        <menuitem id="menu_communication_config"
+                  name="Configuration"
+                  parent="menu_communication_hub_root"
+                  sequence="70"/>
+        
+        <!-- Actions de fenêtre -->
+        <record id="action_edu_message" model="ir.actions.act_window">
+            <field name="name">Messages</field>
+            <field name="res_model">edu.message</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier message !
+                </p>
+                <p>
+                    Envoyez des SMS, emails et notifications push à vos étudiants et parents.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_message_template" model="ir.actions.act_window">
+            <field name="name">Modèles de messages</field>
+            <field name="res_model">edu.message.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier modèle de message !
+                </p>
+                <p>
+                    Les modèles vous permettent de standardiser vos communications.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_campaign" model="ir.actions.act_window">
+            <field name="name">Campagnes</field>
+            <field name="res_model">edu.campaign</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre première campagne !
+                </p>
+                <p>
+                    Les campagnes permettent d'automatiser vos communications.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_announcement" model="ir.actions.act_window">
+            <field name="name">Annonces</field>
+            <field name="res_model">edu.announcement</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre première annonce !
+                </p>
+                <p>
+                    Publiez des annonces importantes pour votre communauté scolaire.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_chat" model="ir.actions.act_window">
+            <field name="name">Conversations</field>
+            <field name="res_model">edu.chat</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Démarrer une conversation !
+                </p>
+                <p>
+                    Communiquez en temps réel avec les parents et étudiants.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_notification" model="ir.actions.act_window">
+            <field name="name">Notifications</field>
+            <field name="res_model">edu.notification</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Gérer vos notifications !
+                </p>
+                <p>
+                    Suivez toutes les notifications envoyées et reçues.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_communication_analytics" model="ir.actions.act_window">
+            <field name="name">Analytics Communication</field>
+            <field name="res_model">edu.communication.analytics</field>
+            <field name="view_mode">graph,pivot,tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Analysez vos communications !
+                </p>
+                <p>
+                    Obtenez des statistiques détaillées sur l'efficacité de vos communications.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_communication_config" model="ir.actions.act_window">
+            <field name="name">Configuration Communication</field>
+            <field name="res_model">edu.communication.config</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurer votre système de communication !
+                </p>
+                <p>
+                    Paramétrez les fournisseurs SMS, email et notifications push.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_communication_provider" model="ir.actions.act_window">
+            <field name="name">Fournisseurs</field>
+            <field name="res_model">edu.communication.provider</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurez vos fournisseurs !
+                </p>
+                <p>
+                    Ajoutez et configurez vos fournisseurs de services de communication.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_notification_type" model="ir.actions.act_window">
+            <field name="name">Types de notifications</field>
+            <field name="res_model">edu.notification.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Gérer les types de notifications !
+                </p>
+                <p>
+                    Configurez les différents types de notifications pour votre établissement.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_edu_contact_group" model="ir.actions.act_window">
+            <field name="name">Groupes de contacts</field>
+            <field name="res_model">edu.contact.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer des groupes de contacts !
+                </p>
+                <p>
+                    Organisez vos contacts en groupes pour faciliter l'envoi de messages.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Liens des menus vers les actions -->
+        <menuitem id="menu_edu_message"
+                  name="Tous les messages"
+                  parent="menu_communication_messages"
+                  action="action_edu_message"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_notification"
+                  name="Notifications"
+                  parent="menu_communication_messages"
+                  action="action_edu_notification"
+                  sequence="20"/>
+        
+        <menuitem id="menu_edu_campaign"
+                  name="Toutes les campagnes"
+                  parent="menu_communication_campaigns"
+                  action="action_edu_campaign"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_message_template"
+                  name="Modèles de messages"
+                  parent="menu_communication_templates"
+                  action="action_edu_message_template"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_notification_type"
+                  name="Types de notifications"
+                  parent="menu_communication_templates"
+                  action="action_edu_notification_type"
+                  sequence="20"/>
+        
+        <menuitem id="menu_edu_chat"
+                  name="Conversations"
+                  parent="menu_communication_chat"
+                  action="action_edu_chat"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_announcement"
+                  name="Toutes les annonces"
+                  parent="menu_communication_announcements"
+                  action="action_edu_announcement"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_communication_analytics"
+                  name="Statistiques"
+                  parent="menu_communication_analytics"
+                  action="action_edu_communication_analytics"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_communication_config"
+                  name="Configuration générale"
+                  parent="menu_communication_config"
+                  action="action_edu_communication_config"
+                  sequence="10"/>
+        
+        <menuitem id="menu_edu_communication_provider"
+                  name="Fournisseurs"
+                  parent="menu_communication_config"
+                  action="action_edu_communication_provider"
+                  sequence="20"/>
+        
+        <menuitem id="menu_edu_contact_group"
+                  name="Groupes de contacts"
+                  parent="menu_communication_config"
+                  action="action_edu_contact_group"
+                  sequence="30"/>
+        
+    </data>
+</odoo>

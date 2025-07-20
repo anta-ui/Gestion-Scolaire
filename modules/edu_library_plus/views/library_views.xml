@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue Dashboard Bibliothèque -->
+        <record id="view_library_dashboard" model="ir.ui.view">
+            <field name="name">library.dashboard</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <form string="Tableau de Bord Bibliothèque">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="title" placeholder="Titre du livre..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="isbn"/>
+                                <field name="author_ids" widget="many2many_tags"/>
+                                <field name="category_id"/>
+                                <field name="publisher_id"/>
+                            </group>
+                            <group>
+                                <field name="publication_date"/>
+                                <field name="pages"/>
+                                <field name="total_copies"/>
+                                <field name="available_copies"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action Dashboard -->
+        <record id="action_library_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord</field>
+            <field name="res_model">library.book</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Bienvenue dans votre bibliothèque numérique !
+                </p>
+                <p>
+                    Gérez vos livres, membres et prêts depuis ce tableau de bord.
+                </p>
+            </field>
+        </record>
+
+        <!-- Actions pour les Livres -->
+        <record id="action_library_books" model="ir.actions.act_window">
+            <field name="name">Livres</field>
+            <field name="res_model">library.book</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Auteurs -->
+        <record id="action_library_authors" model="ir.actions.act_window">
+            <field name="name">Auteurs</field>
+            <field name="res_model">library.book.author</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Catégories -->
+        <record id="action_library_categories" model="ir.actions.act_window">
+            <field name="name">Catégories</field>
+            <field name="res_model">library.book.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Membres -->
+        <record id="action_library_members" model="ir.actions.act_window">
+            <field name="name">Membres</field>
+            <field name="res_model">op.student</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Emprunts -->
+        <record id="action_library_loans" model="ir.actions.act_window">
+            <field name="name">Emprunts</field>
+            <field name="res_model">library.loan</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Réservations -->
+        <record id="action_library_reservations" model="ir.actions.act_window">
+            <field name="name">Réservations</field>
+            <field name="res_model">library.reservation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Amendes (utilisons library.analytics à défaut) -->
+        <record id="action_library_fines" model="ir.actions.act_window">
+            <field name="name">Amendes</field>
+            <field name="res_model">library.analytics</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Éditeurs -->
+        <record id="action_library_publishers" model="ir.actions.act_window">
+            <field name="name">Éditeurs</field>
+            <field name="res_model">library.book.publisher</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue Formulaire Bulletin -->
+        <record id="view_edu_report_card_form" model="ir.ui.view">
+            <field name="name">edu.report.card.form</field>
+            <field name="model">edu.report.card</field>
+            <field name="arch" type="xml">
+                <form string="Bulletin de Notes">
+                    <header>
+                        <button name="action_generate_lines" string="Générer les lignes" 
+                                type="object" class="btn-primary" 
+                                states="draft"/>
+                        <button name="action_validate" string="Valider" 
+                                type="object" class="btn-primary" 
+                                states="draft"/>
+                        <button name="action_publish" string="Publier" 
+                                type="object" class="btn-primary" 
+                                states="validated"/>
+                        <button name="action_send" string="Envoyer aux parents" 
+                                type="object" class="btn-primary" 
+                                states="published"/>
+                        <button name="action_print_report" string="Imprimer" 
+                                type="object" class="btn-secondary" 
+                                states="validated,published,sent"/>
+                        <field name="state" widget="statusbar" 
+                               statusbar_visible="draft,validated,published,sent"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="display_name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Informations Générales">
+                                <field name="student_id" options="{'no_create': True}"/>
+                                <field name="standard_id" options="{'no_create': True}"/>
+                                <field name="period_id" options="{'no_create': True}"/>
+                                <field name="academic_year" readonly="1"/>
+                                <field name="report_type"/>
+                                <field name="template_id" options="{'no_create': True}"/>
+                            </group>
+                            <group string="Résultats">
+                                <field name="general_average" readonly="1" widget="float"/>
+                                <field name="general_rank" readonly="1"/>
+                                <field name="class_size" readonly="1"/>
+                                <field name="behavior_grade"/>
+                                <field name="attendance_rate" readonly="1" widget="progressbar"/>
+                                <field name="absence_days" readonly="1"/>
+                                <field name="late_count" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Notes par Matière" name="subjects">
+                                <field name="subject_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="course_id" options="{'no_create': True}"/>
+                                        <field name="average" widget="float"/>
+                                        <field name="coefficient" widget="float"/>
+                                        <field name="grade_letter"/>
+                                        <field name="evaluation_count"/>
+                                        <field name="rank_in_class"/>
+                                        <field name="teacher_comment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Compétences" name="competencies" 
+                                  attrs="{'invisible': [('report_type', '!=', 'competency')]}">
+                                <field name="competency_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="competency_id" options="{'no_create': True}"/>
+                                        <field name="mastery_level"/>
+                                        <field name="score" widget="float"/>
+                                        <field name="comment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Appréciations" name="comments">
+                                <group>
+                                    <field name="teacher_comment" nolabel="1" 
+                                           placeholder="Appréciation du professeur principal..."/>
+                                </group>
+                                <group>
+                                    <field name="director_comment" nolabel="1" 
+                                           placeholder="Appréciation du directeur..."/>
+                                </group>
+                                <group>
+                                    <field name="parent_comment" nolabel="1" 
+                                           placeholder="Observations des parents..."/>
+                                </group>
+                            </page>
+                            
+                            <page string="Historique" name="history">
+                                <group>
+                                    <group string="Dates">
+                                        <field name="created_date" readonly="1"/>
+                                        <field name="validated_date" readonly="1"/>
+                                        <field name="published_date" readonly="1"/>
+                                        <field name="sent_date" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue Liste Bulletins -->
+        <record id="view_edu_report_card_tree" model="ir.ui.view">
+            <field name="name">edu.report.card.tree</field>
+            <field name="model">edu.report.card</field>
+            <field name="arch" type="xml">
+                <tree string="Bulletins de Notes" decoration-info="state=='draft'" 
+                      decoration-success="state=='published'" decoration-muted="state=='archived'">
+                    <field name="student_id"/>
+                    <field name="standard_id"/>
+                    <field name="period_id"/>
+                    <field name="report_type"/>
+                    <field name="general_average" widget="float"/>
+                    <field name="general_rank"/>
+                    <field name="behavior_grade"/>
+                    <field name="state" widget="badge" 
+                           decoration-info="state=='draft'" 
+                           decoration-success="state=='published'"
+                           decoration-warning="state=='validated'"/>
+                    <field name="created_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Kanban Bulletins -->
+        <record id="view_edu_report_card_kanban" model="ir.ui.view">
+            <field name="name">edu.report.card.kanban</field>
+            <field name="model">edu.report.card</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column">
+                    <field name="student_id"/>
+                    <field name="period_id"/>
+                    <field name="general_average"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="student_id"/>
+                                            </strong>
+                                            <br/>
+                                            <small class="o_kanban_record_subtitle text-muted">
+                                                <field name="period_id"/>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <span class="badge badge-info">
+                                                Moyenne: <field name="general_average"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Vue Recherche Bulletins -->
+        <record id="view_edu_report_card_search" model="ir.ui.view">
+            <field name="name">edu.report.card.search</field>
+            <field name="model">edu.report.card</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Bulletins">
+                    <field name="student_id"/>
+                    <field name="standard_id"/>
+                    <field name="period_id"/>
+                    <field name="academic_year"/>
+                    
+                    <filter name="draft" string="Brouillons" domain="[('state', '=', 'draft')]"/>
+                    <filter name="validated" string="Validés" domain="[('state', '=', 'validated')]"/>
+                    <filter name="published" string="Publiés" domain="[('state', '=', 'published')]"/>
+                    <filter name="sent" string="Envoyés" domain="[('state', '=', 'sent')]"/>
+                    
+                    <separator/>
+                    <filter name="high_average" string="Moyenne élevée" 
+                            domain="[('general_average', '>=', 15)]"/>
+                    <filter name="low_average" string="Moyenne faible" 
+                            domain="[('general_average', '&lt;', 10)]"/>
+                    
+                    <group expand="0" string="Grouper par">
+                        <filter name="group_student" string="Élève" context="{'group_by': 'student_id'}"/>
+                        <filter name="group_standard" string="Classe" context="{'group_by': 'standard_id'}"/>
+                        <filter name="group_period" string="Période" context="{'group_by': 'period_id'}"/>
+                        <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                        <filter name="group_report_type" string="Type" context="{'group_by': 'report_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action Bulletins -->
+        <record id="action_edu_report_card" model="ir.actions.act_window">
+            <field name="name">Bulletins de Notes</field>
+            <field name="res_model">edu.report.card</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="view_edu_report_card_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier bulletin de notes
+                </p>
+                <p>
+                    Les bulletins permettent de synthétiser les résultats 
+                    des élèves par période.
+                </p>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire Modèle de Bulletin -->
+        <record id="view_edu_report_card_template_form" model="ir.ui.view">
+            <field name="name">edu.report.card.template.form</field>
+            <field name="model">edu.report.card.template</field>
+            <field name="arch" type="xml">
+                <form string="Modèle de Bulletin">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nom du modèle"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Configuration">
+                                <field name="description"/>
+                                <field name="report_type"/>
+                                <field name="active"/>
+                            </group>
+                            <group string="Options">
+                                <field name="include_behavior"/>
+                                <field name="include_attendance"/>
+                                <field name="include_competencies"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Classes Applicables">
+                            <field name="standard_ids" widget="many2many_tags" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue Liste Modèles de Bulletin -->
+        <record id="view_edu_report_card_template_tree" model="ir.ui.view">
+            <field name="name">edu.report.card.template.tree</field>
+            <field name="model">edu.report.card.template</field>
+            <field name="arch" type="xml">
+                <tree string="Modèles de Bulletin">
+                    <field name="name"/>
+                    <field name="report_type"/>
+                    <field name="include_behavior"/>
+                    <field name="include_attendance"/>
+                    <field name="include_competencies"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action Modèles de Bulletin -->
+        <record id="action_edu_report_card_template" model="ir.actions.act_window">
+            <field name="name">Modèles de Bulletin</field>
+            <field name="res_model">edu.report.card.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier modèle de bulletin
+                </p>
+                <p>
+                    Les modèles permettent de standardiser la présentation 
+                    des bulletins selon les classes.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

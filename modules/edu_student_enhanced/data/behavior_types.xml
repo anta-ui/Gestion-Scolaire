@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Catégories comportementales positives -->
+        <record id="behavior_cat_academic_excellence" model="student.behavior.category">
+            <field name="name">Excellence Académique</field>
+            <field name="code">ACADEMIC_EXCEL</field>
+            <field name="description">Comportements liés aux performances académiques exceptionnelles</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">5</field>
+            <field name="point_range_max">20</field>
+            <field name="color">5</field>
+            <field name="icon">fa-graduation-cap</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="behavior_cat_cooperation" model="student.behavior.category">
+            <field name="name">Coopération</field>
+            <field name="code">COOPERATION</field>
+            <field name="description">Esprit d'équipe, entraide, collaboration</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">3</field>
+            <field name="point_range_max">15</field>
+            <field name="color">6</field>
+            <field name="icon">fa-users</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <record id="behavior_cat_leadership" model="student.behavior.category">
+            <field name="name">Leadership</field>
+            <field name="code">LEADERSHIP</field>
+            <field name="description">Qualités de meneur, initiative, prise de responsabilité</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">5</field>
+            <field name="point_range_max">18</field>
+            <field name="color">11</field>
+            <field name="icon">fa-crown</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="behavior_cat_creativity" model="student.behavior.category">
+            <field name="name">Créativité</field>
+            <field name="code">CREATIVITY</field>
+            <field name="description">Innovation, originalité, pensée créative</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">4</field>
+            <field name="point_range_max">16</field>
+            <field name="color">7</field>
+            <field name="icon">fa-lightbulb</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record id="behavior_cat_respect" model="student.behavior.category">
+            <field name="name">Respect</field>
+            <field name="code">RESPECT</field>
+            <field name="description">Respect envers les enseignants, camarades et personnel</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">2</field>
+            <field name="point_range_max">12</field>
+            <field name="color">10</field>
+            <field name="icon">fa-handshake</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <record id="behavior_cat_perseverance" model="student.behavior.category">
+            <field name="name">Persévérance</field>
+            <field name="code">PERSEVERANCE</field>
+            <field name="description">Effort continu, détermination, ne pas abandonner</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">3</field>
+            <field name="point_range_max">14</field>
+            <field name="color">8</field>
+            <field name="icon">fa-mountain</field>
+            <field name="sequence">6</field>
+        </record>
+
+        <!-- Catégories comportementales neutres -->
+        <record id="behavior_cat_observation" model="student.behavior.category">
+            <field name="name">Observation</field>
+            <field name="code">OBSERVATION</field>
+            <field name="description">Observation générale du comportement</field>
+            <field name="behavior_type">neutral</field>
+            <field name="point_range_min">0</field>
+            <field name="point_range_max">0</field>
+            <field name="color">8</field>
+            <field name="icon">fa-eye</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="behavior_cat_communication" model="student.behavior.category">
+            <field name="name">Communication Parent</field>
+            <field name="code">COMMUNICATION</field>
+            <field name="description">Communication avec les parents</field>
+            <field name="behavior_type">neutral</field>
+            <field name="point_range_min">0</field>
+            <field name="point_range_max">0</field>
+            <field name="color">9</field>
+            <field name="icon">fa-comments</field>
+            <field name="sequence">21</field>
+        </record>
+
+        <!-- Catégories comportementales négatives -->
+        <record id="behavior_cat_disruption" model="student.behavior.category">
+            <field name="name">Perturbation</field>
+            <field name="code">DISRUPTION</field>
+            <field name="description">Perturbation du cours, bavardages excessifs</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-8</field>
+            <field name="point_range_max">-2</field>
+            <field name="color">3</field>
+            <field name="icon">fa-volume-up</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="behavior_cat_disrespect" model="student.behavior.category">
+            <field name="name">Manque de Respect</field>
+            <field name="code">DISRESPECT</field>
+            <field name="description">Manque de respect envers autrui</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-15</field>
+            <field name="point_range_max">-5</field>
+            <field name="color">1</field>
+            <field name="icon">fa-angry</field>
+            <field name="sequence">31</field>
+        </record>
+
+        <record id="behavior_cat_violence" model="student.behavior.category">
+            <field name="name">Violence</field>
+            <field name="code">VIOLENCE</field>
+            <field name="description">Actes de violence physique ou verbale</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-35</field>
+            <field name="point_range_max">-10</field>
+            <field name="color">1</field>
+            <field name="icon">fa-fist-raised</field>
+            <field name="sequence">32</field>
+        </record>
+
+        <record id="behavior_cat_cheating" model="student.behavior.category">
+            <field name="name">Tricherie</field>
+            <field name="code">CHEATING</field>
+            <field name="description">Tricherie aux examens ou devoirs</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-20</field>
+            <field name="point_range_max">-8</field>
+            <field name="color">1</field>
+            <field name="icon">fa-user-secret</field>
+            <field name="sequence">33</field>
+        </record>
+
+        <record id="behavior_cat_tardiness" model="student.behavior.category">
+            <field name="name">Retards</field>
+            <field name="code">TARDINESS</field>
+            <field name="description">Retards répétés ou absences injustifiées</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-10</field>
+            <field name="point_range_max">-2</field>
+            <field name="color">4</field>
+            <field name="icon">fa-clock</field>
+            <field name="sequence">34</field>
+        </record>
+
+        <record id="behavior_cat_homework" model="student.behavior.category">
+            <field name="name">Devoirs Non Faits</field>
+            <field name="code">HOMEWORK</field>
+            <field name="description">Devoirs non rendus ou non faits</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-6</field>
+            <field name="point_range_max">-1</field>
+            <field name="color">3</field>
+            <field name="icon">fa-book-open</field>
+            <field name="sequence">35</field>
+        </record>
+
+        <record id="behavior_cat_uniform" model="student.behavior.category">
+            <field name="name">Tenue Non Conforme</field>
+            <field name="code">UNIFORM</field>
+            <field name="description">Tenue vestimentaire non conforme au règlement</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-4</field>
+            <field name="point_range_max">-1</field>
+            <field name="color">4</field>
+            <field name="icon">fa-tshirt</field>
+            <field name="sequence">36</field>
+        </record>
+
+        <record id="behavior_cat_phone" model="student.behavior.category">
+            <field name="name">Usage Téléphone</field>
+            <field name="code">PHONE_USAGE</field>
+            <field name="description">Usage inapproprié du téléphone portable</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-8</field>
+            <field name="point_range_max">-2</field>
+            <field name="color">3</field>
+            <field name="icon">fa-mobile-alt</field>
+            <field name="sequence">37</field>
+        </record>
+
+        <!-- Catégories spéciales -->
+        <record id="behavior_cat_improvement" model="student.behavior.category">
+            <field name="name">Amélioration</field>
+            <field name="code">IMPROVEMENT</field>
+            <field name="description">Amélioration notable du comportement</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">5</field>
+            <field name="point_range_max">15</field>
+            <field name="color">6</field>
+            <field name="icon">fa-chart-line</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="behavior_cat_mentor" model="student.behavior.category">
+            <field name="name">Mentorat</field>
+            <field name="code">MENTORING</field>
+            <field name="description">Aide apportée aux autres élèves</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">4</field>
+            <field name="point_range_max">12</field>
+            <field name="color">9</field>
+            <field name="icon">fa-hands-helping</field>
+            <field name="sequence">11</field>
+        </record>
+
+        <record id="behavior_cat_participation" model="student.behavior.category">
+            <field name="name">Participation Active</field>
+            <field name="code">PARTICIPATION</field>
+            <field name="description">Participation active en classe</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">2</field>
+            <field name="point_range_max">8</field>
+            <field name="color">10</field>
+            <field name="icon">fa-hand-paper</field>
+            <field name="sequence">12</field>
+        </record>
+
+        <record id="behavior_cat_responsibility" model="student.behavior.category">
+            <field name="name">Responsabilité</field>
+            <field name="code">RESPONSIBILITY</field>
+            <field name="description">Prise de responsabilité, fiabilité</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">3</field>
+            <field name="point_range_max">12</field>
+            <field name="color">8</field>
+            <field name="icon">fa-user-check</field>
+            <field name="sequence">13</field>
+        </record>
+
+    </data>
+</odoo>

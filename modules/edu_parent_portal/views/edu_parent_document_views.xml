@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vues pour les documents parent - À développer -->
+        
+        <!-- Vue liste des documents -->
+        <record id="view_edu_parent_document_tree" model="ir.ui.view">
+            <field name="name">edu.parent.document.tree</field>
+            <field name="model">edu.parent.document</field>
+            <field name="arch" type="xml">
+                <tree string="Documents" decoration-info="state=='draft'" decoration-success="state=='published'" decoration-muted="state=='archived'">
+                    <field name="name"/>
+                    <field name="document_type"/>
+                    <field name="category"/>
+                    <field name="student_id"/>
+                    <field name="file_size" widget="integer"/>
+                    <field name="publish_date"/>
+                    <field name="state"/>
+                    <field name="view_count"/>
+                    <field name="download_count"/>
+                    <button name="action_publish" type="object" string="Publier" icon="fa-share" invisible="state != 'draft'"/>
+                    <button name="action_download" type="object" string="Télécharger" icon="fa-download" invisible="state != 'published'"/>
+                    <button name="action_view" type="object" string="Voir" icon="fa-eye" invisible="state != 'published'"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des documents -->
+        <record id="view_edu_parent_document_form" model="ir.ui.view">
+            <field name="name">edu.parent.document.form</field>
+            <field name="model">edu.parent.document</field>
+            <field name="arch" type="xml">
+                <form string="Document parent">
+                    <header>
+                        <button name="action_publish" type="object" string="Publier" class="btn-primary" invisible="state != 'draft'"/>
+                        <button name="action_archive" type="object" string="Archiver" class="btn-secondary" invisible="state != 'published'"/>
+                        <button name="action_download" type="object" string="Télécharger" class="btn-secondary" invisible="state != 'published'"/>
+                        <button name="action_view" type="object" string="Voir le document" class="btn-secondary" invisible="state != 'published'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,published,archived"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view" icon="fa-eye">
+                                <field string="Vues" name="view_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_download" icon="fa-download">
+                                <field string="Téléchargements" name="download_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="document_type"/>
+                                <field name="category"/>
+                                <field name="student_id"/>
+                            </group>
+                            <group>
+                                <field name="attachment_id"/>
+                                <field name="file_size" widget="integer" readonly="1"/>
+                                <field name="mimetype" readonly="1"/>
+                                <field name="created_by" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Permissions et visibilité">
+                                <group>
+                                    <group>
+                                        <field name="is_public"/>
+                                        <field name="is_downloadable"/>
+                                        <field name="is_printable"/>
+                                    </group>
+                                    <group>
+                                        <field name="valid_from"/>
+                                        <field name="valid_until"/>
+                                        <field name="publish_date" readonly="1"/>
+                                    </group>
+                                </group>
+                                <field name="parent_ids" widget="many2many_tags" string="Parents autorisés"/>
+                            </page>
+                            
+                            <page string="Signature électronique">
+                                <group>
+                                    <group>
+                                        <field name="is_signed" readonly="1"/>
+                                        <field name="signature_date" readonly="1"/>
+                                        <field name="signed_by" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Métadonnées académiques">
+                                <group>
+                                    <field name="academic_year_id"/>
+                                    <field name="course_id"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Statistiques">
+                                <group>
+                                    <group>
+                                        <field name="view_count" readonly="1"/>
+                                        <field name="download_count" readonly="1"/>
+                                        <field name="last_viewed" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Vue kanban des documents -->
+        <record id="view_edu_parent_document_kanban" model="ir.ui.view">
+            <field name="name">edu.parent.document.kanban</field>
+            <field name="model">edu.parent.document</field>
+            <field name="arch" type="xml">
+                <kanban string="Documents" default_group_by="category">
+                    <field name="name"/>
+                    <field name="document_type"/>
+                    <field name="category"/>
+                    <field name="student_id"/>
+                    <field name="state"/>
+                    <field name="file_size"/>
+                    <field name="mimetype"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <t t-if="record.mimetype.raw_value and record.mimetype.raw_value.indexOf('pdf') != -1">
+                                                <i class="fa fa-file-pdf-o fa-2x text-danger"/>
+                                            </t>
+                                            <t t-elif="record.mimetype.raw_value and record.mimetype.raw_value.indexOf('word') != -1">
+                                                <i class="fa fa-file-word-o fa-2x text-primary"/>
+                                            </t>
+                                            <t t-elif="record.mimetype.raw_value and record.mimetype.raw_value.indexOf('image') != -1">
+                                                <i class="fa fa-file-image-o fa-2x text-success"/>
+                                            </t>
+                                            <t t-else="">
+                                                <i class="fa fa-file-o fa-2x"/>
+                                            </t>
+                                        </div>
+                                        <div class="col-10">
+                                            <strong><field name="name"/></strong>
+                                            <br/>
+                                            <field name="document_type"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-user"/> <field name="student_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <small><field name="file_size" widget="integer"/> bytes</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <t t-if="record.state.raw_value == 'published'">
+                                                <span class="badge badge-success">Publié</span>
+                                            </t>
+                                            <t t-elif="record.state.raw_value == 'draft'">
+                                                <span class="badge badge-info">Brouillon</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="badge badge-secondary">Archivé</span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Action pour les documents -->
+        <record id="action_edu_parent_document" model="ir.actions.act_window">
+            <field name="name">Documents parents</field>
+            <field name="res_model">edu.parent.document</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Ajoutez votre premier document !
+                </p>
+                <p>
+                    Les documents permettent de partager des fichiers importants
+                    avec les parents (bulletins, certificats, etc.).
+                </p>
+            </field>
+        </record>
+        
+        <!-- Vue liste des demandes de documents -->
+        <record id="view_edu_document_request_tree" model="ir.ui.view">
+            <field name="name">edu.document.request.tree</field>
+            <field name="model">edu.document.request</field>
+            <field name="arch" type="xml">
+                <tree string="Demandes de documents" decoration-info="state=='submitted'" decoration-warning="state=='processing'" decoration-success="state=='ready'">
+                    <field name="document_type"/>
+                    <field name="parent_id"/>
+                    <field name="student_id"/>
+                    <field name="expected_date"/>
+                    <field name="urgency"/>
+                    <field name="delivery_method"/>
+                    <field name="state"/>
+                    <field name="processed_by"/>
+                    <button name="action_process" type="object" string="Traiter" icon="fa-cog" invisible="state != 'submitted'"/>
+                    <button name="action_ready" type="object" string="Prêt" icon="fa-check" invisible="state != 'processing'"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des demandes de documents -->
+        <record id="view_edu_document_request_form" model="ir.ui.view">
+            <field name="name">edu.document.request.form</field>
+            <field name="model">edu.document.request</field>
+            <field name="arch" type="xml">
+                <form string="Demande de document">
+                    <header>
+                        <button name="action_submit" type="object" string="Soumettre" class="btn-primary" invisible="state != 'draft'"/>
+                        <button name="action_process" type="object" string="Traiter" class="btn-primary" invisible="state != 'submitted'"/>
+                        <button name="action_ready" type="object" string="Marquer prêt" class="btn-primary" invisible="state != 'processing'"/>
+                        <button name="action_deliver" type="object" string="Livrer" class="btn-secondary" invisible="state != 'ready'"/>
+                        <button name="action_cancel" type="object" string="Annuler" class="btn-secondary" invisible="state in ['delivered', 'cancelled']"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,processing,ready,delivered"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="document_type"/>
+                                <field name="parent_id"/>
+                                <field name="student_id"/>
+                            </group>
+                            <group>
+                                <field name="expected_date"/>
+                                <field name="urgency"/>
+                                <field name="delivery_method"/>
+                                <field name="processed_by" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Description de la demande">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        
+                        <group string="Notes de traitement">
+                            <field name="notes" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les demandes de documents -->
+        <record id="action_edu_document_request" model="ir.actions.act_window">
+            <field name="name">Demandes de documents</field>
+            <field name="res_model">edu.document.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune demande de document pour le moment !
+                </p>
+                <p>
+                    Les parents peuvent demander des documents officiels
+                    via le portail parent.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

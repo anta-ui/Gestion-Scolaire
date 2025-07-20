@@ -1,0 +1,195 @@
+/* Styles pour l'affichage public de l'emploi du temps */
+
+.public-timetable-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.public-timetable-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+}
+
+.public-timetable-title {
+    font-size: 2.5em;
+    margin: 0;
+    font-weight: 300;
+}
+
+.public-timetable-subtitle {
+    font-size: 1.2em;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+.public-timetable-grid {
+    display: grid;
+    grid-template-columns: 120px repeat(5, 1fr);
+    gap: 1px;
+    background: #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.public-timetable-cell {
+    background: white;
+    padding: 15px 10px;
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.public-header-cell {
+    background: #2c3e50;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.public-time-cell {
+    background: #34495e;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.public-event {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 2px 0;
+    font-size: 0.85em;
+    line-height: 1.3;
+    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+}
+
+.public-event-title {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.public-event-teacher {
+    font-size: 0.8em;
+    opacity: 0.9;
+}
+
+.public-event-room {
+    font-size: 0.75em;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+.public-legend {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.public-legend-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.public-legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.public-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.public-legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.public-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+/* Styles responsive pour mobile */
+@media (max-width: 768px) {
+    .public-timetable-container {
+        padding: 10px;
+    }
+    
+    .public-timetable-grid {
+        grid-template-columns: 80px repeat(5, 1fr);
+        font-size: 0.8em;
+    }
+    
+    .public-timetable-cell {
+        padding: 8px 5px;
+        min-height: 60px;
+    }
+    
+    .public-event {
+        padding: 5px;
+        font-size: 0.7em;
+    }
+    
+    .public-timetable-title {
+        font-size: 1.8em;
+    }
+    
+    .public-legend-items {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .public-timetable-grid {
+        grid-template-columns: 60px repeat(5, 1fr);
+        font-size: 0.7em;
+    }
+    
+    .public-timetable-cell {
+        padding: 5px 2px;
+        min-height: 50px;
+    }
+    
+    .public-event {
+        padding: 3px;
+        font-size: 0.6em;
+    }
+}
+
+/* Animation d'entrée */
+.public-timetable-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Types de documents obligatoires -->
+        <record id="doc_type_birth_certificate" model="student.document.type">
+            <field name="name">Acte de Naissance</field>
+            <field name="code">BIRTH_CERT</field>
+            <field name="category">identity</field>
+            <field name="is_mandatory">True</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-certificate</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="doc_type_id_card" model="student.document.type">
+            <field name="name">Carte d'Identité</field>
+            <field name="code">ID_CARD</field>
+            <field name="category">identity</field>
+            <field name="is_mandatory">True</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-id-card</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <record id="doc_type_photo" model="student.document.type">
+            <field name="name">Photo d'Identité</field>
+            <field name="code">PHOTO_ID</field>
+            <field name="category">identity</field>
+            <field name="is_mandatory">True</field>
+            <field name="requires_validation">False</field>
+            <field name="allowed_file_types">jpg,jpeg,png</field>
+            <field name="icon">fa-camera</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="doc_type_medical_certificate" model="student.document.type">
+            <field name="name">Certificat Médical</field>
+            <field name="code">MEDICAL_CERT</field>
+            <field name="category">medical</field>
+            <field name="is_mandatory">True</field>
+            <field name="has_expiry">True</field>
+            <field name="default_validity_days">365</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-heartbeat</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record id="doc_type_vaccination_card" model="student.document.type">
+            <field name="name">Carnet de Vaccination</field>
+            <field name="code">VACCINATION</field>
+            <field name="category">medical</field>
+            <field name="is_mandatory">True</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-syringe</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <record id="doc_type_insurance" model="student.document.type">
+            <field name="name">Assurance Scolaire</field>
+            <field name="code">INSURANCE</field>
+            <field name="category">administrative</field>
+            <field name="is_mandatory">True</field>
+            <field name="has_expiry">True</field>
+            <field name="default_validity_days">365</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-shield-alt</field>
+            <field name="sequence">6</field>
+        </record>
+
+        <!-- Documents optionnels -->
+        <record id="doc_type_transcript" model="student.document.type">
+            <field name="name">Relevé de Notes</field>
+            <field name="code">TRANSCRIPT</field>
+            <field name="category">academic</field>
+            <field name="is_mandatory">False</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-graduation-cap</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="doc_type_transfer_certificate" model="student.document.type">
+            <field name="name">Certificat de Transfert</field>
+            <field name="code">TRANSFER_CERT</field>
+            <field name="category">academic</field>
+            <field name="is_mandatory">False</field>
+            <field name="requires_validation">True</field>
+            <field name="allowed_file_types">pdf,jpg,jpeg,png</field>
+            <field name="icon">fa-exchange-alt</field>
+            <field name="sequence">11</field>
+        </record>
+
+        <!-- Catégories médicales -->
+        <record id="medical_category_allergy" model="student.medical.category">
+            <field name="name">Allergies</field>
+            <field name="code">ALLERGY</field>
+            <field name="description">Allergies alimentaires, médicamenteuses ou environnementales</field>
+            <field name="color">1</field>
+            <field name="icon">fa-exclamation-triangle</field>
+        </record>
+
+        <record id="medical_category_chronic" model="student.medical.category">
+            <field name="name">Maladies Chroniques</field>
+            <field name="code">CHRONIC</field>
+            <field name="description">Maladies de longue durée nécessitant un suivi</field>
+            <field name="color">3</field>
+            <field name="icon">fa-heartbeat</field>
+        </record>
+
+        <record id="medical_category_disability" model="student.medical.category">
+            <field name="name">Handicap</field>
+            <field name="code">DISABILITY</field>
+            <field name="description">Handicaps physiques, mentaux ou sensoriels</field>
+            <field name="color">4</field>
+            <field name="icon">fa-wheelchair</field>
+        </record>
+
+        <record id="medical_category_medication" model="student.medical.category">
+            <field name="name">Traitements</field>
+            <field name="code">MEDICATION</field>
+            <field name="description">Traitements médicamenteux réguliers</field>
+            <field name="color">5</field>
+            <field name="icon">fa-pills</field>
+        </record>
+
+        <!-- Types de récompenses -->
+        <record id="reward_type_excellence" model="student.reward.type">
+            <field name="name">Excellence Académique</field>
+            <field name="description">Récompense pour d'excellents résultats scolaires</field>
+            <field name="points_required">100</field>
+            <field name="is_automatic">True</field>
+            <field name="criteria">Moyenne générale supérieure à 16/20</field>
+            <field name="color">5</field>
+            <field name="icon">fa-trophy</field>
+        </record>
+
+        <record id="reward_type_improvement" model="student.reward.type">
+            <field name="name">Progrès Remarquable</field>
+            <field name="description">Récompense pour amélioration significative</field>
+            <field name="points_required">50</field>
+            <field name="is_automatic">False</field>
+            <field name="criteria">Amélioration de plus de 3 points sur la moyenne</field>
+            <field name="color">6</field>
+            <field name="icon">fa-chart-line</field>
+        </record>
+
+        <record id="reward_type_behavior" model="student.reward.type">
+            <field name="name">Comportement Exemplaire</field>
+            <field name="description">Récompense pour excellent comportement</field>
+            <field name="points_required">75</field>
+            <field name="is_automatic">True</field>
+            <field name="criteria">Score comportemental positif pendant 1 mois</field>
+            <field name="color">10</field>
+            <field name="icon">fa-star</field>
+        </record>
+
+        <record id="reward_type_leadership" model="student.reward.type">
+            <field name="name">Leadership</field>
+            <field name="description">Récompense pour qualités de leader</field>
+            <field name="points_required">80</field>
+            <field name="is_automatic">False</field>
+            <field name="criteria">Démonstration de qualités de leadership</field>
+            <field name="color">11</field>
+            <field name="icon">fa-crown</field>
+        </record>
+
+        <record id="reward_type_creativity" model="student.reward.type">
+            <field name="name">Créativité</field>
+            <field name="description">Récompense pour créativité et innovation</field>
+            <field name="points_required">60</field>
+            <field name="is_automatic">False</field>
+            <field name="criteria">Projet créatif ou innovation remarquable</field>
+            <field name="color">7</field>
+            <field name="icon">fa-lightbulb</field>
+        </record>
+
+        <record id="reward_type_solidarity" model="student.reward.type">
+            <field name="name">Solidarité</field>
+            <field name="description">Récompense pour actes de solidarité</field>
+            <field name="points_required">40</field>
+            <field name="is_automatic">False</field>
+            <field name="criteria">Aide apportée aux autres élèves</field>
+            <field name="color">9</field>
+            <field name="icon">fa-hands-helping</field>
+        </record>
+
+        <record id="reward_type_assiduity" model="student.reward.type">
+            <field name="name">Assiduité</field>
+            <field name="description">Récompense pour présence exemplaire</field>
+            <field name="points_required">30</field>
+            <field name="is_automatic">True</field>
+            <field name="criteria">Aucune absence injustifiée pendant 1 trimestre</field>
+            <field name="color">8</field>
+            <field name="icon">fa-calendar-check</field>
+        </record>
+
+    </data>
+</odoo>

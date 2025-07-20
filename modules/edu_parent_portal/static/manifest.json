@@ -1,0 +1,17 @@
+{
+  "name": "Portail Parents",
+  "short_name": "Parents",
+  "description": "Application portail pour les parents d'élèves",
+  "start_url": "/my",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/edu_parent_portal/static/description/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

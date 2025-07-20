@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_library_plus_root"
+              name="Bibliothèque Plus"
+              sequence="40"
+              web_icon="edu_library_plus,static/description/icon.png"/>
+    
+    <!-- Sous-menus principaux -->
+    <menuitem id="menu_library_catalog"
+              name="Catalogue"
+              parent="menu_library_plus_root"
+              sequence="10"/>
+    
+    <menuitem id="menu_library_books"
+              name="Livres"
+              parent="menu_library_catalog"
+              action="action_library_books"
+              sequence="10"/>
+    
+    <menuitem id="menu_library_authors"
+              name="Auteurs"
+              parent="menu_library_catalog"
+              action="action_library_authors"
+              sequence="20"/>
+    
+    <menuitem id="menu_library_categories"
+              name="Catégories"
+              parent="menu_library_catalog"
+              action="action_library_categories"
+              sequence="30"/>
+    
+    <!-- Menu Membres -->
+    <menuitem id="menu_library_members_root"
+              name="Membres"
+              parent="menu_library_plus_root"
+              sequence="20"/>
+    
+    <menuitem id="menu_library_members"
+              name="Membres"
+              parent="menu_library_members_root"
+              action="action_library_members"
+              sequence="10"/>
+    
+    <!-- Menu Emprunts -->
+    <menuitem id="menu_library_loans_root"
+              name="Emprunts"
+              parent="menu_library_plus_root"
+              sequence="30"/>
+    
+    <menuitem id="menu_library_loans"
+              name="Emprunts"
+              parent="menu_library_loans_root"
+              action="action_library_loans"
+              sequence="10"/>
+    
+    <menuitem id="menu_library_reservations"
+              name="Réservations"
+              parent="menu_library_loans_root"
+              action="action_library_reservations"
+              sequence="20"/>
+    
+    <menuitem id="menu_library_fines"
+              name="Amendes"
+              parent="menu_library_loans_root"
+              action="action_library_fines"
+              sequence="30"/>
+    
+    <!-- Menu Configuration -->
+    <menuitem id="menu_library_config"
+              name="Configuration"
+              parent="menu_library_plus_root"
+              sequence="50"/>
+    
+    <menuitem id="menu_library_publishers"
+              name="Éditeurs"
+              parent="menu_library_config"
+              action="action_library_publishers"
+              sequence="10"/>
+    
+    <!-- Menu Rapports -->
+    <menuitem id="menu_library_reports"
+              name="Rapports"
+              parent="menu_library_plus_root"
+              sequence="60"/>
+    
+    <!-- Menu Digital -->
+    <menuitem id="menu_library_digital"
+              name="Bibliothèque Numérique"
+              parent="menu_library_plus_root"
+              sequence="40"/>
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues Stock de Médicaments -->
+    <record id="view_medication_stock_tree" model="ir.ui.view">
+        <field name="name">medication.stock.tree</field>
+        <field name="model">medication.stock</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="quantity_on_hand &lt;= minimum_stock"
+                  decoration-warning="expiry_date and expiry_date &lt;= (datetime.date.today() + datetime.timedelta(days=30))">
+                <field name="medication_name"/>
+                <field name="active_ingredient"/>
+                <field name="dosage"/>
+                <field name="form" widget="badge"/>
+                <field name="quantity_on_hand"/>
+                <field name="minimum_stock"/>
+                <field name="unit_of_measure"/>
+                <field name="expiry_date"/>
+                <field name="prescription_required" widget="boolean_toggle"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medication_stock_form" model="ir.ui.view">
+        <field name="name">medication.stock.form</field>
+        <field name="model">medication.stock</field>
+        <field name="arch" type="xml">
+            <form string="Stock de Médicaments">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="medication_name"/>
+                        </h1>
+                        <h2>
+                            <field name="active_ingredient"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info">
+                            <field name="dosage"/>
+                            <field name="form"/>
+                            <field name="prescription_required"/>
+                            <field name="controlled_substance"/>
+                        </group>
+                        <group name="stock_info">
+                            <field name="quantity_on_hand"/>
+                            <field name="minimum_stock"/>
+                            <field name="unit_of_measure"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Informations de Lot">
+                        <group>
+                            <field name="expiry_date"/>
+                            <field name="unit_cost"/>
+                            <field name="supplier"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_medication_stock" model="ir.actions.act_window">
+        <field name="name">Stock de Médicaments</field>
+        <field name="res_model">medication.stock</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ajouter le premier médicament
+            </p>
+            <p>
+                Gérez le stock de médicaments avec suivi des dates d'expiration
+                et alertes de stock faible.
+            </p>
+        </field>
+    </record>
+</odoo>

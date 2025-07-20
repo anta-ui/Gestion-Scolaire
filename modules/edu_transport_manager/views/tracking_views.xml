@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste du suivi GPS -->
+        <record id="view_transport_gps_tracking_tree" model="ir.ui.view">
+            <field name="name">transport.gps.tracking.tree</field>
+            <field name="model">transport.gps.tracking</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="vehicle_id"/>
+                    <field name="trip_id"/>
+                    <field name="timestamp"/>
+                    <field name="latitude"/>
+                    <field name="longitude"/>
+                    <field name="speed"/>
+                    <field name="heading"/>
+                    <field name="engine_on"/>
+                    <field name="doors_open"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire du suivi GPS -->
+        <record id="view_transport_gps_tracking_form" model="ir.ui.view">
+            <field name="name">transport.gps.tracking.form</field>
+            <field name="model">transport.gps.tracking</field>
+            <field name="arch" type="xml">
+                <form string="Suivi GPS">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="vehicle_id"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="trip_id"/>
+                                <field name="timestamp"/>
+                                <field name="latitude"/>
+                                <field name="longitude"/>
+                                <field name="altitude"/>
+                            </group>
+                            <group>
+                                <field name="speed"/>
+                                <field name="heading"/>
+                                <field name="engine_on"/>
+                                <field name="doors_open"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Alertes">
+                            <field name="speeding_alert"/>
+                            <field name="geofence_alert"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue carte pour le suivi en temps réel -->
+        <record id="view_transport_gps_tracking_map" model="ir.ui.view">
+            <field name="name">transport.gps.tracking.map</field>
+            <field name="model">transport.gps.tracking</field>
+            <field name="arch" type="xml">
+                <form string="Carte de Suivi">
+                    <sheet>
+                        <div class="o_form_sheet_bg">
+                            <div class="o_form_sheet">
+                                <div class="oe_title">
+                                    <h1>Suivi GPS en Temps Réel</h1>
+                                </div>
+                                <!-- Ici on intégrerait une carte interactive -->
+                                <div id="gps_map" style="height: 500px; width: 100%; border: 1px solid #ccc;">
+                                    <p>Carte GPS interactive (à implémenter avec JavaScript)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche du suivi GPS -->
+        <record id="view_transport_gps_tracking_search" model="ir.ui.view">
+            <field name="name">transport.gps.tracking.search</field>
+            <field name="model">transport.gps.tracking</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="vehicle_id"/>
+                    <field name="trip_id"/>
+                    <filter string="Moteur allumé" name="engine_on" domain="[('engine_on', '=', True)]"/>
+                    <filter string="Portes ouvertes" name="doors_open" domain="[('doors_open', '=', True)]"/>
+                    <filter string="Alerte vitesse" name="speeding_alert" domain="[('speeding_alert', '=', True)]"/>
+                    <filter string="Alerte géofence" name="geofence_alert" domain="[('geofence_alert', '=', True)]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Véhicule" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
+                        <filter string="Trajet" name="group_trip" context="{'group_by': 'trip_id'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'timestamp:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

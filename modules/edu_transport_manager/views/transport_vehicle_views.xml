@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue liste des véhicules -->
+    <record id="view_transport_vehicle_tree" model="ir.ui.view">
+        <field name="name">transport.vehicle.tree</field>
+        <field name="model">transport.vehicle</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state=='active'" decoration-warning="state=='maintenance'">
+                <field name="name"/>
+                <field name="license_plate"/>
+                <field name="vehicle_type"/>
+                <field name="total_capacity"/>
+                <field name="current_driver_id"/>
+                <field name="state"/>
+                <field name="operational_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire des véhicules -->
+    <record id="view_transport_vehicle_form" model="ir.ui.view">
+        <field name="name">transport.vehicle.form</field>
+        <field name="model">transport.vehicle</field>
+        <field name="arch" type="xml">
+            <form string="Véhicule de Transport">
+                <header>
+                    <button name="action_set_in_service" type="object" string="Mettre en Service" class="btn-success" invisible="state == 'active'"/>
+                    <button name="action_set_maintenance" type="object" string="Maintenance" class="btn-warning" invisible="state != 'active'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_trips" type="object" class="oe_stat_button" icon="fa-road">
+                            <field name="total_trips" widget="statinfo" string="Trajets"/>
+                        </button>
+                        <button name="action_view_maintenance" type="object" class="oe_stat_button" icon="fa-wrench">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="maintenance_cost_current_year" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">Maintenance</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <field name="image_128" widget="image" class="oe_avatar"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du véhicule"/>
+                        </h1>
+                        <h2>
+                            <field name="license_plate" placeholder="Plaque d'immatriculation"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group string="Informations Générales">
+                            <field name="code"/>
+                            <field name="vehicle_type"/>
+                            <field name="category"/>
+                            <field name="brand"/>
+                            <field name="model"/>
+                            <field name="year"/>
+                        </group>
+                        <group string="Statut">
+                            <field name="operational_status"/>
+                            <field name="current_driver_id"/>
+                            <field name="current_location"/>
+                            <field name="last_gps_update"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Capacités">
+                            <field name="seating_capacity"/>
+                            <field name="standing_capacity"/>
+                            <field name="total_capacity"/>
+                            <field name="wheelchair_spaces"/>
+                        </group>
+                        <group string="Technique">
+                            <field name="engine_type"/>
+                            <field name="engine_power"/>
+                            <field name="fuel_capacity"/>
+                            <field name="max_speed"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Kilométrage">
+                            <field name="current_odometer"/>
+                            <field name="total_distance"/>
+                            <field name="daily_average_km"/>
+                        </group>
+                        <group string="Financier">
+                            <field name="purchase_date"/>
+                            <field name="purchase_price"/>
+                            <field name="current_value"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Chauffeurs">
+                            <field name="driver_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="license_number"/>
+                                    <field name="phone"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="Équipements">
+                            <group>
+                                <group>
+                                    <field name="has_gps"/>
+                                    <field name="has_camera"/>
+                                    <field name="has_wifi"/>
+                                    <field name="has_air_conditioning"/>
+                                </group>
+                                <group>
+                                    <field name="has_first_aid"/>
+                                    <field name="has_fire_extinguisher"/>
+                                    <field name="is_accessible"/>
+                                </group>
+                            </group>
+                            <field name="accessibility_features" invisible="not is_accessible"/>
+                        </page>
+                        
+                        <page string="Assurance">
+                            <group>
+                                <group>
+                                    <field name="insurance_company"/>
+                                    <field name="insurance_policy_number"/>
+                                    <field name="insurance_cost"/>
+                                </group>
+                                <group>
+                                    <field name="insurance_start_date"/>
+                                    <field name="insurance_end_date"/>
+                                    <field name="last_technical_control"/>
+                                    <field name="next_technical_control"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Consommation">
+                            <group>
+                                <group>
+                                    <field name="fuel_consumption_city"/>
+                                    <field name="fuel_consumption_highway"/>
+                                </group>
+                                <group>
+                                    <field name="co2_emission"/>
+                                    <field name="environmental_rating"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Documents">
+                            <field name="vehicle_documents"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue kanban des véhicules -->
+    <record id="view_transport_vehicle_kanban" model="ir.ui.view">
+        <field name="name">transport.vehicle.kanban</field>
+        <field name="model">transport.vehicle</field>
+        <field name="arch" type="xml">
+            <kanban string="Véhicules">
+                <field name="name"/>
+                <field name="license_plate"/>
+                <field name="state"/>
+                <field name="total_capacity"/>
+                <field name="current_driver_id"/>
+                <field name="operational_status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <small class="o_kanban_record_subtitle text-muted">
+                                        <field name="license_plate"/>
+                                    </small>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">
+                                        <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span class="fa fa-users"/> <field name="total_capacity"/> places
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="fa fa-cog"/> <field name="operational_status"/>
+                                    </div>
+                                </div>
+                                <div class="row mt8" t-if="record.current_driver_id.raw_value">
+                                    <div class="col-12">
+                                        <span class="fa fa-user"/> <field name="current_driver_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <div class="o_kanban_record_bottom">
+                                        <field name="state" widget="label_selection" 
+                                               options="{'classes': {'active': 'success', 'maintenance': 'warning', 'inactive': 'danger'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue recherche des véhicules -->
+    <record id="view_transport_vehicle_search" model="ir.ui.view">
+        <field name="name">transport.vehicle.search</field>
+        <field name="model">transport.vehicle</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Véhicules">
+                <field name="name" string="Nom"/>
+                <field name="license_plate" string="Plaque"/>
+                <field name="current_driver_id" string="Chauffeur"/>
+                <field name="vehicle_type" string="Type"/>
+                <separator/>
+                <filter string="Actifs" name="active_vehicles" domain="[('state', '=', 'active')]"/>
+                <filter string="En Maintenance" name="maintenance_vehicles" domain="[('state', '=', 'maintenance')]"/>
+                <filter string="Hors Service" name="inactive_vehicles" domain="[('state', '=', 'inactive')]"/>
+                <separator/>
+                <filter string="Avec GPS" name="gps_enabled" domain="[('has_gps', '=', True)]"/>
+                <filter string="Climatisés" name="air_conditioning" domain="[('has_air_conditioning', '=', True)]"/>
+                <filter string="Accessibles PMR" name="wheelchair_accessible" domain="[('is_accessible', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'vehicle_type'}"/>
+                    <filter string="Chauffeur" name="group_driver" context="{'group_by': 'current_driver_id'}"/>
+                    <filter string="Marque" name="group_brand" context="{'group_by': 'brand'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo> 

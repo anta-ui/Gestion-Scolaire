@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menu principal Transport -->
+        <menuitem id="menu_transport_root" 
+                  name="Transport Scolaire" 
+                  web_icon="edu_transport_manager,static/description/icon.png" 
+                  sequence="100"/>
+
+        <!-- Menu Gestion -->
+        <menuitem id="menu_transport_management" 
+                  name="Gestion" 
+                  parent="menu_transport_root" 
+                  sequence="10"/>
+
+        <!-- Sous-menus Gestion -->
+        <menuitem id="menu_transport_vehicles" 
+                  name="Véhicules" 
+                  parent="menu_transport_management" 
+                  action="action_transport_vehicles" 
+                  sequence="10"/>
+
+        <menuitem id="menu_transport_drivers" 
+                  name="Chauffeurs" 
+                  parent="menu_transport_management" 
+                  action="action_transport_drivers" 
+                  sequence="20"/>
+
+        <menuitem id="menu_transport_routes" 
+                  name="Itinéraires" 
+                  parent="menu_transport_management" 
+                  action="action_transport_routes" 
+                  sequence="30"/>
+
+        <menuitem id="menu_transport_trips" 
+                  name="Trajets" 
+                  parent="menu_transport_management" 
+                  action="action_transport_trips" 
+                  sequence="40"/>
+
+        <!-- Menu Maintenance -->
+        <menuitem id="menu_transport_maintenance" 
+                  name="Maintenance" 
+                  parent="menu_transport_root" 
+                  sequence="40"/>
+
+        <!-- Sous-menus Maintenance -->
+        <menuitem id="menu_transport_maintenance_orders" 
+                  name="Ordres de Maintenance" 
+                  parent="menu_transport_maintenance" 
+                  action="action_transport_maintenance" 
+                  sequence="10"/>
+
+        <!-- Menu Facturation -->
+        <menuitem id="menu_transport_billing" 
+                  name="Facturation" 
+                  parent="menu_transport_root" 
+                  sequence="50"/>
+
+        <!-- Sous-menus Facturation -->
+        <menuitem id="menu_transport_billing_orders" 
+                  name="Factures Transport" 
+                  parent="menu_transport_billing" 
+                  action="action_transport_billing" 
+                  sequence="10"/>
+
+        <menuitem id="menu_transport_subscriptions" 
+                  name="Abonnements" 
+                  parent="menu_transport_billing" 
+                  action="action_transport_subscriptions" 
+                  sequence="20"/>
+
+        <!-- Menu Suivi GPS -->
+        <menuitem id="menu_transport_tracking" 
+                  name="Suivi GPS" 
+                  parent="menu_transport_root" 
+                  sequence="60"/>
+
+        <!-- Sous-menus Suivi GPS -->
+        <menuitem id="menu_transport_live_tracking" 
+                  name="Carte en Temps Réel" 
+                  parent="menu_transport_tracking" 
+                  action="action_live_tracking_map" 
+                  sequence="10"/>
+
+        <menuitem id="menu_transport_gps_history" 
+                  name="Historique GPS" 
+                  parent="menu_transport_tracking" 
+                  action="action_gps_tracking_history" 
+                  sequence="20"/>
+
+        <!-- Menu Étudiants -->
+        <menuitem id="menu_transport_students" 
+                  name="Étudiants" 
+                  parent="menu_transport_root" 
+                  sequence="30"/>
+
+        <!-- Sous-menus Étudiants -->
+        <menuitem id="menu_transport_student_list" 
+                  name="Étudiants Transportés" 
+                  parent="menu_transport_students" 
+                  action="action_transport_students" 
+                  sequence="10"/>
+
+        <!-- Menu Urgences -->
+        <menuitem id="menu_transport_emergency" 
+                  name="Urgences" 
+                  parent="menu_transport_root" 
+                  sequence="70"/>
+
+        <!-- Sous-menus Urgences -->
+        <menuitem id="menu_transport_emergency_list" 
+                  name="Alertes d'Urgence" 
+                  parent="menu_transport_emergency" 
+                  action="action_transport_emergency_alerts" 
+                  sequence="10"/>
+
+        <!-- Menu Analyses -->
+        <menuitem id="menu_transport_analytics" 
+                  name="Analyses" 
+                  parent="menu_transport_root" 
+                  sequence="80"/>
+
+        <!-- Sous-menus Analyses -->
+        <menuitem id="menu_transport_dashboard" 
+                  name="Tableau de Bord" 
+                  parent="menu_transport_analytics" 
+                  action="action_transport_dashboard" 
+                  sequence="10"/>
+
+    </data>
+</odoo> 

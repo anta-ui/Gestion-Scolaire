@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- Catégorie des groupes du portail parent -->
+        <record id="module_category_parent_portal" model="ir.module.category">
+            <field name="name">Portail Parent</field>
+            <field name="description">Groupes de sécurité pour le portail parent</field>
+            <field name="sequence">16</field>
+        </record>
+        
+        <!-- Groupe parent (utilisateur) -->
+        <record id="group_parent_user" model="res.groups">
+            <field name="name">Parent / Utilisateur</field>
+            <field name="category_id" ref="module_category_parent_portal"/>
+        </record>
+        
+        <!-- Groupe gestionnaire du portail parent -->
+        <record id="group_parent_manager" model="res.groups">
+            <field name="name">Parent / Gestionnaire</field>
+            <field name="category_id" ref="module_category_parent_portal"/>
+            <field name="implied_ids" eval="[(4, ref('group_parent_user'))]"/>
+        </record>
+        
+        <!-- Règles d'accès aux enregistrements -->
+        
+        <!-- Règle pour les notifications - parents peuvent voir leurs propres notifications -->
+        <record id="parent_notification_rule" model="ir.rule">
+            <field name="name">Parent: voir ses propres notifications</field>
+            <field name="model_id" ref="model_edu_parent_notification"/>
+            <field name="domain_force">[('recipient_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_parent_user'))]"/>
+        </record>
+        
+        <!-- Règle pour les rendez-vous - parents peuvent voir leurs propres rendez-vous -->
+        <record id="parent_appointment_rule" model="ir.rule">
+            <field name="name">Parent: voir ses propres rendez-vous</field>
+            <field name="model_id" ref="model_edu_parent_appointment"/>
+            <field name="domain_force">[('parent_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_parent_user'))]"/>
+        </record>
+        
+        <!-- Règle pour les documents - parents peuvent voir les documents de leurs enfants -->
+        <record id="parent_document_rule" model="ir.rule">
+            <field name="name">Parent: voir les documents de ses enfants</field>
+            <field name="model_id" ref="model_edu_parent_document"/>
+            <field name="domain_force">[('parent_ids.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_parent_user'))]"/>
+        </record>
+        
+        <!-- Règle pour les paiements - parents peuvent voir leurs propres paiements -->
+        <record id="parent_payment_rule" model="ir.rule">
+            <field name="name">Parent: voir ses propres paiements</field>
+            <field name="model_id" ref="model_edu_parent_payment"/>
+            <field name="domain_force">[('parent_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_parent_user'))]"/>
+        </record>
+        
+        <!-- Règle pour le suivi des étudiants - parents peuvent voir le suivi de leurs enfants -->
+        <record id="parent_student_follow_rule" model="ir.rule">
+            <field name="name">Parent: voir le suivi de ses enfants</field>
+            <field name="model_id" ref="model_edu_student_follow"/>
+            <field name="domain_force">[('parent_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_parent_user'))]"/>
+        </record>
+        
+    </data>
+</odoo>

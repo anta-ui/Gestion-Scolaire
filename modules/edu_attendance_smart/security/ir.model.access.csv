@@ -1,0 +1,42 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edu_attendance_device_admin,edu.attendance.device admin,model_edu_attendance_device,base.group_system,1,1,1,1
+access_edu_attendance_device_manager,edu.attendance.device manager,model_edu_attendance_device,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_attendance_device_user,edu.attendance.device user,model_edu_attendance_device,edu_attendance_smart.group_attendance_user,1,0,0,0
+
+access_edu_attendance_session_admin,edu.attendance.session admin,model_edu_attendance_session,base.group_system,1,1,1,1
+access_edu_attendance_session_manager,edu.attendance.session manager,model_edu_attendance_session,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_attendance_session_user,edu.attendance.session user,model_edu_attendance_session,edu_attendance_smart.group_attendance_user,1,1,1,0
+
+access_edu_attendance_record_admin,edu.attendance.record admin,model_edu_attendance_record,base.group_system,1,1,1,1
+access_edu_attendance_record_manager,edu.attendance.record manager,model_edu_attendance_record,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_attendance_record_user,edu.attendance.record user,model_edu_attendance_record,edu_attendance_smart.group_attendance_user,1,1,1,0
+
+access_edu_qr_code_admin,edu.qr.code admin,model_edu_qr_code,base.group_system,1,1,1,1
+access_edu_qr_code_manager,edu.qr.code manager,model_edu_qr_code,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_qr_code_user,edu.qr.code user,model_edu_qr_code,edu_attendance_smart.group_attendance_user,1,0,0,0
+
+access_edu_qr_code_log_admin,edu.qr.code.log admin,model_edu_qr_code_log,base.group_system,1,1,1,1
+access_edu_qr_code_log_manager,edu.qr.code.log manager,model_edu_qr_code_log,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_qr_code_log_user,edu.qr.code.log user,model_edu_qr_code_log,edu_attendance_smart.group_attendance_user,1,0,0,0
+
+access_edu_attendance_excuse_admin,edu.attendance.excuse admin,model_edu_attendance_excuse,base.group_system,1,1,1,1
+access_edu_attendance_excuse_manager,edu.attendance.excuse manager,model_edu_attendance_excuse,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_attendance_excuse_user,edu.attendance.excuse user,model_edu_attendance_excuse,edu_attendance_smart.group_attendance_user,1,1,1,0
+
+access_edu_attendance_config_admin,edu.attendance.config admin,model_edu_attendance_config,base.group_system,1,1,1,1
+access_edu_attendance_config_manager,edu.attendance.config manager,model_edu_attendance_config,edu_attendance_smart.group_attendance_manager,1,1,1,1
+
+access_edu_biometric_data_admin,edu.biometric.data admin,model_edu_biometric_data,base.group_system,1,1,1,1
+access_edu_biometric_data_manager,edu.biometric.data manager,model_edu_biometric_data,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_biometric_data_user,edu.biometric.data user,model_edu_biometric_data,edu_attendance_smart.group_attendance_user,1,1,1,0
+
+access_edu_location_admin,edu.location admin,model_edu_location,base.group_system,1,1,1,1
+access_edu_location_manager,edu.location manager,model_edu_location,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_edu_location_user,edu.location user,model_edu_location,edu_attendance_smart.group_attendance_user,1,0,0,0
+
+access_attendance_bulk_action_admin,attendance.bulk.action admin,model_attendance_bulk_action,base.group_system,1,1,1,1
+access_attendance_bulk_action_manager,attendance.bulk.action manager,model_attendance_bulk_action,edu_attendance_smart.group_attendance_manager,1,1,1,1
+
+access_attendance_report_wizard_admin,attendance.report.wizard admin,model_attendance_report_wizard,base.group_system,1,1,1,1
+access_attendance_report_wizard_manager,attendance.report.wizard manager,model_attendance_report_wizard,edu_attendance_smart.group_attendance_manager,1,1,1,1
+access_attendance_report_wizard_user,attendance.report.wizard user,model_attendance_report_wizard,edu_attendance_smart.group_attendance_user,1,1,1,0

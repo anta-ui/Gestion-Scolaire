@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue liste des emprunts -->
+    <record id="view_library_loan_tree" model="ir.ui.view">
+        <field name="name">edu.library.loan.tree</field>
+        <field name="model">edu.library.loan</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state=='overdue'" 
+                  decoration-success="state=='returned'"
+                  decoration-warning="days_overdue>0">
+                <field name="name"/>
+                <field name="member_id"/>
+                <field name="book_id"/>
+                <field name="loan_date"/>
+                <field name="due_date"/>
+                <field name="return_date"/>
+                <field name="days_overdue"/>
+                <field name="fine_amount"/>
+                <field name="state" widget="badge"/>
+                <button name="action_renew_loan" type="object" 
+                        string="Renouveler" icon="fa-refresh"
+                        attrs="{'invisible': [('can_renew', '=', False)]}"/>
+                <button name="action_return_book" type="object" 
+                        string="Retourner" icon="fa-check"
+                        attrs="{'invisible': [('state', 'not in', ['loaned', 'renewed', 'overdue'])]}"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Action pour les emprunts -->
+    <record id="action_library_loans" model="ir.actions.act_window">
+        <field name="name">Emprunts</field>
+        <field name="res_model">edu.library.loan</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+</odoo>

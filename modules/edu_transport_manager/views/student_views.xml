@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des étudiants avec transport -->
+        <record id="view_student_transport_tree" model="ir.ui.view">
+            <field name="name">op.student.transport.tree</field>
+            <field name="model">op.student</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="gr_no"/>
+                    <field name="uses_transport"/>
+                    <field name="transport_subscription_id"/>
+                    <field name="pickup_stop_id"/>
+                    <field name="dropoff_stop_id"/>
+                    <field name="emergency_contact_name"/>
+                    <field name="emergency_contact_phone"/>
+                    <field name="transport_authorization"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des étudiants avec transport -->
+        <record id="view_student_transport_form" model="ir.ui.view">
+            <field name="name">op.student.transport.form</field>
+            <field name="model">op.student</field>
+            <field name="arch" type="xml">
+                <form string="Étudiant - Transport">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <h2>
+                                <field name="gr_no"/>
+                            </h2>
+                        </div>
+                        
+                        <group>
+                            <group string="Transport Scolaire">
+                                <field name="uses_transport"/>
+                                <field name="transport_subscription_id"/>
+                                <field name="pickup_stop_id"/>
+                                <field name="dropoff_stop_id"/>
+                            </group>
+                            <group string="Contacts d'Urgence">
+                                <field name="emergency_contact_name"/>
+                                <field name="emergency_contact_phone"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Autorisations">
+                                <field name="transport_authorization"/>
+                                <field name="photo_authorization"/>
+                            </group>
+                            <group string="Informations Médicales">
+                                <field name="medical_conditions"/>
+                                <field name="medications"/>
+                                <field name="allergies"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Historique des Trajets">
+                                <field name="trip_history_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="scheduled_date"/>
+                                        <field name="route_id"/>
+                                        <field name="vehicle_id"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Statistiques Transport">
+                                <group>
+                                    <field name="total_trips"/>
+                                    <field name="missed_trips"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche des étudiants avec transport -->
+        <record id="view_student_transport_search" model="ir.ui.view">
+            <field name="name">op.student.transport.search</field>
+            <field name="model">op.student</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="gr_no"/>
+                    <field name="transport_subscription_id"/>
+                    <field name="pickup_stop_id"/>
+                    <field name="dropoff_stop_id"/>
+                    <filter string="Utilise le transport" name="uses_transport" domain="[('uses_transport', '=', True)]"/>
+                    <filter string="Autorisation transport" name="transport_authorized" domain="[('transport_authorization', '=', True)]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Abonnement" name="group_subscription" context="{'group_by': 'transport_subscription_id'}"/>
+                        <filter string="Arrêt de ramassage" name="group_pickup" context="{'group_by': 'pickup_stop_id'}"/>
+                        <filter string="Arrêt de dépose" name="group_dropoff" context="{'group_by': 'dropoff_stop_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

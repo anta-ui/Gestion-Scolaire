@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Données de démonstration pour le module Education Enhanced -->
+        
+        <!-- Groupes Familiaux de Démonstration -->
+        <record id="demo_family_group_1" model="student.family.group">
+            <field name="family_name">Famille DIOP</field>
+            <field name="family_code">FAM001</field>
+            <field name="home_address">Parcelles Assainies, Dakar</field>
+            <field name="home_phone">+221 77 123 45 67</field>
+            <field name="family_income">medium</field>
+            <field name="emergency_contact_name">Mme Fatou DIOP</field>
+            <field name="emergency_contact_phone">+221 76 987 65 43</field>
+            <field name="housing_type">owned</field>
+            <field name="transportation_mode">car</field>
+            <field name="preferred_language">french</field>
+            <field name="communication_preference">phone</field>
+            <field name="notes">Famille nombreuse avec 4 enfants scolarisés</field>
+        </record>
+
+        <record id="demo_family_group_2" model="student.family.group">
+            <field name="family_name">Famille NDIAYE</field>
+            <field name="family_code">FAM002</field>
+            <field name="home_address">Mermoz, Dakar</field>
+            <field name="home_phone">+221 78 234 56 78</field>
+            <field name="family_income">high</field>
+            <field name="emergency_contact_name">M. Mamadou NDIAYE</field>
+            <field name="emergency_contact_phone">+221 77 876 54 32</field>
+            <field name="housing_type">owned</field>
+            <field name="transportation_mode">car</field>
+            <field name="preferred_language">french</field>
+            <field name="communication_preference">email</field>
+            <field name="notes">Père expatrié, contact privilégié avec la mère</field>
+        </record>
+
+        <!-- Informations Médicales de Démonstration -->
+        <record id="demo_medical_info_1" model="student.medical.info">
+            <field name="title">Allergie aux arachides</field>
+            <field name="medical_type">allergy</field>
+            <field name="severity">high</field>
+            <field name="description">Allergie sévère aux arachides pouvant provoquer un choc anaphylactique</field>
+            <field name="treatment">Éviter tout contact avec les arachides, EpiPen disponible</field>
+            <field name="doctor_name">Dr. Aminata FALL</field>
+            <field name="is_critical">True</field>
+            <field name="notify_teachers">True</field>
+        </record>
+
+        <record id="demo_medical_info_2" model="student.medical.info">
+            <field name="title">Asthme léger</field>
+            <field name="medical_type">chronic</field>
+            <field name="severity">medium</field>
+            <field name="description">Asthme d'effort léger</field>
+            <field name="treatment">Inhalateur de secours disponible</field>
+            <field name="doctor_name">Dr. Ousmane SARR</field>
+            <field name="notes">Éviter les efforts trop intenses</field>
+        </record>
+
+        <!-- Catégories de Comportement -->
+        <record id="demo_behavior_category_1" model="student.behavior.category">
+            <field name="name">Excellente Participation</field>
+            <field name="code">PART_EXC</field>
+            <field name="description">Participation active et constructive en classe</field>
+            <field name="behavior_type">positive</field>
+            <field name="point_range_min">8</field>
+            <field name="point_range_max">10</field>
+            <field name="color">10</field>
+            <field name="icon">fa-thumbs-up</field>
+        </record>
+
+        <record id="demo_behavior_category_2" model="student.behavior.category">
+            <field name="name">Perturbation</field>
+            <field name="code">PERTURB</field>
+            <field name="description">Comportement perturbateur en classe</field>
+            <field name="behavior_type">negative</field>
+            <field name="point_range_min">-5</field>
+            <field name="point_range_max">-1</field>
+            <field name="color">1</field>
+            <field name="icon">fa-exclamation-triangle</field>
+        </record>
+
+        <!-- Documents de Démonstration -->
+        <record id="demo_document_1" model="student.document">
+            <field name="name">Certificat de Naissance</field>
+            <field name="document_type_id" ref="edu_student_enhanced.doc_type_birth_certificate"/>
+            <field name="date_created" eval="(DateTime.now() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="state">approved</field>
+        </record>
+
+        <record id="demo_document_2" model="student.document">
+            <field name="name">Photo d'Identité</field>
+            <field name="document_type_id" ref="edu_student_enhanced.doc_type_photo"/>
+            <field name="date_created" eval="(DateTime.now() - timedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="state">under_review</field>
+        </record>
+
+        <record id="demo_document_3" model="student.document">
+            <field name="name">Carnet de Vaccination</field>
+            <field name="document_type_id" ref="edu_student_enhanced.doc_type_vaccination_card"/>
+            <field name="state">draft</field>
+        </record>
+
+        <!-- Catégories d'Élèves -->
+        <record id="demo_student_category_1" model="student.category">
+            <field name="name">Élève Brillant</field>
+            <field name="code">BRILLANT</field>
+            <field name="description">Élève avec d'excellents résultats académiques</field>
+            <field name="color">9</field>
+            <field name="criteria">Moyenne générale > 16/20</field>
+            <field name="benefits">Accès aux programmes d'enrichissement</field>
+            <field name="icon">fa-star</field>
+        </record>
+
+        <record id="demo_student_category_2" model="student.category">
+            <field name="name">Élève en Difficulté</field>
+            <field name="code">DIFFICULTE</field>
+            <field name="description">Élève nécessitant un accompagnement particulier</field>
+            <field name="color">1</field>
+            <field name="criteria">Moyenne générale < 10/20 ou difficultés identifiées</field>
+            <field name="benefits">Soutien scolaire personnalisé</field>
+            <field name="icon">fa-heart</field>
+        </record>
+
+    </data>
+</odoo> 

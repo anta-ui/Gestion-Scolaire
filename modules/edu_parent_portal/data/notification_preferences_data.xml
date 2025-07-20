@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Préférence pour les notes -->
+        <record id="notification_pref_grades" model="edu.notification.preference">
+            <field name="name">Nouvelles notes</field>
+            <field name="code">grades</field>
+            <field name="notification_type">grades</field>
+            <field name="description">Recevoir des notifications lors de nouvelles notes</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">False</field>
+            <field name="push_enabled">True</field>
+        </record>
+        
+        <!-- Préférence pour les absences -->
+        <record id="notification_pref_attendance" model="edu.notification.preference">
+            <field name="name">Absences</field>
+            <field name="code">attendance</field>
+            <field name="notification_type">attendance</field>
+            <field name="description">Recevoir des notifications pour les absences</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">True</field>
+            <field name="push_enabled">True</field>
+        </record>
+        
+        <!-- Préférence pour les devoirs -->
+        <record id="notification_pref_homework" model="edu.notification.preference">
+            <field name="name">Devoirs</field>
+            <field name="code">homework</field>
+            <field name="notification_type">homework</field>
+            <field name="description">Recevoir des notifications pour les nouveaux devoirs</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">False</field>
+            <field name="push_enabled">True</field>
+        </record>
+        
+        <!-- Préférence pour les annonces -->
+        <record id="notification_pref_announcements" model="edu.notification.preference">
+            <field name="name">Annonces</field>
+            <field name="code">announcements</field>
+            <field name="notification_type">announcements</field>
+            <field name="description">Recevoir les annonces de l'école</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">False</field>
+            <field name="push_enabled">True</field>
+        </record>
+        
+        <!-- Préférence pour les rendez-vous -->
+        <record id="notification_pref_appointments" model="edu.notification.preference">
+            <field name="name">Rendez-vous</field>
+            <field name="code">appointments</field>
+            <field name="notification_type">meetings</field>
+            <field name="description">Recevoir des notifications pour les rendez-vous</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">True</field>
+            <field name="push_enabled">True</field>
+        </record>
+        
+        <!-- Préférence pour les paiements -->
+        <record id="notification_pref_payments" model="edu.notification.preference">
+            <field name="name">Paiements</field>
+            <field name="code">payments</field>
+            <field name="notification_type">payments</field>
+            <field name="description">Recevoir des rappels de paiement</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">True</field>
+            <field name="push_enabled">False</field>
+        </record>
+        
+        <!-- Préférence pour les urgences -->
+        <record id="notification_pref_emergency" model="edu.notification.preference">
+            <field name="name">Urgences</field>
+            <field name="code">emergency</field>
+            <field name="notification_type">emergency</field>
+            <field name="description">Recevoir les notifications d'urgence</field>
+            <field name="email_enabled">True</field>
+            <field name="sms_enabled">True</field>
+            <field name="push_enabled">True</field>
+        </record>
+        
+    </data>
+</odoo>

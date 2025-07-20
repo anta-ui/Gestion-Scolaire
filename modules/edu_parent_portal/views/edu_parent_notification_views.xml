@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue liste des notifications parents -->
+        <record id="view_edu_parent_notification_tree" model="ir.ui.view">
+            <field name="name">edu.parent.notification.tree</field>
+            <field name="model">edu.parent.notification</field>
+            <field name="arch" type="xml">
+                <tree string="Notifications Parents">
+                    <field name="title"/>
+                    <field name="recipient_ids" widget="many2many_tags"/>
+                    <field name="student_ids" widget="many2many_tags"/>
+                    <field name="notification_type"/>
+                    <field name="category"/>
+                    <field name="priority"/>
+                    <field name="send_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des notifications -->
+        <record id="view_edu_parent_notification_form" model="ir.ui.view">
+            <field name="name">edu.parent.notification.form</field>
+            <field name="model">edu.parent.notification</field>
+            <field name="arch" type="xml">
+                <form string="Notification Parent">
+                    <header>
+                        <button name="action_send" string="Envoyer" type="object" 
+                                class="btn-primary" invisible="state != 'draft'"/>
+                        <button name="action_mark_read" string="Marquer comme lu" type="object" 
+                                class="btn-secondary" invisible="state == 'read'"/>
+                        <button name="action_archive" string="Archiver" type="object" 
+                                class="btn-secondary" invisible="state == 'archived'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,read"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="title"/>
+                                <field name="notification_type"/>
+                                <field name="category"/>
+                                <field name="priority"/>
+                                <field name="sender_id"/>
+                            </group>
+                            <group>
+                                <field name="send_date"/>
+                                <field name="read_date"/>
+                                <field name="expiry_date"/>
+                                <field name="read_count"/>
+                                <field name="click_count"/>
+                            </group>
+                        </group>
+                        <group string="Destinataires">
+                            <field name="recipient_ids" widget="many2many_tags"/>
+                            <field name="student_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Message">
+                            <field name="message" nolabel="1" widget="html"/>
+                        </group>
+                        <group string="Canaux de notification">
+                            <field name="send_email"/>
+                            <field name="send_sms"/>
+                            <field name="send_push"/>
+                        </group>
+                        <group string="Pièces jointes">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les notifications -->
+        <record id="action_edu_parent_notification" model="ir.actions.act_window">
+            <field name="name">Notifications Parents</field>
+            <field name="res_model">edu.parent.notification</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune notification trouvée
+                </p>
+                <p>
+                    Les notifications permettent de communiquer avec les parents
+                    concernant leurs enfants.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

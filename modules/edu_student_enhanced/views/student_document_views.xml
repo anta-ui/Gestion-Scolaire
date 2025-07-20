@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Document Étudiant -->
+    <record id="view_student_document_form" model="ir.ui.view">
+        <field name="name">student.document.form</field>
+        <field name="model">student.document</field>
+        <field name="arch" type="xml">
+            <form string="Document Étudiant">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,under_review,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du document"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="document_type_id"/>
+                        </group>
+                        <group>
+                            <field name="date_created"/>
+                            <field name="is_validated" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Document" name="document">
+                            <group>
+                                <field name="file_data" widget="binary" filename="name"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Document Étudiant -->
+    <record id="view_student_document_tree" model="ir.ui.view">
+        <field name="name">student.document.tree</field>
+        <field name="model">student.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documents Étudiants" decoration-success="state=='approved'" decoration-warning="state=='under_review'" decoration-danger="state=='draft'">
+                <field name="student_id"/>
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="date_created"/>
+                <field name="state"/>
+                <field name="is_validated"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Kanban Document Étudiant -->
+    <record id="view_student_document_kanban" model="ir.ui.view">
+        <field name="name">student.document.kanban</field>
+        <field name="model">student.document</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="student_id"/>
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="state"/>
+                <field name="is_validated"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div class="o_kanban_record_subtitle text-muted">
+                                        <field name="student_id"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="document_type_id"/>
+                                    <t t-if="record.is_validated.raw_value">
+                                        <span class="badge badge-success">Validé</span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Document Étudiant -->
+    <record id="view_student_document_search" model="ir.ui.view">
+        <field name="name">student.document.search</field>
+        <field name="model">student.document</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Documents">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="document_type_id"/>
+                
+                <filter string="Validés" name="validated" domain="[('is_validated', '=', True)]"/>
+                <filter string="Brouillons" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="En révision" name="under_review" domain="[('state', '=', 'under_review')]"/>
+                <filter string="Approuvés" name="approved" domain="[('state', '=', 'approved')]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Étudiant" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'document_type_id'}"/>
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Document Étudiant -->
+    <record id="action_student_document" model="ir.actions.act_window">
+        <field name="name">Documents Étudiants</field>
+        <field name="res_model">student.document</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ajouter un nouveau document
+            </p>
+            <p>
+                Gérez tous les documents des étudiants : certificats, photos, pièces d'identité, etc.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action Documents Manquants -->
+    <record id="action_missing_documents" model="ir.actions.act_window">
+        <field name="name">Documents Manquants</field>
+        <field name="res_model">student.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'in', ['draft', 'under_review'])]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucun document manquant !
+            </p>
+            <p>
+                Tous les documents requis ont été soumis et approuvés.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire Historique Document -->
+    <record id="view_document_history_form" model="ir.ui.view">
+        <field name="name">document.history.form</field>
+        <field name="model">document.history</field>
+        <field name="arch" type="xml">
+            <form string="Historique Document">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="document_id"/>
+                            <field name="action"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Notes sur cette action..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Historique Document -->
+    <record id="view_document_history_tree" model="ir.ui.view">
+        <field name="name">document.history.tree</field>
+        <field name="model">document.history</field>
+        <field name="arch" type="xml">
+            <tree string="Historique Documents">
+                <field name="date"/>
+                <field name="document_id"/>
+                <field name="action"/>
+                <field name="user_id"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+</odoo> 

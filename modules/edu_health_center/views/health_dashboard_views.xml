@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Kanban pour le tableau de bord -->
+    <record id="view_health_dashboard_kanban" model="ir.ui.view">
+        <field name="name">health.dashboard.kanban</field>
+        <field name="model">health.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard">
+                <field name="name"/>
+                <field name="dashboard_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                </div>
+                                <div class="row mt16">
+                                    <div class="col-6">
+                                        <span class="text-muted">Date:</span><br/>
+                                        <field name="dashboard_date"/>
+                                    </div>
+                                </div>
+                                <div class="row mt16">
+                                    <div class="col-12">
+                                        <button name="action_refresh_data" type="object" class="btn btn-primary btn-sm">
+                                            🔄 Actualiser
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue Form pour le tableau de bord -->
+    <record id="view_health_dashboard_form" model="ir.ui.view">
+        <field name="name">health.dashboard.form</field>
+        <field name="model">health.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Tableau de Bord Santé">
+                <header>
+                    <button name="action_refresh_data" type="object" string="🔄 Actualiser" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="dashboard_date"/>
+                        <field name="alert_level"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="📊 Indicateurs Temps Réel">
+                            <group>
+                                <group string="Activité Médicale">
+                                    <field name="consultations_today"/>
+                                    <field name="emergencies_today"/>
+                                    <field name="vaccinations_today"/>
+                                    <field name="active_cases"/>
+                                </group>
+                                <group string="Ressources">
+                                    <field name="staff_on_duty"/>
+                                    <field name="medications_dispensed"/>
+                                    <field name="total_students"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="📈 Tendances">
+                            <group>
+                                <field name="weekly_trend"/>
+                                <field name="monthly_trend"/>
+                            </group>
+                        </page>
+                        
+                        <page string="📋 Alertes et Recommandations">
+                            <group>
+                                <field name="active_alerts" nolabel="1"/>
+                                <field name="ai_recommendations" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Tree pour le tableau de bord -->
+    <record id="view_health_dashboard_tree" model="ir.ui.view">
+        <field name="name">health.dashboard.tree</field>
+        <field name="model">health.dashboard</field>
+        <field name="arch" type="xml">
+            <tree string="Tableaux de Bord Santé">
+                <field name="name"/>
+                <field name="dashboard_date"/>
+                <field name="consultations_today"/>
+                <field name="emergencies_today"/>
+                <field name="alert_level"/>
+            </tree>
+        </field>
+    </record>
+</odoo> 

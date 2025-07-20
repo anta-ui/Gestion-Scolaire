@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des sessions -->
+        <record id="view_edu_attendance_session_tree" model="ir.ui.view">
+            <field name="name">edu.attendance.session.tree</field>
+            <field name="model">edu.attendance.session</field>
+            <field name="arch" type="xml">
+                <tree string="Sessions de présence" decoration-info="state=='draft'" 
+                      decoration-success="state=='open'" decoration-muted="state=='closed'">
+                    <field name="name"/>
+                    <field name="teacher_id"/>
+                    <field name="class_name"/>
+                    <field name="course_name"/>
+                    <field name="start_datetime"/>
+                    <field name="end_datetime"/>
+                    <field name="duration" widget="float_time"/>
+                    <field name="expected_count"/>
+                    <field name="present_count"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des sessions -->
+        <record id="view_edu_attendance_session_form" model="ir.ui.view">
+            <field name="name">edu.attendance.session.form</field>
+            <field name="model">edu.attendance.session</field>
+            <field name="arch" type="xml">
+                <form string="Session de présence">
+                    <header>
+                        <button name="action_schedule" type="object" string="Programmer" 
+                                class="btn-secondary" invisible="state != 'draft'"/>
+                        <button name="action_open" type="object" string="Ouvrir" 
+                                class="btn-info" invisible="state != 'scheduled'"/>
+                        <button name="action_start" type="object" string="Démarrer" 
+                                class="btn-primary" invisible="state != 'open'"/>
+                        <button name="action_close" type="object" string="Fermer" 
+                                class="btn-success" invisible="state != 'in_progress'"/>
+                        <button name="action_reopen" type="object" string="Rouvrir" 
+                                class="btn-warning" invisible="state != 'closed'"/>
+                        <button name="action_cancel" type="object" string="Annuler" 
+                                class="btn-danger" invisible="state not in ('draft', 'scheduled', 'open')"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,scheduled,open,in_progress,closed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Informations générales">
+                                <field name="name"/>
+                                <field name="teacher_id"/>
+                                <field name="class_name"/>
+                                <field name="course_name"/>
+                                <field name="session_type"/>
+                            </group>
+                            <group string="Horaires">
+                                <field name="start_datetime"/>
+                                <field name="end_datetime"/>
+                                <field name="duration" readonly="1"/>
+                                <field name="classroom_name"/>
+                                <!-- <field name="location_id"/> Commenté car modèle edu.location non chargé -->
+                                <field name="external_location"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Présences" name="attendance">
+                                <field name="attendance_record_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="student_id"/>
+                                        <field name="attendance_status"/>
+                                        <field name="check_in_time"/>
+                                        <field name="check_out_time"/>
+                                        <field name="comment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Configuration" name="config">
+                                <group>
+                                    <group string="QR Code">
+                                        <field name="qr_code_id"/>
+                                    </group>
+                                    <group string="Règles">
+                                        <field name="auto_close_session"/>
+                                        <field name="allow_late_check_in"/>
+                                        <field name="late_threshold"/>
+                                        <field name="require_check_out"/>
+                                        <field name="require_photo"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche des sessions -->
+        <record id="view_edu_attendance_session_search" model="ir.ui.view">
+            <field name="name">edu.attendance.session.search</field>
+            <field name="model">edu.attendance.session</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher sessions">
+                    <field name="name"/>
+                    <field name="teacher_id"/>
+                    <field name="class_name"/>
+                    <field name="course_name"/>
+                    <separator/>
+                    <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Ouvertes" name="open" domain="[('state', '=', 'open')]"/>
+                    <filter string="Fermées" name="closed" domain="[('state', '=', 'closed')]"/>
+                    <separator/>
+                    <filter string="Aujourd'hui" name="today" 
+                            domain="[('start_datetime', '>=', datetime.datetime.now().replace(hour=0, minute=0, second=0)), 
+                                     ('start_datetime', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0))]"/>
+                    <filter string="Cette semaine" name="this_week" 
+                            domain="[('start_datetime', '>=', (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())).replace(hour=0, minute=0, second=0)), 
+                                     ('start_datetime', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=7-datetime.datetime.now().weekday())).replace(hour=0, minute=0, second=0))]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Enseignant" name="group_teacher" context="{'group_by': 'teacher_id'}"/>
+                        <filter string="Classe" name="group_standard" context="{'group_by': 'class_name'}"/>
+                        <filter string="Cours" name="group_course" context="{'group_by': 'course_name'}"/>
+                        <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'start_datetime:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action pour les sessions -->
+        <record id="action_edu_attendance_session" model="ir.actions.act_window">
+            <field name="name">Sessions de présence</field>
+            <field name="res_model">edu.attendance.session</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre première session de présence !
+                </p>
+                <p>
+                    Les sessions permettent de gérer les présences pour vos cours.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

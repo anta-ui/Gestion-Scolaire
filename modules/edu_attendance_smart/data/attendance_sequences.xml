@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Séquences pour le module attendance -->
+        <record id="seq_edu_attendance_session" model="ir.sequence">
+            <field name="name">Sessions de présence</field>
+            <field name="code">edu.attendance.session</field>
+            <field name="prefix">SESS%(y)s%(month)s</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="seq_edu_attendance_record" model="ir.sequence">
+            <field name="name">Enregistrements de présence</field>
+            <field name="code">edu.attendance.record</field>
+            <field name="prefix">ATT%(y)s</field>
+            <field name="suffix"></field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="seq_edu_qr_code" model="ir.sequence">
+            <field name="name">QR Codes de présence</field>
+            <field name="code">edu.qr.code</field>
+            <field name="prefix">QR%(y)s</field>
+            <field name="suffix"></field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="seq_edu_attendance_device" model="ir.sequence">
+            <field name="name">Dispositifs de pointage</field>
+            <field name="code">edu.attendance.device</field>
+            <field name="prefix">DEV-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+        <record id="seq_edu_excuse" model="ir.sequence">
+            <field name="name">Excuses d'absence</field>
+            <field name="code">edu.attendance.excuse</field>
+            <field name="prefix">EXC%(y)s</field>
+            <field name="suffix"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="active" eval="True"/>
+        </record>
+        
+    </data>
+</odoo>

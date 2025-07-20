@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_card_report" model="ir.actions.report">
+        <field name="name">Carte d'Élève</field>
+        <field name="model">op.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_student_enhanced.student_card_template</field>
+        <field name="report_file">edu_student_enhanced.student_card_template</field>
+        <field name="binding_model_id" ref="model_op_student"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="student_card_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="student">
+                <div class="page" style="border: 2px solid black; padding: 10px; width: 350px; height: 200px;">
+                    <div class="row">
+                        <div class="col-4">
+                            <img t-if="student.profile_picture" t-att-src="'data:image/png;base64,%s' % student.profile_picture" style="width: 80px; height: 80px;"/>
+                            <img t-else="" src="/edu_student_enhanced/static/img/default_student.png" style="width: 80px; height: 80px;"/>
+                        </div>
+                        <div class="col-8">
+                            <h3><t t-esc="student.name"/></h3>
+                            <p>Code: <t t-esc="student.unique_code"/></p>
+                            <p>Classe: <t t-esc="student.course_detail_ids[-1].course_id.name if student.course_detail_ids else ''"/></p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            <img t-if="student.qr_code_image" t-att-src="'data:image/png;base64,%s' % student.qr_code_image" style="width: 100px; height: 100px;"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo> 

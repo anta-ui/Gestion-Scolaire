@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue formulaire du wizard actions en masse -->
+        <record id="view_attendance_bulk_action_form" model="ir.ui.view">
+            <field name="name">attendance.bulk.action.form</field>
+            <field name="model">attendance.bulk.action</field>
+            <field name="arch" type="xml">
+                <form string="Actions en masse sur les présences">
+                    <group>
+                        <field name="session_id" required="1"/>
+                        <field name="action_type" widget="radio"/>
+                    </group>
+                    
+                    <group string="Étudiants concernés">
+                        <field name="student_ids" nolabel="1" widget="many2many_tags"/>
+                    </group>
+                    
+                    <group string="Options" invisible="action_type not in ['add_excuse', 'mark_late']">
+                        <field name="excuse_type" invisible="action_type != 'add_excuse'" required="action_type == 'add_excuse'"/>
+                        <field name="excuse_reason" invisible="action_type != 'add_excuse'"/>
+                        <field name="late_minutes" invisible="action_type != 'mark_late'"/>
+                    </group>
+                    
+                    <footer>
+                        <button name="action_apply" type="object" string="Appliquer" class="btn-primary"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action du wizard -->
+        <record id="action_attendance_bulk_action" model="ir.actions.act_window">
+            <field name="name">Actions en masse</field>
+            <field name="res_model">attendance.bulk.action</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_attendance_bulk_action_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

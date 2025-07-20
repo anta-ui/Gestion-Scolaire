@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Séquence pour les paiements étudiants -->
+    <record id="seq_edu_student_payment" model="ir.sequence">
+        <field name="name">Paiements Étudiants</field>
+        <field name="code">edu.student.payment</field>
+        <field name="prefix">PAY</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Séquence pour les factures étudiants -->
+    <record id="seq_edu_student_invoice" model="ir.sequence">
+        <field name="name">Factures Étudiants</field>
+        <field name="code">edu.student.invoice</field>
+        <field name="prefix">EDU</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Séquence pour les structures de frais -->
+    <record id="seq_edu_fee_structure" model="ir.sequence">
+        <field name="name">Structures de Frais</field>
+        <field name="code">edu.fee.structure</field>
+        <field name="prefix">FS</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo> 

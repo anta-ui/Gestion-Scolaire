@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_health_center_main_root"
+              name="Centre de Santé"
+              sequence="60"
+              action="action_health_center_dashboard"/>
+    
+    <!-- Sous-menu tableau de bord -->
+    <menuitem id="menu_health_dashboard"
+              name="Tableau de Bord"
+              parent="menu_health_center_main_root"
+              sequence="10"
+              action="action_health_center_dashboard"/>
+    
+    <!-- Menu Configuration simple -->
+    <menuitem id="menu_health_config"
+              name="Configuration"
+              parent="menu_health_center_main_root"
+              sequence="70"/>
+    
+    <!-- Sous-menu Alertes de Santé -->
+    <menuitem id="menu_health_alerts"
+              name="Alertes de Santé"
+              parent="menu_health_config"
+              action="action_health_alerts"
+              sequence="10"/>
+    
+    <!-- Sous-menu Analyses de Santé -->
+    <menuitem id="menu_health_analysis"
+              name="Analyses de Santé"
+              parent="menu_health_config"
+              action="action_health_analytics"
+              sequence="20"/>
+</odoo>

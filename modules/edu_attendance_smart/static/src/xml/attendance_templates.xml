@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Templates pour le module de présences intelligentes -->
+    
+    <!-- Template pour le dashboard de présences -->
+    <t t-name="edu_attendance_smart.AttendanceDashboard" owl="1">
+        <div class="attendance-dashboard">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Sessions Actives</h5>
+                            <p class="card-text display-4" t-esc="props.activeSessions"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Présents</h5>
+                            <p class="card-text display-4 text-success" t-esc="props.presentCount"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Absents</h5>
+                            <p class="card-text display-4 text-danger" t-esc="props.absentCount"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">En Retard</h5>
+                            <p class="card-text display-4 text-warning" t-esc="props.lateCount"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Template pour le scanner QR -->
+    <t t-name="edu_attendance_smart.QRScanner" owl="1">
+        <div class="qr-scanner-container">
+            <div class="scanner-header">
+                <h4>Scanner QR Code</h4>
+                <button class="btn btn-sm btn-secondary" t-on-click="toggleScanner">
+                    <i class="fa fa-camera"/> <t t-if="state.isScanning">Arrêter</t><t t-else="">Démarrer</t>
+                </button>
+            </div>
+            <div class="scanner-video" t-if="state.isScanning">
+                <video id="qr-video" autoplay="true" muted="true"/>
+                <canvas id="qr-canvas" style="display: none;"/>
+            </div>
+            <div class="scanner-result" t-if="state.lastResult">
+                <div class="alert alert-success">
+                    <strong>QR Code scanné :</strong> <span t-esc="state.lastResult"/>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Template pour les statistiques de présences -->
+    <t t-name="edu_attendance_smart.AttendanceStats" owl="1">
+        <div class="attendance-stats">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="attendanceChart" width="400" height="200"/>
+                </div>
+                <div class="col-md-6">
+                    <div class="stats-list">
+                        <div class="stat-item" t-foreach="props.stats" t-as="stat" t-key="stat.id">
+                            <span class="stat-label" t-esc="stat.label"/>
+                            <span class="stat-value" t-esc="stat.value"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Template pour la liste des présences en temps réel -->
+    <t t-name="edu_attendance_smart.LiveAttendanceList" owl="1">
+        <div class="live-attendance-list">
+            <div class="list-header">
+                <h5>Présences en temps réel</h5>
+                <button class="btn btn-sm btn-primary" t-on-click="refresh">
+                    <i class="fa fa-refresh"/> Actualiser
+                </button>
+            </div>
+            <div class="attendance-items">
+                <div class="attendance-item" t-foreach="props.records" t-as="record" t-key="record.id">
+                    <div class="student-info">
+                        <strong t-esc="record.student_name"/>
+                        <small class="text-muted" t-esc="record.session_name"/>
+                    </div>
+                    <div class="attendance-status">
+                        <span class="badge" t-att-class="getStatusClass(record.status)" t-esc="record.status"/>
+                        <small class="text-muted" t-esc="record.time"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

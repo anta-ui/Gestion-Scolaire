@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal Évaluation Genius -->
+    <menuitem 
+        id="menu_edu_evaluation_genius_root"
+        name="Évaluation Genius"
+        sequence="15"
+        web_icon="edu_evaluation_genius,static/description/icon.png"/>
+
+    <!-- Configuration -->
+    <menuitem 
+        id="menu_edu_evaluation_config"
+        name="Configuration"
+        parent="menu_edu_evaluation_genius_root"
+        sequence="10"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_types"
+        name="Types d'Évaluation"
+        parent="menu_edu_evaluation_config"
+        action="action_edu_evaluation_type"
+        sequence="10"/>
+
+    <menuitem 
+        id="menu_edu_grade_scales"
+        name="Barèmes de Notation"
+        parent="menu_edu_evaluation_config"
+        action="action_edu_grade_scale"
+        sequence="20"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_periods"
+        name="Périodes d'Évaluation"
+        parent="menu_edu_evaluation_config"
+        action="action_edu_evaluation_period"
+        sequence="30"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_criteria"
+        name="Critères d'Évaluation"
+        parent="menu_edu_evaluation_config"
+        action="action_edu_evaluation_criteria"
+        sequence="40"/>
+
+    <!-- Compétences -->
+    <menuitem 
+        id="menu_edu_competencies"
+        name="Compétences"
+        parent="menu_edu_evaluation_genius_root"
+        sequence="20"/>
+
+    <menuitem 
+        id="menu_edu_competency_categories"
+        name="Catégories de Compétences"
+        parent="menu_edu_competencies"
+        action="action_edu_competency_category"
+        sequence="10"/>
+
+    <menuitem 
+        id="menu_edu_competency_list"
+        name="Compétences"
+        parent="menu_edu_competencies"
+        action="action_edu_competency"
+        sequence="20"/>
+
+    <menuitem 
+        id="menu_edu_competency_mastery_levels"
+        name="Niveaux de Maîtrise"
+        parent="menu_edu_competencies"
+        action="action_edu_competency_mastery_level"
+        sequence="30"/>
+
+    <!-- Évaluations -->
+    <menuitem 
+        id="menu_edu_evaluations"
+        name="Évaluations"
+        parent="menu_edu_evaluation_genius_root"
+        sequence="30"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_list"
+        name="Toutes les Évaluations"
+        parent="menu_edu_evaluations"
+        action="action_edu_evaluation"
+        sequence="10"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_draft"
+        name="Évaluations en Brouillon"
+        parent="menu_edu_evaluations"
+        action="action_edu_evaluation_draft"
+        sequence="20"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_confirmed"
+        name="Évaluations Confirmées"
+        parent="menu_edu_evaluations"
+        action="action_edu_evaluation_confirmed"
+        sequence="30"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_published"
+        name="Évaluations Publiées"
+        parent="menu_edu_evaluations"
+        action="action_edu_evaluation_published"
+        sequence="40"/>
+
+    <!-- Rapports et Analyses -->
+    <menuitem 
+        id="menu_edu_evaluation_reports"
+        name="Rapports et Analyses"
+        parent="menu_edu_evaluation_genius_root"
+        sequence="40"/>
+
+    <menuitem 
+        id="menu_edu_evaluation_analytics"
+        name="Analyses d'Évaluations"
+        parent="menu_edu_evaluation_reports"
+        sequence="10"/>
+
+    <menuitem 
+        id="menu_edu_grade_averages"
+        name="Moyennes et Bulletins"
+        parent="menu_edu_evaluation_reports"
+        sequence="20"/>
+
+    <menuitem 
+        id="menu_edu_competency_reports"
+        name="Rapports de Compétences"
+        parent="menu_edu_evaluation_reports"
+        sequence="30"/>
+</odoo>

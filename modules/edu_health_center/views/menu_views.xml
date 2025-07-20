@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_health_center_root" 
+              name="Centre de Santé" 
+              sequence="20"/>
+
+    <!-- Tableau de Bord -->
+    <menuitem id="menu_health_dashboard" 
+              name="Tableau de Bord" 
+              parent="menu_health_center_root" 
+              action="action_health_center_dashboard" 
+              sequence="1"/>
+
+    <!-- Alertes -->
+    <menuitem id="menu_health_alerts" 
+              name="Alertes de Santé" 
+              parent="menu_health_center_root" 
+              action="action_health_alerts" 
+              sequence="2"/>
+
+    <!-- Analyses -->
+    <menuitem id="menu_health_analysis" 
+              name="Analyses de Santé" 
+              parent="menu_health_center_root" 
+              action="action_health_analytics" 
+              sequence="3"/>
+
+</odoo> 

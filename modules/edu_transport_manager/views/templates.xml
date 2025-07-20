@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Template pour l'application mobile parents -->
+        <template id="transport_parent_portal" name="Portail Parents Transport">
+            <t t-call="website.layout">
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Suivi Transport Scolaire</h1>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Position Actuelle du Bus</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="live-map" style="height: 300px;">
+                                        <!-- Carte interactive -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Informations du Trajet</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Heure de Passage Prévue:</strong> <span id="estimated-time"></span></p>
+                                    <p><strong>Retard Estimé:</strong> <span id="delay-time"></span></p>
+                                    <p><strong>Prochaine Notification:</strong> <span id="next-notification"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Template pour les notifications -->
+        <template id="transport_notification_template" name="Template Notification Transport">
+            <div class="alert alert-info">
+                <h4>🚌 Notification Transport</h4>
+                <p><strong>Étudiant:</strong> <t t-esc="student_name"/></p>
+                <p><strong>Message:</strong> <t t-esc="message"/></p>
+                <p><strong>Heure:</strong> <t t-esc="timestamp"/></p>
+            </div>
+        </template>
+
+        <!-- Template pour les rapports -->
+        <template id="transport_report_template" name="Rapport Transport">
+            <div class="page">
+                <div class="header">
+                    <h2>Rapport de Transport Scolaire</h2>
+                    <p>Période: <t t-esc="period_start"/> - <t t-esc="period_end"/></p>
+                </div>
+                
+                <div class="content">
+                    <h3>Statistiques Générales</h3>
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Total Trajets:</td>
+                            <td><t t-esc="total_trips"/></td>
+                        </tr>
+                        <tr>
+                            <td>Distance Parcourue:</td>
+                            <td><t t-esc="total_distance"/> km</td>
+                        </tr>
+                        <tr>
+                            <td>Carburant Consommé:</td>
+                            <td><t t-esc="fuel_consumed"/> L</td>
+                        </tr>
+                        <tr>
+                            <td>Étudiants Transportés:</td>
+                            <td><t t-esc="students_count"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</odoo>

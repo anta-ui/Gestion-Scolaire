@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Séquences -->
+    <record id="seq_transport_vehicle" model="ir.sequence">
+        <field name="name">Véhicule Transport</field>
+        <field name="code">transport.vehicle</field>
+        <field name="prefix">VEH</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    
+    <record id="seq_transport_route" model="ir.sequence">
+        <field name="name">Itinéraire Transport</field>
+        <field name="code">transport.route</field>
+        <field name="prefix">RT</field>
+        <field name="padding">4</field>
+    </record>
+    
+    <record id="seq_transport_trip" model="ir.sequence">
+        <field name="name">Trajet Transport</field>
+        <field name="code">transport.trip</field>
+        <field name="prefix">TRP</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    
+    <record id="seq_transport_maintenance" model="ir.sequence">
+        <field name="name">Maintenance Transport</field>
+        <field name="code">transport.maintenance</field>
+        <field name="prefix">MNT</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    
+    <!-- Véhicules d'exemple -->
+    <record id="vehicle_bus_001" model="transport.vehicle">
+        <field name="name">Bus Scolaire 001</field>
+        <field name="license_plate">TS-001-AA</field>
+        <field name="vehicle_type">bus</field>
+        <field name="brand">Mercedes</field>
+        <field name="model">Sprinter 516</field>
+        <field name="year">2022</field>
+        <field name="seating_capacity">50</field>
+        <field name="engine_type">diesel</field>
+        <field name="state">active</field>
+        <field name="operational_status">available</field>
+        <field name="has_gps">True</field>
+        <field name="has_air_conditioning">True</field>
+        <field name="has_first_aid">True</field>
+        <field name="purchase_date" eval="(datetime.now() - timedelta(days=365)).date()"/>
+        <field name="purchase_price">80000</field>
+        <field name="current_value">65000</field>
+        <field name="fuel_capacity">80</field>
+        <field name="has_camera">True</field>
+        <field name="has_fire_extinguisher">True</field>
+    </record>
+    
+    <record id="vehicle_minibus_001" model="transport.vehicle">
+        <field name="name">Minibus 001</field>
+        <field name="license_plate">TS-002-BB</field>
+        <field name="vehicle_type">minibus</field>
+        <field name="brand">Ford</field>
+        <field name="model">Transit</field>
+        <field name="year">2021</field>
+        <field name="seating_capacity">20</field>
+        <field name="wheelchair_spaces">2</field>
+        <field name="category">accessibility</field>
+        <field name="engine_type">diesel</field>
+        <field name="state">active</field>
+        <field name="operational_status">available</field>
+        <field name="has_gps">True</field>
+        <field name="is_accessible">True</field>
+        <field name="purchase_date" eval="(datetime.now() - timedelta(days=500)).date()"/>
+        <field name="purchase_price">45000</field>
+        <field name="current_value">38000</field>
+        <field name="fuel_capacity">60</field>
+        <field name="has_air_conditioning">True</field>
+        <field name="has_first_aid">True</field>
+        <field name="has_fire_extinguisher">True</field>
+    </record>
+    
+    <!-- Chauffeurs d'exemple -->
+    <record id="driver_001" model="transport.driver">
+        <field name="name">Jean Dupont</field>
+        <field name="code">DRV001</field>
+        <field name="license_number">123456789</field>
+        <field name="license_type">d</field>
+        <field name="license_expiry_date" eval="(datetime.now() + timedelta(days=1095)).date()"/>
+        <field name="phone">+33 1 23 45 67 89</field>
+        <field name="email">j.dupont@transport.fr</field>
+        <field name="hire_date" eval="(datetime.now() - timedelta(days=730)).date()"/>
+        <field name="state">active</field>
+        <field name="experience_years">15</field>
+    </record>
+    
+    <record id="driver_002" model="transport.driver">
+        <field name="name">Marie Martin</field>
+        <field name="code">DRV002</field>
+        <field name="license_number">987654321</field>
+        <field name="license_type">d</field>
+        <field name="license_expiry_date" eval="(datetime.now() + timedelta(days=900)).date()"/>
+        <field name="phone">+33 1 98 76 54 32</field>
+        <field name="email">m.martin@transport.fr</field>
+        <field name="hire_date" eval="(datetime.now() - timedelta(days=1095)).date()"/>
+        <field name="state">active</field>
+        <field name="experience_years">8</field>
+    </record>
+    
+    <!-- Itinéraires d'exemple -->
+    <record id="route_001" model="transport.route">
+        <field name="name">Ligne Centre-Ville</field>
+        <field name="code">RT001</field>
+        <field name="start_location">Place de la Mairie</field>
+        <field name="end_location">École Extraordinaire</field>
+        <field name="total_distance">12.5</field>
+        <field name="estimated_duration">25</field>
+        <field name="departure_time">7.5</field>
+        <field name="arrival_time">8.0</field>
+        <field name="base_fare">2.50</field>
+        <field name="state">active</field>
+    </record>
+    
+    <record id="route_002" model="transport.route">
+        <field name="name">Ligne Quartier Nord</field>
+        <field name="code">RT002</field>
+        <field name="start_location">Quartier des Résidences</field>
+        <field name="end_location">École Extraordinaire</field>
+        <field name="total_distance">8.2</field>
+        <field name="estimated_duration">20</field>
+        <field name="departure_time">8.0</field>
+        <field name="arrival_time">8.3</field>
+        <field name="base_fare">2.00</field>
+        <field name="state">active</field>
+    </record>
+    
+    <!-- Arrêts d'exemple pour Route 001 -->
+    <record id="stop_001_01" model="transport.route.stop">
+        <field name="name">Arrêt Mairie</field>
+        <field name="route_id" ref="route_001"/>
+        <field name="sequence">10</field>
+        <field name="address">Place de la Mairie, Centre-Ville</field>
+        <field name="arrival_time">7.5</field>
+        <field name="departure_time">7.52</field>
+        <field name="stop_duration">2</field>
+        <field name="distance_from_start">0</field>
+    </record>
+    
+    <record id="stop_001_02" model="transport.route.stop">
+        <field name="name">Arrêt République</field>
+        <field name="route_id" ref="route_001"/>
+        <field name="sequence">20</field>
+        <field name="address">Avenue de la République</field>
+        <field name="arrival_time">7.7</field>
+        <field name="departure_time">7.72</field>
+        <field name="stop_duration">2</field>
+        <field name="distance_from_start">4.2</field>
+    </record>
+    
+    <record id="stop_001_03" model="transport.route.stop">
+        <field name="name">Arrêt Stade Municipal</field>
+        <field name="route_id" ref="route_001"/>
+        <field name="sequence">30</field>
+        <field name="address">Rue du Stade</field>
+        <field name="arrival_time">7.9</field>
+        <field name="departure_time">7.92</field>
+        <field name="stop_duration">2</field>
+        <field name="distance_from_start">8.5</field>
+    </record>
+    
+    <!-- Paramètres de configuration -->
+    <record id="config_max_speed_limit" model="ir.config_parameter">
+        <field name="key">transport.max_speed_limit</field>
+        <field name="value">50</field>
+    </record>
+    
+    <record id="config_gps_update_interval" model="ir.config_parameter">
+        <field name="key">transport.gps_update_interval_seconds</field>
+        <field name="value">30</field>
+    </record>
+    
+    <record id="config_emergency_phone" model="ir.config_parameter">
+        <field name="key">transport.emergency_phone</field>
+        <field name="value">+33 1 00 00 00 00</field>
+    </record>
+    
+    <record id="config_fuel_price_per_liter" model="ir.config_parameter">
+        <field name="key">transport.fuel_price_per_liter</field>
+        <field name="value">1.65</field>
+    </record>
+    
+    <record id="config_driver_hourly_rate" model="ir.config_parameter">
+        <field name="key">transport.driver_hourly_rate</field>
+        <field name="value">18.50</field>
+    </record>
+</odoo>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue formulaire élève étendue -->
+    <record id="view_op_student_enhanced_form" model="ir.ui.view">
+        <field name="name">student.enhanced.form</field>
+        <field name="model">op.student</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <!-- Boutons d'action -->
+                <header>
+                    <button name="action_generate_student_card" string="🎫 Carte Élève" type="object" class="btn-primary"/>
+                    <button name="action_view_medical_file" string="🏥 Dossier Médical" type="object" class="btn-secondary"/>
+                    <button name="action_view_behavior_history" string="📊 Comportement" type="object" class="btn-info"/>
+                    <button name="action_send_parent_alert" string="📧 Alerter Parents" type="object" class="btn-warning"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <!-- Code unique et QR Code -->
+                <field name="unique_code" readonly="1"/>
+                <field name="qr_code_image" widget="image" class="oe_avatar"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <!-- Onglet Identité Étendue -->
+                <page string="🆔 Identité Étendue" name="extended_identity">
+                    <group>
+                        <group string="Informations Personnelles">
+                            <field name="nationality_text"/>
+                            <field name="religion_choice"/>
+                            <field name="languages_spoken"/>
+                            <field name="blood_group"/>
+                            <field name="special_needs"/>
+                        </group>
+                        <group string="Documents d'Identité">
+                            <field name="profile_picture" widget="image"/>
+                            <field name="id_card_front" widget="image"/>
+                            <field name="id_card_back" widget="image"/>
+                            <field name="birth_certificate"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Localisation">
+                            <field name="home_address_gps"/>
+                            <field name="pickup_point"/>
+                        </group>
+                        <group string="Transport">
+                            <field name="transport_required"/>
+                            <field name="bus_route"/>
+                            <field name="pickup_time" widget="float_time"/>
+                            <field name="dropoff_time" widget="float_time"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- Onglet Famille -->
+                <page string="👨‍👩‍👧‍👦 Famille" name="family">
+                    <group>
+                        <group string="Groupe Familial">
+                            <field name="family_group_id"/>
+                            <field name="siblings_count" readonly="1"/>
+                            <field name="guardian_type"/>
+                        </group>
+                    </group>
+                    <field name="siblings_ids" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="birth_date"/>
+                            <field name="course_detail_ids" widget="many2many_tags"/>
+                        </tree>
+                    </field>
+                </page>
+
+                <!-- Onglet Médical -->
+                <page string="🏥 Médical" name="medical">
+                    <group>
+                        <group string="Informations Générales">
+                            <field name="allergies"/>
+                            <field name="chronic_diseases"/>
+                            <field name="current_medications"/>
+                        </group>
+                        <group string="Médecin Traitant">
+                            <field name="doctor_name"/>
+                            <field name="doctor_phone"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Alertes">
+                            <field name="has_medical_alerts" readonly="1"/>
+                            <field name="medical_alerts_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="medical_info_ids">
+                        <tree decoration-danger="is_critical">
+                            <field name="medical_type"/>
+                            <field name="title"/>
+                            <field name="severity"/>
+                            <field name="date"/>
+                            <field name="is_critical"/>
+                        </tree>
+                    </field>
+                </page>
+
+                <!-- Onglet Comportement -->
+                <page string="📊 Comportement" name="behavior">
+                    <group>
+                        <group string="Scores">
+                            <field name="behavior_score" readonly="1"/>
+                            <field name="behavior_trend" readonly="1"/>
+                            <field name="rewards_count" readonly="1"/>
+                            <field name="sanctions_count" readonly="1"/>
+                        </group>
+                        <group string="Prédictions IA">
+                            <field name="risk_dropout" readonly="1" widget="progressbar"/>
+                            <field name="performance_prediction" readonly="1"/>
+                            <field name="engagement_score" readonly="1" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <field name="behavior_records_ids">
+                        <tree decoration-success="type=='reward'" decoration-warning="type=='warning'" decoration-danger="type=='sanction'">
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="description"/>
+                            <field name="points"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </page>
+
+                <!-- Onglet Analytics -->
+                <page string="📈 Analytics" name="analytics">
+                    <group>
+                        <group string="Activité">
+                            <field name="last_activity_date" readonly="1"/>
+                            <field name="engagement_score" readonly="1" widget="progressbar"/>
+                        </group>
+                        <group string="Prédictions">
+                            <field name="risk_dropout" readonly="1" widget="progressbar"/>
+                            <field name="performance_prediction" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue liste élèves avec nouvelles colonnes -->
+    <record id="view_op_student_enhanced_tree" model="ir.ui.view">
+        <field name="name">student.enhanced.tree</field>
+        <field name="model">op.student</field>
+        <field name="inherit_id" ref="openeducat_core.view_op_student_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="unique_code"/>
+                <field name="behavior_score" sum="Score Total"/>
+                <field name="risk_dropout" widget="progressbar"/>
+                <field name="has_medical_alerts"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action pour les groupes familiaux -->
+    <record id="action_student_family_group" model="ir.actions.act_window">
+        <field name="name">Groupes Familiaux</field>
+        <field name="res_model">student.family.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau groupe familial
+            </p>
+            <p>
+                Les groupes familiaux permettent de gérer les fratries et d'organiser 
+                les informations familiales de manière cohérente.
+            </p>
+        </field>
+    </record>
+
+</odoo>

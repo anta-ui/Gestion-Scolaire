@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vues Analytics de Santé -->
+    <record id="view_health_analytics_tree" model="ir.ui.view">
+        <field name="name">health.analytics.tree</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'completed'" 
+                  decoration-warning="state == 'in_progress'"
+                  decoration-muted="state == 'draft'">
+                <field name="name"/>
+                <field name="generation_date"/>
+                <field name="analysis_type" widget="badge"/>
+                <field name="total_students"/>
+                <field name="total_consultations"/>
+                <field name="state" widget="badge"/>
+                <button name="action_generate_analysis" type="object" 
+                        string="Générer" class="btn-primary btn-sm"
+                        title="Générer l'analyse"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_health_analytics_form" model="ir.ui.view">
+        <field name="name">health.analytics.form</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <form string="Analyse de Santé">
+                <header>
+                    <button name="action_generate_analysis" type="object" 
+                            string="GÉNÉRER ANALYSE" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="analysis_info">
+                            <field name="generation_date"/>
+                            <field name="analysis_type"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                            <field name="created_by"/>
+                        </group>
+                        <group name="results">
+                            <field name="total_students"/>
+                            <field name="total_consultations"/>
+                            <field name="total_vaccinations"/>
+                            <field name="total_emergencies"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group name="rates">
+                            <field name="vaccination_rate"/>
+                            <field name="emergency_rate"/>
+                            <field name="consultation_rate"/>
+                        </group>
+                        <group name="metadata">
+                            <field name="description"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Rapport d'Analyse" name="report">
+                            <field name="analysis_report" widget="html"/>
+                        </page>
+                        
+                        <page string="Recommandations" name="recommendations">
+                            <field name="recommendations" widget="html"/>
+                        </page>
+                        
+                        <page string="Principales Découvertes" name="findings">
+                            <field name="key_findings" widget="html"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_health_analytics" model="ir.actions.act_window">
+        <field name="name">Analyses de Santé</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle analyse de santé
+            </p>
+            <p>
+                Analysez les données de santé pour identifier les tendances et générer des rapports.
+            </p>
+        </field>
+    </record>
+
+</odoo>

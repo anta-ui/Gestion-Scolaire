@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Séquences -->
+    <record id="seq_health_record" model="ir.sequence">
+        <field name="name">Dossier Médical</field>
+        <field name="code">edu.health.record</field>
+        <field name="prefix">MED</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <record id="seq_medical_consultation" model="ir.sequence">
+        <field name="name">Consultation Médicale</field>
+        <field name="code">edu.medical.consultation</field>
+        <field name="prefix">CONS</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <record id="seq_health_emergency" model="ir.sequence">
+        <field name="name">Urgence Médicale</field>
+        <field name="code">edu.health.emergency</field>
+        <field name="prefix">URG</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <record id="seq_medication_prescription" model="ir.sequence">
+        <field name="name">Prescription Médicale</field>
+        <field name="code">edu.medication.prescription</field>
+        <field name="prefix">PRESC</field>
+        <field name="padding">6</field>
+    </record>
+    
+    <!-- Types de personnel médical -->
+    <record id="staff_type_doctor" model="medical.staff">
+        <field name="name">Dr. Martin Dubois</field>
+        <field name="employee_number">EMP001</field>
+        <field name="staff_type">doctor</field>
+        <field name="specialization">Médecine générale</field>
+        <field name="license_number">MD12345</field>
+        <field name="email">dr.dubois@ecole.fr</field>
+        <field name="phone">+33 1 23 45 67 89</field>
+    </record>
+    
+    <record id="staff_type_nurse" model="medical.staff">
+        <field name="name">Sophie Martin</field>
+        <field name="employee_number">EMP002</field>
+        <field name="staff_type">nurse</field>
+        <field name="specialization">Infirmière scolaire</field>
+        <field name="license_number">INF67890</field>
+        <field name="email">s.martin@ecole.fr</field>
+        <field name="phone">+33 1 23 45 67 90</field>
+    </record>
+    
+    <!-- Assurances par défaut -->
+    <record id="insurance_secu" model="health.insurance.company">
+        <field name="name">Sécurité Sociale</field>
+        <field name="code">SECU</field>
+        <field name="coverage_percentage">70</field>
+        <field name="contact_phone">3646</field>
+    </record>
+    
+    <record id="insurance_mutuelle" model="health.insurance.company">
+        <field name="name">Mutuelle Étudiante</field>
+        <field name="code">MUTUELLE</field>
+        <field name="coverage_percentage">100</field>
+        <field name="contact_phone">+33 1 00 00 00 00</field>
+    </record>
+    
+    <!-- Paramètres de configuration -->
+    <record id="config_emergency_phone" model="ir.config_parameter">
+        <field name="key">health_center.emergency_phone</field>
+        <field name="value">15</field>
+    </record>
+    
+    <record id="config_max_consultation_duration" model="ir.config_parameter">
+        <field name="key">health_center.max_consultation_duration</field>
+        <field name="value">120</field>
+    </record>
+    
+    <record id="config_medical_exam_frequency" model="ir.config_parameter">
+        <field name="key">health_center.medical_exam_frequency_months</field>
+        <field name="value">12</field>
+    </record>
+    
+    <!-- Types de vaccinations -->
+    <record id="vaccine_dtcoq" model="vaccination.type">
+        <field name="name">DTPCoq (Diphtérie, Tétanos, Coqueluche)</field>
+        <field name="description">Vaccin contre la diphtérie, le tétanos et la coqueluche</field>
+        <field name="disease_prevented">Diphtérie, Tétanos, Coqueluche</field>
+        <field name="age_category">infant</field>
+        <field name="required">True</field>
+        <field name="doses_required">3</field>
+        <field name="interval_between_doses">60</field>
+        <field name="booster_required">True</field>
+        <field name="booster_interval_years">10</field>
+    </record>
+    
+    <record id="vaccine_ror" model="vaccination.type">
+        <field name="name">ROR (Rougeole, Oreillons, Rubéole)</field>
+        <field name="description">Vaccin contre la rougeole, les oreillons et la rubéole</field>
+        <field name="disease_prevented">Rougeole, Oreillons, Rubéole</field>
+        <field name="age_category">child</field>
+        <field name="required">True</field>
+        <field name="doses_required">2</field>
+        <field name="interval_between_doses">30</field>
+        <field name="booster_required">False</field>
+    </record>
+    
+    <record id="vaccine_covid" model="vaccination.type">
+        <field name="name">COVID-19</field>
+        <field name="description">Vaccin contre la COVID-19</field>
+        <field name="disease_prevented">COVID-19</field>
+        <field name="age_category">adolescent</field>
+        <field name="required">False</field>
+        <field name="doses_required">2</field>
+        <field name="interval_between_doses">21</field>
+        <field name="booster_required">True</field>
+        <field name="booster_interval_years">1</field>
+    </record>
+</odoo>

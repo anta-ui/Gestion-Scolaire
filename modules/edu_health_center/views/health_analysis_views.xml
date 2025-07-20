@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue liste des analyses de santé -->
+    <record id="view_health_analytics_tree" model="ir.ui.view">
+        <field name="name">health.analytics.tree</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <tree string="Analyses de Santé">
+                <field name="name"/>
+                <field name="analysis_type"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="state" widget="badge"/>
+                <field name="total_students"/>
+                <field name="total_consultations"/>
+                <field name="vaccination_rate"/>
+                <field name="emergency_rate"/>
+                <field name="created_by"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue formulaire des analyses de santé -->
+    <record id="view_health_analytics_form" model="ir.ui.view">
+        <field name="name">health.analytics.form</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <form string="Analyse de Santé">
+                <header>
+                    <button name="action_generate_analysis" string="Générer l'analyse" type="object" 
+                            class="oe_highlight" invisible="state == 'completed'"/>
+                    <button name="action_export_report" string="Exporter le rapport" type="object" 
+                            class="btn-secondary" invisible="state != 'completed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom de l'analyse..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Configuration">
+                            <field name="analysis_type"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                            <field name="description"/>
+                        </group>
+                        <group string="Métadonnées">
+                            <field name="created_by"/>
+                            <field name="generation_date"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="📊 Statistiques">
+                            <group>
+                                <group string="Données de base">
+                                    <field name="total_students"/>
+                                    <field name="total_consultations"/>
+                                    <field name="total_vaccinations"/>
+                                    <field name="total_emergencies"/>
+                                </group>
+                                <group string="Taux et pourcentages">
+                                    <field name="vaccination_rate" widget="percentage"/>
+                                    <field name="emergency_rate" widget="percentage"/>
+                                    <field name="consultation_rate" widget="percentage"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="📋 Rapport" invisible="state != 'completed'">
+                            <group string="Rapport d'analyse">
+                                <field name="analysis_report" nolabel="1"/>
+                            </group>
+                        </page>
+                        
+                        <page string="💡 Recommandations" invisible="state != 'completed'">
+                            <group string="Principales découvertes">
+                                <field name="key_findings" nolabel="1"/>
+                            </group>
+                            <group string="Recommandations">
+                                <field name="recommendations" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="view_health_analytics_search" model="ir.ui.view">
+        <field name="name">health.analytics.search</field>
+        <field name="model">health.analytics</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Analyses">
+                <field name="name"/>
+                <field name="analysis_type"/>
+                <field name="created_by"/>
+                <separator/>
+                <filter string="Brouillons" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="En cours" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminées" name="completed" domain="[('state', '=', 'completed')]"/>
+                <separator/>
+                <filter string="Analyses générales" name="general" domain="[('analysis_type', '=', 'general')]"/>
+                <filter string="Vaccinations" name="vaccination" domain="[('analysis_type', '=', 'vaccination')]"/>
+                <filter string="Urgences" name="emergency" domain="[('analysis_type', '=', 'emergency')]"/>
+                <separator/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Type d'analyse" name="group_analysis_type" context="{'group_by': 'analysis_type'}"/>
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Créé par" name="group_created_by" context="{'group_by': 'created_by'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action pour les analyses de santé -->
+    <record id="action_health_analytics" model="ir.actions.act_window">
+        <field name="name">Analyses de Santé</field>
+        <field name="res_model">health.analytics</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_health_analytics_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle analyse de santé
+            </p>
+            <p>
+                Les analyses de santé permettent de générer des rapports statistiques 
+                sur différents aspects de la santé dans l'établissement.
+            </p>
+        </field>
+    </record>
+</odoo> 

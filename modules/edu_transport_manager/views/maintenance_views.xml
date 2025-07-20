@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste des maintenances -->
+        <record id="view_transport_maintenance_tree" model="ir.ui.view">
+            <field name="name">transport.maintenance.tree</field>
+            <field name="model">transport.maintenance</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state=='completed'" 
+                      decoration-info="state=='in_progress'"
+                      decoration-warning="state=='planned'">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="maintenance_type"/>
+                    <field name="date"/>
+                    <field name="actual_date"/>
+                    <field name="state" widget="badge"/>
+                    <field name="total_cost"/>
+                    <field name="technician_id"/>
+                    <button name="action_start" type="object" string="Commencer" class="btn-primary"/>
+                    <button name="action_complete" type="object" string="Terminer" class="btn-success"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire des maintenances -->
+        <record id="view_transport_maintenance_form" model="ir.ui.view">
+            <field name="name">transport.maintenance.form</field>
+            <field name="model">transport.maintenance</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance">
+                    <header>
+                        <button name="action_start" type="object" string="Commencer la Maintenance" class="btn-primary"/>
+                        <button name="action_complete" type="object" string="Terminer la Maintenance" class="btn-success"/>
+                        <button name="action_cancel" type="object" string="Annuler" class="btn-danger"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Description de la maintenance"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="vehicle_id"/>
+                                <field name="maintenance_type"/>
+                                <field name="technician_id"/>
+                                <field name="garage_id"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="actual_date"/>
+                                <field name="duration"/>
+                                <field name="actual_duration"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group>
+                                <field name="odometer_reading"/>
+                                <field name="labor_cost"/>
+                                <field name="parts_cost"/>
+                                <field name="total_cost"/>
+                            </group>
+                            <group>
+                                <field name="next_maintenance_date"/>
+                                <field name="next_maintenance_km"/>
+                                <field name="next_maintenance_type"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Détails">
+                                <group>
+                                    <field name="description" placeholder="Description détaillée de la maintenance..."/>
+                                    <field name="work_performed" placeholder="Travaux effectués..."/>
+                                </group>
+                            </page>
+                            
+                            <page string="Pièces Utilisées">
+                                <field name="part_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_price"/>
+                                        <field name="total_cost" readonly="1"/>
+                                        <field name="supplier_id"/>
+                                        <field name="part_number"/>
+                                        <field name="installed"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Documents">
+                                <field name="attachment_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="mimetype"/>
+                                        <field name="file_size"/>
+                                        <field name="create_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Factures">
+                                <field name="invoice_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="partner_id"/>
+                                        <field name="amount_total"/>
+                                        <field name="state"/>
+                                        <field name="invoice_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue calendrier des maintenances -->
+        <record id="view_transport_maintenance_calendar" model="ir.ui.view">
+            <field name="name">transport.maintenance.calendar</field>
+            <field name="model">transport.maintenance</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendrier des Maintenances" 
+                         date_start="date"
+                         color="maintenance_type">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="maintenance_type"/>
+                    <field name="technician_id"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Vue kanban des maintenances -->
+        <record id="view_transport_maintenance_kanban" model="ir.ui.view">
+            <field name="name">transport.maintenance.kanban</field>
+            <field name="model">transport.maintenance</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="maintenance_type"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <div>Véhicule: <field name="vehicle_id"/></div>
+                                        <div>Date: <field name="date"/></div>
+                                        <div>Type: <field name="maintenance_type"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Vue recherche des maintenances -->
+        <record id="view_transport_maintenance_search" model="ir.ui.view">
+            <field name="name">transport.maintenance.search</field>
+            <field name="model">transport.maintenance</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="technician_id"/>
+                    <filter string="Planifiées" name="planned" domain="[('state', '=', 'planned')]"/>
+                    <filter string="En cours" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                    <filter string="Terminées" name="completed" domain="[('state', '=', 'completed')]"/>
+                    <filter string="Préventives" name="preventive" domain="[('maintenance_type', '=', 'preventive')]"/>
+                    <filter string="Correctives" name="corrective" domain="[('maintenance_type', '=', 'corrective')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Véhicule" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
+                        <filter string="Type" name="group_type" context="{'group_by': 'maintenance_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

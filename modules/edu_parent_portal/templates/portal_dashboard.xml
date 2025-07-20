@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Template principal du tableau de bord -->
+        <template id="portal_dashboard_template" name="Tableau de bord Parent">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Tableau de bord</t>
+                </t>
+                
+                <div class="portal-parent-container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="portal-header">
+                                <h1>Bonjour <t t-esc="user.name"/></h1>
+                                <p>Bienvenue dans votre portail parent</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Widget mes enfants -->
+                        <div class="col-lg-6 col-md-12">
+                            <div class="portal-card">
+                                <div class="portal-card-header">
+                                    <i class="fa fa-child"/> Mes enfants
+                                </div>
+                                <div class="portal-card-content">
+                                    <p>Nombre d'enfants : <span t-esc="student_count"/></p>
+                                    <a href="/my/students" class="portal-btn">Voir détails</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Widget notifications récentes -->
+                        <div class="col-lg-6 col-md-12">
+                            <div class="portal-card">
+                                <div class="portal-card-header">
+                                    <i class="fa fa-bell"/> Notifications récentes
+                                </div>
+                                <div class="portal-card-content">
+                                    <p>Nouvelles notifications : <span t-esc="notification_count"/></p>
+                                    <a href="/my/notifications" class="portal-btn">Voir toutes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Widget présences -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="portal-card">
+                                <div class="portal-card-header">
+                                    <i class="fa fa-calendar-check-o"/> Présences
+                                </div>
+                                <div class="portal-card-content">
+                                    <a href="/my/attendance" class="portal-btn">Consulter</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Widget notes -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="portal-card">
+                                <div class="portal-card-header">
+                                    <i class="fa fa-graduation-cap"/> Notes
+                                </div>
+                                <div class="portal-card-content">
+                                    <a href="/my/grades" class="portal-btn">Consulter</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Widget devoirs -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="portal-card">
+                                <div class="portal-card-header">
+                                    <i class="fa fa-book"/> Devoirs
+                                </div>
+                                <div class="portal-card-content">
+                                    <a href="/my/homework" class="portal-btn">Consulter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

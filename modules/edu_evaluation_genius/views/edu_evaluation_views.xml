@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Formulaire Évaluation -->
+    <record id="view_edu_evaluation_form" model="ir.ui.view">
+        <field name="name">edu.evaluation.form</field>
+        <field name="model">edu.evaluation</field>
+        <field name="arch" type="xml">
+            <form string="Évaluation">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirmer" 
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_publish" type="object" string="Publier" 
+                            class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_archive" type="object" string="Archiver" 
+                            invisible="state != 'published'"/>
+                    <button name="action_back_to_draft" type="object" string="Remettre en brouillon" 
+                            invisible="state not in ['confirmed', 'published']"/>
+                    <button name="action_create_retake" type="object" string="Créer un rattrapage" 
+                            invisible="state != 'published' or is_retake"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,published"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom de l'évaluation"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Informations générales">
+                            <field name="code"/>
+                            <field name="date"/>
+                            <field name="duration"/>
+                            <field name="evaluation_type_id"/>
+                            <field name="period_id"/>
+                        </group>
+                        <group string="Élève et Matière">
+                            <field name="student_id"/>
+                            <field name="course_id"/>
+                            <field name="faculty_id"/>
+                            <field name="batch_id"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Notation">
+                            <field name="grade_scale_id"/>
+                            <field name="grade"/>
+                            <field name="max_grade"/>
+                            <field name="coefficient"/>
+                            <field name="grade_percentage" readonly="1"/>
+                            <field name="grade_letter" readonly="1"/>
+                        </group>
+                        <group string="Options">
+                            <field name="is_absent"/>
+                            <field name="is_excused" invisible="not is_absent"/>
+                            <field name="is_retake" readonly="1"/>
+                            <field name="original_evaluation_id" readonly="1" 
+                                   invisible="not is_retake"/>
+                            <field name="retake_count" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Description de l'évaluation"/>
+                        </page>
+                        <page string="Évaluation détaillée" name="details">
+                            <field name="evaluation_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="criteria_id"/>
+                                    <field name="points"/>
+                                    <field name="max_points" readonly="1"/>
+                                    <field name="percentage" readonly="1"/>
+                                    <field name="rubric_level_id"/>
+                                    <field name="comment"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Commentaires" name="comments">
+                            <group>
+                                <field name="comment" placeholder="Commentaire général"/>
+                                <field name="private_comment" placeholder="Commentaire privé (non visible par l'élève)"/>
+                                <field name="recommendations" placeholder="Recommandations pour l'élève"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Évaluation -->
+    <record id="view_edu_evaluation_tree" model="ir.ui.view">
+        <field name="name">edu.evaluation.tree</field>
+        <field name="model">edu.evaluation</field>
+        <field name="arch" type="xml">
+            <tree string="Évaluations" decoration-info="state=='draft'" 
+                  decoration-success="state=='published'" decoration-muted="state=='archived'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="student_id"/>
+                <field name="course_id"/>
+                <field name="evaluation_type_id"/>
+                <field name="grade"/>
+                <field name="max_grade"/>
+                <field name="grade_percentage"/>
+                <field name="coefficient"/>
+                <field name="state"/>
+                <field name="is_absent"/>
+                <field name="is_retake"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Calendrier Évaluation -->
+    <record id="view_edu_evaluation_calendar" model="ir.ui.view">
+        <field name="name">edu.evaluation.calendar</field>
+        <field name="model">edu.evaluation</field>
+        <field name="arch" type="xml">
+            <calendar string="Évaluations" date_start="date" color="evaluation_type_id">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="course_id"/>
+                <field name="evaluation_type_id"/>
+                <field name="grade"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Vue Pivot Évaluation -->
+    <record id="view_edu_evaluation_pivot" model="ir.ui.view">
+        <field name="name">edu.evaluation.pivot</field>
+        <field name="model">edu.evaluation</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse des Évaluations">
+                <field name="course_id" type="row"/>
+                <field name="evaluation_type_id" type="col"/>
+                <field name="grade" type="measure"/>
+                <field name="grade_percentage" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vue Graphique Évaluation -->
+    <record id="view_edu_evaluation_graph" model="ir.ui.view">
+        <field name="name">edu.evaluation.graph</field>
+        <field name="model">edu.evaluation</field>
+        <field name="arch" type="xml">
+            <graph string="Statistiques des Évaluations" type="bar">
+                <field name="course_id"/>
+                <field name="grade" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vue Recherche Évaluation -->
+    <record id="view_edu_evaluation_search" model="ir.ui.view">
+        <field name="name">edu.evaluation.search</field>
+        <field name="model">edu.evaluation</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Évaluations">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="course_id"/>
+                <field name="faculty_id"/>
+                <field name="evaluation_type_id"/>
+                <field name="period_id"/>
+                
+                <filter string="Aujourd'hui" name="today" domain="[('date', '=', context_today())]"/>
+                <filter string="Cette semaine" name="this_week" 
+                        domain="[('date', '&gt;=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                 ('date', '&lt;=', (context_today() + datetime.timedelta(days=6-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter string="Ce mois" name="this_month" 
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                <separator/>
+                <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmé" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Publié" name="published" domain="[('state', '=', 'published')]"/>
+                <separator/>
+                <filter string="Absents" name="absent" domain="[('is_absent', '=', True)]"/>
+                <filter string="Rattrapages" name="retake" domain="[('is_retake', '=', True)]"/>
+                <separator/>
+                <filter string="Mes évaluations" name="my_evaluations" 
+                        domain="[('faculty_id.user_id', '=', uid)]"/>
+                
+                <group expand="0" string="Grouper par">
+                    <filter string="Élève" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Matière" name="group_course" context="{'group_by': 'course_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'evaluation_type_id'}"/>
+                    <filter string="Période" name="group_period" context="{'group_by': 'period_id'}"/>
+                    <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Évaluation -->
+    <record id="action_edu_evaluation" model="ir.actions.act_window">
+        <field name="name">Évaluations</field>
+        <field name="res_model">edu.evaluation</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="context">{'search_default_this_month': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle évaluation
+            </p>
+            <p>
+                Enregistrez les évaluations de vos élèves avec des notes détaillées
+                et des commentaires personnalisés.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire Ligne d'Évaluation -->
+    <record id="view_edu_evaluation_line_form" model="ir.ui.view">
+        <field name="name">edu.evaluation.line.form</field>
+        <field name="model">edu.evaluation.line</field>
+        <field name="arch" type="xml">
+            <form string="Ligne d'Évaluation">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="evaluation_id"/>
+                            <field name="criteria_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="points"/>
+                            <field name="max_points" readonly="1"/>
+                            <field name="percentage" readonly="1"/>
+                            <field name="rubric_level_id"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="comment" placeholder="Commentaire sur ce critère"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste Ligne d'Évaluation -->
+    <record id="view_edu_evaluation_line_tree" model="ir.ui.view">
+        <field name="name">edu.evaluation.line.tree</field>
+        <field name="model">edu.evaluation.line</field>
+        <field name="arch" type="xml">
+            <tree string="Lignes d'Évaluation" editable="bottom">
+                <field name="evaluation_id"/>
+                <field name="criteria_id"/>
+                <field name="points"/>
+                <field name="max_points" readonly="1"/>
+                <field name="percentage" readonly="1"/>
+                <field name="rubric_level_id"/>
+                <field name="comment"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions spécialisées pour les différents états -->
+    <record id="action_edu_evaluation_draft" model="ir.actions.act_window">
+        <field name="name">Évaluations en Brouillon</field>
+        <field name="res_model">edu.evaluation</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="domain">[('state', '=', 'draft')]</field>
+        <field name="context">{'search_default_current_period': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle évaluation
+            </p>
+            <p>
+                Les évaluations en brouillon peuvent être modifiées librement
+                avant d'être confirmées.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_edu_evaluation_confirmed" model="ir.actions.act_window">
+        <field name="name">Évaluations Confirmées</field>
+        <field name="res_model">edu.evaluation</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="domain">[('state', '=', 'confirmed')]</field>
+        <field name="context">{'search_default_current_period': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune évaluation confirmée
+            </p>
+            <p>
+                Les évaluations confirmées sont validées et prêtes
+                à être publiées aux élèves et parents.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_edu_evaluation_published" model="ir.actions.act_window">
+        <field name="name">Évaluations Publiées</field>
+        <field name="res_model">edu.evaluation</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="domain">[('state', '=', 'published')]</field>
+        <field name="context">{'search_default_current_period': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune évaluation publiée
+            </p>
+            <p>
+                Les évaluations publiées sont visibles par les élèves
+                et leurs parents dans leur portail.
+            </p>
+        </field>
+    </record>
+</odoo>

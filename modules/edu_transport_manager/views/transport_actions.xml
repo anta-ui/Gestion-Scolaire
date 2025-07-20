@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Actions pour le Tableau de Bord -->
+        <record id="action_transport_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord Transport</field>
+            <field name="res_model">transport.dashboard</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <!-- Actions pour les Véhicules -->
+        <record id="action_transport_vehicles" model="ir.actions.act_window">
+            <field name="name">Véhicules</field>
+            <field name="res_model">transport.vehicle</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_active_vehicles': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier véhicule de transport
+                </p>
+                <p>
+                    Gérez votre flotte de véhicules de transport scolaire.
+                    Suivez l'état, la maintenance et l'affectation de chaque véhicule.
+                </p>
+            </field>
+        </record>
+
+        <!-- Actions pour les Chauffeurs -->
+        <record id="action_transport_drivers" model="ir.actions.act_window">
+            <field name="name">Chauffeurs</field>
+            <field name="res_model">transport.driver</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour la Maintenance -->
+        <record id="action_transport_maintenance" model="ir.actions.act_window">
+            <field name="name">Maintenance</field>
+            <field name="res_model">fleet.vehicle</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Itinéraires -->
+        <record id="action_transport_routes" model="ir.actions.act_window">
+            <field name="name">Itinéraires</field>
+            <field name="res_model">transport.route</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_route_optimizer" model="ir.actions.act_window">
+            <field name="name">Optimiseur d'Itinéraires</field>
+            <field name="res_model">transport.route</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <record id="action_transport_stops" model="ir.actions.act_window">
+            <field name="name">Arrêts</field>
+            <field name="res_model">transport.route.stop</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Trajets -->
+        <record id="action_trips_today" model="ir.actions.act_window">
+            <field name="name">Trajets du Jour</field>
+            <field name="res_model">transport.trip</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_trips_live_tracking" model="ir.actions.act_window">
+            <field name="name">Suivi en Direct</field>
+            <field name="res_model">transport.gps.tracking</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_transport_trips" model="ir.actions.act_window">
+            <field name="name">Tous les Trajets</field>
+            <field name="res_model">transport.trip</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_trips_calendar" model="ir.actions.act_window">
+            <field name="name">Calendrier des Trajets</field>
+            <field name="res_model">transport.trip</field>
+            <field name="view_mode">calendar,tree,form</field>
+        </record>
+
+        <!-- Actions pour les Étudiants -->
+        <record id="action_transport_students" model="ir.actions.act_window">
+            <field name="name">Étudiants Transportés</field>
+            <field name="res_model">op.student</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_student_route_assignments" model="ir.actions.act_window">
+            <field name="name">Affectations Itinéraires</field>
+            <field name="res_model">transport.subscription</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour le Suivi GPS -->
+        <record id="action_live_tracking_map" model="ir.actions.act_window">
+            <field name="name">Carte en Temps Réel</field>
+            <field name="res_model">transport.gps.tracking</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <record id="action_gps_tracking_history" model="ir.actions.act_window">
+            <field name="name">Historique GPS</field>
+            <field name="res_model">transport.gps.tracking</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_geofencing_zones" model="ir.actions.act_window">
+            <field name="name">Zones de Géofencing</field>
+            <field name="res_model">transport.route.stop</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour les Urgences -->
+        <record id="action_transport_emergency_alerts" model="ir.actions.act_window">
+            <field name="name">Alertes d'Urgence</field>
+            <field name="res_model">transport.emergency</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_emergency_protocols" model="ir.actions.act_window">
+            <field name="name">Protocoles d'Urgence</field>
+            <field name="res_model">transport.emergency.protocol</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour la Facturation -->
+        <record id="action_transport_billing" model="ir.actions.act_window">
+            <field name="name">Factures Transport</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_transport_subscriptions" model="ir.actions.act_window">
+            <field name="name">Abonnements</field>
+            <field name="res_model">transport.subscription</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_transport_pricing" model="ir.actions.act_window">
+            <field name="name">Tarification</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour Analytics -->
+        <record id="action_transport_kpis" model="ir.actions.act_window">
+            <field name="name">KPIs Transport</field>
+            <field name="res_model">transport.analytics</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_efficiency_reports" model="ir.actions.act_window">
+            <field name="name">Rapports d'Efficacité</field>
+            <field name="res_model">transport.report</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_cost_analysis" model="ir.actions.act_window">
+            <field name="name">Analyse des Coûts</field>
+            <field name="res_model">transport.analytics</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions pour la Configuration -->
+        <record id="action_transport_settings" model="ir.actions.act_window">
+            <field name="name">Paramètres Transport</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <record id="action_gps_devices" model="ir.actions.act_window">
+            <field name="name">Dispositifs GPS</field>
+            <field name="res_model">transport.vehicle</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo> 

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Rapport Facture Étudiant -->
+    <record id="action_report_student_invoice" model="ir.actions.report">
+        <field name="name">Facture Étudiant</field>
+        <field name="model">edu.student.invoice</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">edu_accounting_pro.report_student_invoice_document</field>
+        <field name="report_file">edu_accounting_pro.report_student_invoice_document</field>
+        <field name="binding_model_id" ref="model_edu_student_invoice"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template Facture Étudiant -->
+    <template id="report_student_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="invoice">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <!-- En-tête -->
+                        <div class="row">
+                            <div class="col-6">
+                                <h3>
+                                    <span>Facture</span>
+                                    <span t-field="invoice.name"/>
+                                </h3>
+                            </div>
+                            <div class="col-6 text-right">
+                                <div t-if="invoice.state" class="badge badge-pill">
+                                    <span t-field="invoice.state"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informations étudiant -->
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Facturé à :</strong>
+                                <div t-field="invoice.student_id.name"/>
+                                <div t-if="invoice.student_id.gr_no">
+                                    N° Étudiant: <span t-field="invoice.student_id.gr_no"/>
+                                </div>
+                                <div t-if="invoice.standard_id">
+                                    Classe: <span t-field="invoice.standard_id.name"/>
+                                </div>
+                                <div t-if="invoice.academic_year_id">
+                                    Année: <span t-field="invoice.academic_year_id.name"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Détails de la facture :</strong>
+                                <div>
+                                    Date: <span t-field="invoice.invoice_date"/>
+                                </div>
+                                <div>
+                                    Échéance: <span t-field="invoice.due_date"/>
+                                </div>
+                                <div t-if="invoice.payment_term_id">
+                                    Conditions: <span t-field="invoice.payment_term_id.name"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Lignes de facture -->
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-right">Quantité</th>
+                                    <th class="text-right">Prix unitaire</th>
+                                    <th class="text-right">Remise</th>
+                                    <th class="text-right">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="invoice.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-field="line.fee_type_id.name"/>
+                                            <span t-if="line.description">
+                                                - <span t-field="line.description"/>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_unit" 
+                                                  t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.discount"/>%
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_subtotal" 
+                                                  t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        
+                        <!-- Totaux -->
+                        <div class="clearfix">
+                            <div id="total" class="row">
+                                <div class="col-6">
+                                    <!-- Bourses appliquées -->
+                                    <t t-if="invoice.scholarship_ids">
+                                        <strong>Bourses appliquées :</strong>
+                                        <ul>
+                                            <t t-foreach="invoice.scholarship_ids" t-as="scholarship">
+                                                <li>
+                                                    <span t-field="scholarship.name"/>
+                                                    <span t-if="scholarship.percentage">
+                                                        (<span t-field="scholarship.percentage"/>%)
+                                                    </span>
+                                                    <span t-if="scholarship.amount">
+                                                        : <span t-field="scholarship.amount" 
+                                                               t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                                    </span>
+                                                </li>
+                                            </t>
+                                        </ul>
+                                    </t>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm">
+                                        <tr class="border-black">
+                                            <td><strong>Sous-total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="invoice.amount_untaxed" 
+                                                      t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="invoice.amount_tax">
+                                            <tr>
+                                                <td>Taxes</td>
+                                                <td class="text-right">
+                                                    <span t-field="invoice.amount_tax" 
+                                                          t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr class="border-black o_total">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="invoice.amount_total" 
+                                                      t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="invoice.amount_paid">
+                                            <tr>
+                                                <td>Montant payé</td>
+                                                <td class="text-right">
+                                                    <span t-field="invoice.amount_paid" 
+                                                          t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-black">
+                                                <td><strong>Montant dû</strong></td>
+                                                <td class="text-right">
+                                                    <span t-field="invoice.amount_residual" 
+                                                          t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Notes -->
+                        <div t-if="invoice.notes" class="mt32">
+                            <strong>Notes :</strong>
+                            <p t-field="invoice.notes"/>
+                        </div>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo> 

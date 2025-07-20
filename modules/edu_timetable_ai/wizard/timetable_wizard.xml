@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue du wizard de génération -->
+    <record id="view_timetable_generation_wizard" model="ir.ui.view">
+        <field name="name">edu.timetable.generation.wizard.form</field>
+        <field name="model">edu.timetable.generation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Générer un emploi du temps">
+                <group invisible="step != 'config'">
+                    <h1>🎯 Configuration de base</h1>
+                    <group>
+                        <field name="name"/>
+                        <field name="academic_year_id"/>
+                        <field name="academic_term_id"/>
+                    </group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="work_days"/>
+                    </group>
+                    <group string="Horaires">
+                        <field name="daily_hours_start" widget="float_time"/>
+                        <field name="daily_hours_end" widget="float_time"/>
+                        <field name="slot_duration"/>
+                        <field name="break_duration"/>
+                    </group>
+                </group>
+                
+                <group invisible="step != 'entities'">
+                    <h1>👥 Sélection des entités</h1>
+                    <field name="class_ids" widget="many2many_tags"/>
+                    <field name="teacher_ids" widget="many2many_tags"/>
+                    <field name="subject_ids" widget="many2many_tags"/>
+                    <field name="room_ids" widget="many2many_tags"/>
+                </group>
+                
+                <group invisible="step != 'generation'">
+                    <h1>🤖 Configuration IA</h1>
+                    <group>
+                        <field name="generation_method"/>
+                        <field name="use_ai"/>
+                        <field name="ai_optimization_level" 
+                               invisible="use_ai == False"/>
+                        <field name="create_constraints"/>
+                    </group>
+                </group>
+                
+                <field name="step" invisible="1"/>
+                
+                <footer>
+                    <button name="action_previous_step" type="object" 
+                            string="Précédent" class="btn-secondary"
+                            invisible="step == 'config'"/>
+                    <button name="action_next_step" type="object" 
+                            string="Suivant" class="btn-primary"
+                            invisible="step == 'review'"/>
+                    <button name="action_finish" type="object" 
+                            string="Terminer" class="btn-success"
+                            invisible="step != 'review'"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Action du wizard -->
+    <record id="action_timetable_generation_wizard" model="ir.actions.act_window">
+        <field name="name">Générer un emploi du temps</field>
+        <field name="res_model">edu.timetable.generation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
